@@ -33,10 +33,14 @@
         public StatusPet Status { get; private set; }
 
 
-        private readonly List<DetailsForAssistance> _detailsForAssistance = [];
+        private readonly List<DetailsForAssistance> _detailsForAssistances = [];
 
-        public IReadOnlyList<DetailsForAssistance> DetailsForAssistance => _detailsForAssistance;
+        public IReadOnlyList<DetailsForAssistance> DetailsForAssistances => _detailsForAssistances;
 
         public DateTime CreatedDate { get; private set; }
+
+        private readonly List<PetPhoto> _petPhotos = [];
+
+        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
     }
 }

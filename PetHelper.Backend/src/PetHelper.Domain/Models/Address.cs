@@ -16,7 +16,6 @@ namespace PetHelper.Domain.Models
 
         public string? ZipCode { get; private set; }
 
-
         public override string ToString()
         {
             return $"{Street}, {HouseNumber}, {City}{(ZipCode != null ? ", " + ZipCode : "")}";
