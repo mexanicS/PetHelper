@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace PetHelper.Domain.Models
 {
-    public class DetailsForAssistance
+    public class SocialNetwork
     {
         public string Name { get; set; } = null!;
 
-        public string Description { get; set; } = null!;
+        public string Url { get; set; } = null!;
     }
 }
