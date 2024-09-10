@@ -25,7 +25,9 @@ namespace PetHelper.Domain.Models
 
         public IReadOnlyList<DetailsForAssistance> DetailsForAssistance { get; private set; } = [];
 
-        public List<Pet> Pets = [];
+        private readonly List<Pet> _pets = [];
+
+        public IReadOnlyList<Pet> Pets => _pets;
 
         /// <summary>
         /// Количество домашних животных, которые нашли новый дом
