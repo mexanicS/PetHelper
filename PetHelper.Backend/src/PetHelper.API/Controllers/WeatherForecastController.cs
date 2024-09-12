@@ -1,4 +1,6 @@
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
+using PetHelper.Domain.Models;
 
 namespace PetHelper.API.Controllers
 {
@@ -6,28 +8,20 @@ namespace PetHelper.API.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        [HttpGet(Name = "Get")]
+        public IActionResult Get(string name, string typePet, string description)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+            Result<Pet> petResult = Pet.Create(name, typePet, description);
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
-        {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            if (petResult.IsFailure)
             {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                return BadRequest(petResult.Error);
+            }
+
+            Save(petResult.Value);
+            return Ok();
         }
+
+        public void Save(Pet pet) { }
     }
 }

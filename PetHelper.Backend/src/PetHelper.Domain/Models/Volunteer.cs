@@ -21,9 +21,7 @@ namespace PetHelper.Domain.Models
 
         public string PhoneNumber { get; private set; } = null!;
 
-        public IReadOnlyList<SocialNetwork>? SocialNetwork { get; private set; }
-
-        public IReadOnlyList<DetailsForAssistance> DetailsForAssistance { get; private set; } = [];
+        public VolunteerDetails VolunteerDetails { get; private set; } = null!;
 
         private readonly List<Pet> _pets = [];
 
