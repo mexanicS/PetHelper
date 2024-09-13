@@ -8,7 +8,9 @@ namespace PetHelper.Infastructure
     public class ApplicationDbContext(IConfiguration configuration) : DbContext
     {
         private const string DataBaseName = nameof(Database);
-
+        
+        public DbSet<Volunteer> Volunteers { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DataBaseName));
