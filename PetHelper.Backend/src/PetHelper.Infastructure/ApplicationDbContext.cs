@@ -8,7 +8,11 @@ namespace PetHelper.Infastructure
     public class ApplicationDbContext(IConfiguration configuration) : DbContext
     {
         private const string DataBaseName = nameof(Database);
-        public DbSet<Pet> Pets => Set<Pet>();
+
+        #region DbSet
+        public DbSet<Pet> Pets { get; set; }
+        public DbSet<Volunteer> Volunteers { get; set; }
+        #endregion
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

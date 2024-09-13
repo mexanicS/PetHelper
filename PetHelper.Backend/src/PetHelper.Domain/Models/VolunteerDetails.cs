@@ -8,7 +8,7 @@ namespace PetHelper.Domain.Models
 {
     public record VolunteerDetails
     {
-        public IReadOnlyList<SocialNetwork>? SocialNetwork { get; private set; }
+        public IReadOnlyList<SocialNetwork> SocialNetwork { get; private set; } = [];
 
         public IReadOnlyList<DetailsForAssistance> DetailsForAssistance { get; private set; } = [];
     }
