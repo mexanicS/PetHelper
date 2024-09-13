@@ -1,6 +1,4 @@
-﻿
-
-using CSharpFunctionalExtensions;
+﻿using PetHelper.Domain.Shared;
 
 namespace PetHelper.Domain.Models
 {
@@ -54,20 +52,22 @@ namespace PetHelper.Domain.Models
 
         public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
 
-        public static Result<Pet> Create(string name, string typePet, string description)
+        public static Result<Pet> Create(string name, 
+                                            string typePet, 
+                                            string description)
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure<Pet>("name can not be empty");
+                return "name can not be empty";
 
             if (string.IsNullOrWhiteSpace(typePet))
-                return Result.Failure<Pet>("typePet can not be empty");
+                return "typePet can not be empty";
 
             if (string.IsNullOrWhiteSpace(description))
-                return Result.Failure<Pet>("description can not be empty");
+                return "description can not be empty";
 
             var pet = new Pet(name, typePet, description);
              
-            return Result.Success(pet);
+            return pet;
         }
 
     }

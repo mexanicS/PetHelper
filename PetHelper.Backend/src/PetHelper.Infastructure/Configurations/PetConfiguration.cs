@@ -9,7 +9,7 @@ namespace PetHelper.Infastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Pet> builder)
         {
-            builder.ToTable("Pet");
+            builder.ToTable("pet");
 
             builder.HasKey(pet => pet.Id);
 

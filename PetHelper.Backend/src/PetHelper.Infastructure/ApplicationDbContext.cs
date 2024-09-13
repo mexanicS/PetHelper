@@ -9,11 +9,6 @@ namespace PetHelper.Infastructure
     {
         private const string DataBaseName = nameof(Database);
 
-        #region DbSet
-        public DbSet<Pet> Pets { get; set; }
-        public DbSet<Volunteer> Volunteers { get; set; }
-        #endregion
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DataBaseName));
