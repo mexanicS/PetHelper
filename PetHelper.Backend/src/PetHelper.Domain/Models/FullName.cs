@@ -14,7 +14,9 @@ namespace PetHelper.Domain.Models
 
         public string? MiddleName { get; private set; }
 
-        public FullName(string firstName, string lastName, string? middleName = null)
+        public FullName(string firstName, 
+                        string lastName, 
+                        string? middleName = null)
         {
             FirstName = firstName;
             LastName = lastName;

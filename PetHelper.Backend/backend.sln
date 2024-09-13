@@ -5,11 +5,13 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHelper.API", "src\PetHelper.API\PetHelper.API.csproj", "{93189C5D-D957-4C41-9DC6-2212C27826B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Infastructure", "src\PetHelper.Infastructure\PetHelper.Infastructure.csproj", "{D36DA2F2-CB37-4FB7-8C39-7F90E954EDD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHelper.Infastructure", "src\PetHelper.Infastructure\PetHelper.Infastructure.csproj", "{D36DA2F2-CB37-4FB7-8C39-7F90E954EDD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Domain", "src\PetHelper.Domain\PetHelper.Domain.csproj", "{5B1D6D8C-DABA-481E-9C7E-7E46C33F2245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHelper.Domain", "src\PetHelper.Domain\PetHelper.Domain.csproj", "{5B1D6D8C-DABA-481E-9C7E-7E46C33F2245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Application", "src\PetHelper.Application\PetHelper.Application.csproj", "{BFFA9C2C-B3B5-485F-AF2F-7EB50606C931}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetHelper.Application", "src\PetHelper.Application\PetHelper.Application.csproj", "{BFFA9C2C-B3B5-485F-AF2F-7EB50606C931}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6673F2D3-ABC7-42AB-B13C-01A78BD978E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{BFFA9C2C-B3B5-485F-AF2F-7EB50606C931}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFFA9C2C-B3B5-485F-AF2F-7EB50606C931}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFFA9C2C-B3B5-485F-AF2F-7EB50606C931}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6673F2D3-ABC7-42AB-B13C-01A78BD978E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6673F2D3-ABC7-42AB-B13C-01A78BD978E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6673F2D3-ABC7-42AB-B13C-01A78BD978E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6673F2D3-ABC7-42AB-B13C-01A78BD978E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
