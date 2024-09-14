@@ -2,19 +2,46 @@
 
 namespace PetHelper.Domain.Models
 {
-    public class Pet
+    public class Pet : Entity<PetId>
     {
         //ef core
-        private Pet() { }
+        private Pet(PetId id) : base(id)
+        { }
 
-        private Pet(string name, string typePet, string description)
+        private Pet(PetId petId,
+            string name, 
+            string typePet, 
+            string description,
+            string breed,
+            string color,
+            string healthInformation,
+            double weight,
+            double height,
+            string phoneNumber,
+            bool isNeutered,
+            DateOnly birthDate,
+            bool isVaccinated,
+            DateTime createdDate
+                )
+            : base(petId)
         {
+            Id = petId;
             Name = name;
             TypePet = typePet;
             Description = description;
+            Breed = breed;
+            Color = color;
+            HealthInformation = healthInformation;
+            Weight = weight;
+            Height = height;
+            PhoneNumber = phoneNumber;
+            IsNeutered = isNeutered;
+            DateOfBirth = birthDate;
+            IsVaccinated = isVaccinated;
+            CreatedDate = createdDate;
         }
 
-        public Guid Id { get; private set; }
+        public PetId Id { get; private set; }
 
         public string Name { get; private set; } = null!;
 
@@ -42,7 +69,7 @@ namespace PetHelper.Domain.Models
 
         public bool IsVaccinated { get; private set; }
 
-        public StatusPet Status { get; private set; }
+        public Constants.StatusPet Status { get; private set; }
         
         public PetDetails PetDetails { get; private set; } = null!;
 
@@ -51,24 +78,5 @@ namespace PetHelper.Domain.Models
         private readonly List<PetPhoto> _petPhotos = [];
 
         public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
-
-        public static Result<Pet> Create(string name, 
-                                            string typePet, 
-                                            string description)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return "name can not be empty";
-
-            if (string.IsNullOrWhiteSpace(typePet))
-                return "typePet can not be empty";
-
-            if (string.IsNullOrWhiteSpace(description))
-                return "description can not be empty";
-
-            var pet = new Pet(name, typePet, description);
-             
-            return pet;
-        }
-
     }
 }
