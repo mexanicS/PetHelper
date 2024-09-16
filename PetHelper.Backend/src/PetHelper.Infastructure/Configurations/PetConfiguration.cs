@@ -60,7 +60,7 @@ namespace PetHelper.Infastructure.Configurations
 
                 a.Property(address => address.ZipCode)
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("zipCode");
+                    .HasColumnName("zip_code");
             });
 
             builder.Property(p => p.Weight);
