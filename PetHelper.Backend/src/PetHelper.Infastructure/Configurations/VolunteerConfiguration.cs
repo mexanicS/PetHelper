@@ -12,20 +12,28 @@ namespace PetHelper.Infastructure.Configurations
             builder.ToTable("volunteer");
 
             builder.HasKey(volunteer => volunteer.Id);
-
-            builder.OwnsOne(v => v.Name, nameBuilder =>
+            
+            builder.Property(p => p.Id)
+                .HasConversion(
+                    id => id.Value,
+                    value => VolunteerId.NewVolunteerId(value));
+            
+            builder.ComplexProperty(v => v.Name, nameBuilder =>
             {
                 nameBuilder.Property(n => n.FirstName)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("first_name");
 
                 nameBuilder.Property(n => n.LastName)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("last_name");
 
                 nameBuilder.Property(n => n.MiddleName)
                     .IsRequired(false)
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("middle_name");
             });
 
             builder.Property(volunteer => volunteer.Email)
@@ -45,7 +53,7 @@ namespace PetHelper.Infastructure.Configurations
 
             builder.HasMany(volunteer => volunteer.Pets)
                 .WithOne()
-                .HasForeignKey("VolunteerId")
+                .HasForeignKey("volunteer_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.OwnsOne(x => x.VolunteerDetails, vd =>
