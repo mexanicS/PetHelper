@@ -56,7 +56,7 @@ namespace PetHelper.Infastructure.Configurations
                 a.Property(address => address.HouseNumber)
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("houseNumber");
+                    .HasColumnName("house_number");
 
                 a.Property(address => address.ZipCode)
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
