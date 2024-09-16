@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PetHelper.Domain.Models
 {
-    public class FullName
+    public record FullName
     {
         public string FirstName { get; private set; }
 

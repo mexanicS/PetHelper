@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PetHelper.Domain.Models
 {
-    public class SocialNetwork
+    public record SocialNetwork
     {
         public string Name { get; set; } = null!;
 
