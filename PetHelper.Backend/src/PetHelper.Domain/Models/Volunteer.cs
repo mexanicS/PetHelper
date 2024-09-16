@@ -4,12 +4,31 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PetHelper.Domain.Shared;
 
 namespace PetHelper.Domain.Models
 {
-    public class Volunteer
+    public class Volunteer : Entity<VolunteerId>
     {
-        public Guid Id { get; set; }
+        private Volunteer(VolunteerId id) : base(id)
+        {
+        }
+
+        private Volunteer(VolunteerId volunteerId, 
+            
+            string email,
+            string description,
+            int experienceInYears,
+            string phoneNumber) 
+            : base(volunteerId)
+        {
+            Id = volunteerId;
+            Email = email;
+            Description = description;
+            ExperienceInYears = experienceInYears;
+            PhoneNumber = phoneNumber;
+        }
+        public VolunteerId Id { get; private set; }
 
         public FullName Name { get; private set; } = null!;
 
@@ -33,7 +52,7 @@ namespace PetHelper.Domain.Models
         /// <returns>Число</returns>
         public int GetCountOfAnimalsFoundHome()
         {
-            return Pets.Where(pet=>pet.Status == StatusPet.FoundHome).Count(); 
+            return Pets.Count(pet => pet.Status == Constants.StatusPet.FoundHome); 
         }
 
         /// <summary>
@@ -42,7 +61,7 @@ namespace PetHelper.Domain.Models
         /// <returns>Число</returns>
         public int GetCountOfAnimalsNeedsHelp()
         {
-            return Pets.Where(pet => pet.Status == StatusPet.LookingForHome).Count();
+            return Pets.Count(pet => pet.Status == Constants.StatusPet.LookingForHome);
         }
 
         /// <summary>
@@ -51,7 +70,7 @@ namespace PetHelper.Domain.Models
         /// <returns>Число</returns>
         public int GetCountOfAnimalsLookingForHome()
         {
-            return Pets.Where(pet => pet.Status == StatusPet.NeedsHelp).Count();
+            return Pets.Count(pet => pet.Status == Constants.StatusPet.NeedsHelp);
         }
     }
 }
