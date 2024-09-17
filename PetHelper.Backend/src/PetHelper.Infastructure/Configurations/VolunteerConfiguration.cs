@@ -16,7 +16,7 @@ namespace PetHelper.Infastructure.Configurations
             builder.Property(p => p.Id)
                 .HasConversion(
                     id => id.Value,
-                    value => VolunteerId.NewVolunteerId(value));
+                    value => VolunteerId.Create(value));
             
             builder.ComplexProperty(v => v.Name, nameBuilder =>
             {

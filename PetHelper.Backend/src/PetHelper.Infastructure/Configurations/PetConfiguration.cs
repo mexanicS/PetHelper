@@ -16,7 +16,7 @@ namespace PetHelper.Infastructure.Configurations
             builder.Property(p => p.Id)
                 .HasConversion(
                     id => id.Value,
-                    value => PetId.NewPetId(value));
+                    value => PetId.Create(value));
             
             builder.Property(pet => pet.Name)
                 .IsRequired()
