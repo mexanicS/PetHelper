@@ -12,7 +12,12 @@ namespace PetHelper.Infastructure.Configurations
             builder.ToTable("pet");
 
             builder.HasKey(pet => pet.Id);
-
+            
+            builder.Property(p => p.Id)
+                .HasConversion(
+                    id => id.Value,
+                    value => PetId.Create(value));
+            
             builder.Property(pet => pet.Name)
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
@@ -37,23 +42,25 @@ namespace PetHelper.Infastructure.Configurations
                 .IsRequired()
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
 
-            builder.OwnsOne(p => p.Address, a => {
-                a.ToJson();
-
-                a.Property(a => a.Street)
+            builder.ComplexProperty(p => p.Address, a => {
+                a.Property(address => address.Street)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("street");
 
-                a.Property(a => a.City)
+                a.Property(address => address.City)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("city");
 
-                a.Property(a => a.HouseNumber)
+                a.Property(address => address.HouseNumber)
                     .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("house_number");
 
-                a.Property(a => a.ZipCode)
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                a.Property(address => address.ZipCode)
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("zip_code");
             });
 
             builder.Property(p => p.Weight);
@@ -78,7 +85,7 @@ namespace PetHelper.Infastructure.Configurations
 
             builder.HasMany(p => p.PetPhotos)
                 .WithOne()
-                .HasForeignKey("PetId")
+                .HasForeignKey("pet_id")
                 .IsRequired();
 
             builder.OwnsOne(x => x.PetDetails, pd =>
