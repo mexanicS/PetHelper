@@ -15,6 +15,10 @@ namespace PetHelper.Domain.Shared
         public const int MAX_HIGH_TEXT_LENGTH = 4000;
 
         public const int MAX_HIGH_PHONE_LENGTH = 12;
+
+        public const int MAX_PET_SPECIES_TEXT_LENGTH = 100;
+
+        public const int MAX_BREED_TEXT_LENGTH = 100;
         
         public enum StatusPet
         {

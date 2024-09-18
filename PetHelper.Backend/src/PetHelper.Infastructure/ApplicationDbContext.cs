@@ -11,6 +11,8 @@ namespace PetHelper.Infastructure
         
         public DbSet<Volunteer> Volunteers { get; set; }
         
+        public DbSet<Species> Specieses { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DataBaseName));

@@ -11,5 +11,6 @@ namespace PetHelper.Domain.Models
         private readonly List<DetailsForAssistance> _detailsForAssistances = [];
 
         public IReadOnlyList<DetailsForAssistance> DetailsForAssistances => _detailsForAssistances;
+
     }
 }

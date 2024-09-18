@@ -1,4 +1,5 @@
 ﻿using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
@@ -78,5 +79,7 @@ namespace PetHelper.Domain.Models
         private readonly List<PetPhoto> _petPhotos = [];
 
         public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        
+        public SpeciesBreed SpeciesBreed { get; private set; }
     }
 }
