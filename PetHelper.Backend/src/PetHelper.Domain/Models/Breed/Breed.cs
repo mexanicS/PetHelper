@@ -12,7 +12,5 @@ public class Breed : Entity<BreedId>
         Name = name;    
     }
     
-    public BreedId Id { get; private set; }
-    
     public string Name { get; private set; }
 }

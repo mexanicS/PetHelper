@@ -3,13 +3,13 @@ using PetHelper.Domain.Models;
 namespace PetHelper.Domain.ValueObjects;
 public record SpeciesBreed()
 {
-    public SpeciesBreed(SpeciesId speciesId, BreedId breedId) : this()
+    public SpeciesBreed(SpeciesId speciesId, Guid breedId) : this()
     {
         SpeciesId = speciesId;
         BreedId = breedId;
     }
     
-    public SpeciesId SpeciesId { get; } = null!;
+    public SpeciesId SpeciesId { get; }
     
-    public BreedId BreedId { get; } = null!;
+    public Guid BreedId { get; }
 }

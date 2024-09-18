@@ -114,9 +114,6 @@ namespace PetHelper.Infastructure.Configurations
                         .HasColumnName("species_id");
                     
                     pb.Property(s => s.BreedId)
-                        .HasConversion(
-                            id => id.Value,
-                            value => BreedId.Create(value))
                         .IsRequired()
                         .HasColumnName("breed_id");
                 });
