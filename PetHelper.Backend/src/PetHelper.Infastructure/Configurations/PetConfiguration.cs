@@ -96,11 +96,27 @@ namespace PetHelper.Infastructure.Configurations
                     rb.Property(r => r.Name)
                         .IsRequired()
                         .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                    
                     rb.Property(r => r.Description)
                         .IsRequired()
                         .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
                 });
             });
+            
+            builder.ComplexProperty(p => p.SpeciesBreed,
+                pb =>
+                {
+                    pb.Property(s => s.SpeciesId)
+                        .HasConversion(
+                            id => id.Value,
+                            value => SpeciesId.Create(value))
+                        .IsRequired()
+                        .HasColumnName("species_id");
+                    
+                    pb.Property(s => s.BreedId)
+                        .IsRequired()
+                        .HasColumnName("breed_id");
+                });
         }
 
 
