@@ -2,7 +2,7 @@ namespace PetHelper.Domain.ValueObjects;
 
 public record DetailsForAssistanceList
 {
-    public IReadOnlyList<DetailsForAssistance> DetailsForAssistances { get; }
+    public IReadOnlyList<DetailsForAssistance> DetailsForAssistances { get; } = [];
     
     private DetailsForAssistanceList()
     {

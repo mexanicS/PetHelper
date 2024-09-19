@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ namespace PetHelper.Domain.Models
         public FullName Name { get; private set; } = null!;
 
         public Email Email { get; private set; } = null!;
-
+        
         public Description Description { get; private set; } = null!;
 
         public ExperienceInYears ExperienceInYears { get; private set; }

@@ -28,8 +28,6 @@ public class CreateVolunteerHandler
         var experienceDto = request.ExperienceInYears;
         var phoneNumberDto = request.PhoneNumber;
         var volunteerDetailsDto = request.VolunteerDetails;
-        var socialNetworkListDto = request.SocialNetwork;
-        var detailsForAssistanceListDto = request.DetailsForAssistance;
         
         var fullName = FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.MiddleName);
         var email = Email.Create(emailDto);
@@ -37,18 +35,16 @@ public class CreateVolunteerHandler
         var experience = ExperienceInYears.Create(experienceDto);
         var phoneNumber = PhoneNumber.Create(phoneNumberDto);
 
-        var socialNetworkList = SocialNetworkList.Create(
-            socialNetworkListDto.SocialNetworks
-                .Select(c => SocialNetwork.Create(c.Name, c.Url))
-        );
-        
-        var detailsForAssistanceList = DetailsForAssistanceList.Create(
-            detailsForAssistanceListDto.DetailsForAssistance
-                .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
-        );
-
         var volunteerDetailsList = VolunteerDetails.Create(
-            socialNetworkList.SocialNetworks, detailsForAssistanceList.DetailsForAssistances);
+            SocialNetworkList.Create(
+                volunteerDetailsDto.SocialNetworks.SocialNetworks
+                    .Select(c => SocialNetwork.Create(c.Name, c.Url))
+            ).SocialNetworks, 
+            DetailsForAssistanceList.Create(
+                volunteerDetailsDto.DetailsForAssistances.DetailsForAssistance
+                    .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
+            ).DetailsForAssistances);
+        
         
         var volunteer = new Volunteer(
             id,

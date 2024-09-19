@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
+using PetHelper.Application.Volunteers;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 
 namespace PetHelper.Infastructure.Repository;
 
-public class VolunteersRepository()
+public class VolunteersRepository() : IVolunteersRepository
 {
     private readonly ApplicationDbContext _dbcontext;
 

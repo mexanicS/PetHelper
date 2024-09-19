@@ -4,21 +4,22 @@ namespace PetHelper.Domain.ValueObjects
 {
     public record VolunteerDetails
     {
+        private VolunteerDetails() { }
         public IReadOnlyList<SocialNetwork> SocialNetwork { get; private set; } = [];
 
         public IReadOnlyList<DetailsForAssistance> DetailsForAssistance { get; private set; } = [];
 
         private VolunteerDetails(
-            IReadOnlyList<SocialNetwork> socialNetwork, 
-            IReadOnlyList<DetailsForAssistance> detailsForAssistance)
+            IEnumerable<SocialNetwork> socialNetwork, 
+            IEnumerable<DetailsForAssistance> detailsForAssistance)
         {
-            SocialNetwork = socialNetwork;
-            DetailsForAssistance = detailsForAssistance;
+            SocialNetwork = socialNetwork.ToList();
+            DetailsForAssistance = detailsForAssistance.ToList();
         }
         
         public static VolunteerDetails Create(
-            IReadOnlyList<SocialNetwork> socialNetwork, 
-            IReadOnlyList<DetailsForAssistance> detailsForAssistance)
+            IEnumerable<SocialNetwork> socialNetwork, 
+            IEnumerable<DetailsForAssistance> detailsForAssistance)
         {
             return new VolunteerDetails(socialNetwork, detailsForAssistance);
         }

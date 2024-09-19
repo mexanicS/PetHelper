@@ -9,6 +9,4 @@ public record CreateVolunteerRequest(
     int ExperienceInYears,
     string PhoneNumber,
     FullNameDto FullName,
-    VolunteerDetailsDto VolunteerDetails,
-    SocialNetworkListDto SocialNetwork,
-    DetailsForAssistanceListDto DetailsForAssistance);
+    VolunteerDetailsDto VolunteerDetails);

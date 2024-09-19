@@ -13,7 +13,7 @@ using PetHelper.Infastructure;
 namespace PetHelper.Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240918152759_Initial")]
+    [Migration("20240919215909_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -235,27 +235,37 @@ namespace PetHelper.Infastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(4000)
-                        .HasColumnType("character varying(4000)")
-                        .HasColumnName("description");
+                    b.ComplexProperty<Dictionary<string, object>>("Description", "PetHelper.Domain.Models.Volunteer.Description#Description", b1 =>
+                        {
+                            b1.IsRequired();
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("email");
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("character varying(4000)")
+                                .HasColumnName("description");
+                        });
 
-                    b.Property<int>("ExperienceInYears")
-                        .HasColumnType("integer")
-                        .HasColumnName("experience_in_years");
+                    b.ComplexProperty<Dictionary<string, object>>("Email", "PetHelper.Domain.Models.Volunteer.Email#Email", b1 =>
+                        {
+                            b1.IsRequired();
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("character varying(12)")
-                        .HasColumnName("phone_number");
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("character varying(4000)")
+                                .HasColumnName("email");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("ExperienceInYears", "PetHelper.Domain.Models.Volunteer.ExperienceInYears#ExperienceInYears", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<int>("Value")
+                                .HasMaxLength(4000)
+                                .HasColumnType("integer")
+                                .HasColumnName("experience");
+                        });
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Volunteer.Name#FullName", b1 =>
                         {
@@ -277,6 +287,17 @@ namespace PetHelper.Infastructure.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("middle_name");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("PhoneNumber", "PetHelper.Domain.Models.Volunteer.PhoneNumber#PhoneNumber", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(4000)
+                                .HasColumnType("character varying(4000)")
+                                .HasColumnName("phone_number");
                         });
 
                     b.HasKey("Id")
@@ -316,7 +337,7 @@ namespace PetHelper.Infastructure.Migrations
                                 .HasForeignKey("PetId")
                                 .HasConstraintName("fk_pet_pet_id");
 
-                            b1.OwnsMany("PetHelper.Domain.Models.DetailsForAssistance", "DetailsForAssistances", b2 =>
+                            b1.OwnsMany("PetHelper.Domain.ValueObjects.DetailsForAssistance", "DetailsForAssistances", b2 =>
                                 {
                                     b2.Property<Guid>("PetDetailsPetId")
                                         .HasColumnType("uuid");
@@ -365,7 +386,7 @@ namespace PetHelper.Infastructure.Migrations
 
             modelBuilder.Entity("PetHelper.Domain.Models.Volunteer", b =>
                 {
-                    b.OwnsOne("PetHelper.Domain.Models.VolunteerDetails", "VolunteerDetails", b1 =>
+                    b.OwnsOne("PetHelper.Domain.ValueObjects.VolunteerDetails", "VolunteerDetails", b1 =>
                         {
                             b1.Property<Guid>("VolunteerId")
                                 .HasColumnType("uuid");
@@ -380,7 +401,7 @@ namespace PetHelper.Infastructure.Migrations
                                 .HasForeignKey("VolunteerId")
                                 .HasConstraintName("fk_volunteer_volunteer_id");
 
-                            b1.OwnsMany("PetHelper.Domain.Models.SocialNetwork", "SocialNetwork", b2 =>
+                            b1.OwnsMany("PetHelper.Domain.ValueObjects.SocialNetwork", "SocialNetwork", b2 =>
                                 {
                                     b2.Property<Guid>("VolunteerDetailsVolunteerId")
                                         .HasColumnType("uuid");
@@ -410,7 +431,7 @@ namespace PetHelper.Infastructure.Migrations
                                         .HasConstraintName("fk_volunteer_volunteer_volunteer_details_volunteer_id");
                                 });
 
-                            b1.OwnsMany("PetHelper.Domain.Models.DetailsForAssistance", "DetailsForAssistance", b2 =>
+                            b1.OwnsMany("PetHelper.Domain.ValueObjects.DetailsForAssistance", "DetailsForAssistance", b2 =>
                                 {
                                     b2.Property<Guid>("VolunteerDetailsVolunteerId")
                                         .HasColumnType("uuid");

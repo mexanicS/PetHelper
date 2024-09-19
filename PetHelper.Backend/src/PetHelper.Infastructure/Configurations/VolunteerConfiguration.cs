@@ -35,21 +35,38 @@ namespace PetHelper.Infastructure.Configurations
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                     .HasColumnName("middle_name");
             });
-
-            builder.Property(volunteer => volunteer.Email)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(volunteer => volunteer.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-
-            builder.Property(volunteer => volunteer.ExperienceInYears)
-                .IsRequired();
-
-            builder.Property(volunteer => volunteer.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_PHONE_LENGTH);
+            
+            builder.ComplexProperty(x => x.Email, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("email");
+            });
+            
+            builder.ComplexProperty(x => x.Description, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("description");
+            });
+            
+            builder.ComplexProperty(x => x.ExperienceInYears, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("experience");
+            });
+            
+            builder.ComplexProperty(x => x.PhoneNumber, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("phone_number");
+            });
 
             builder.HasMany(volunteer => volunteer.Pets)
                 .WithOne()

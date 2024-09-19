@@ -2,7 +2,7 @@ namespace PetHelper.Domain.ValueObjects;
 
 public record SocialNetworkList
 {
-    public IReadOnlyList<SocialNetwork> SocialNetworks { get; }
+    public IReadOnlyList<SocialNetwork> SocialNetworks { get; } = [];
 
     private SocialNetworkList()
     {
