@@ -21,5 +21,8 @@
         {
             return $"{LastName} {FirstName}" + (MiddleName != null ? $" {MiddleName}" : "");
         }
+        
+        public static FullName Create(string firstName, string lastName, string? middleName) =>
+            new FullName(firstName, lastName, middleName);
     }
 }

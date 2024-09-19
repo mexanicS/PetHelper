@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
@@ -14,31 +15,34 @@ namespace PetHelper.Domain.Models
         {
         }
 
-        private Volunteer(VolunteerId volunteerId, 
-            
-            string email,
-            string description,
-            int experienceInYears,
-            string phoneNumber) 
+        public Volunteer(VolunteerId volunteerId,
+            FullName fullName,
+            Email email,
+            Description description,
+            ExperienceInYears experienceInYears,
+            PhoneNumber phoneNumber,
+            VolunteerDetails volunteerDetails) 
             : base(volunteerId)
         {
             Id = volunteerId;
+            Name = fullName;
             Email = email;
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
+            VolunteerDetails = volunteerDetails;
         }
         public VolunteerId Id { get; private set; }
 
         public FullName Name { get; private set; } = null!;
 
-        public string Email { get; private set; } = null!;
+        public Email Email { get; private set; } = null!;
 
-        public string Description { get; private set; } = null!;
+        public Description Description { get; private set; } = null!;
 
-        public int ExperienceInYears { get; private set; }
+        public ExperienceInYears ExperienceInYears { get; private set; }
 
-        public string PhoneNumber { get; private set; } = null!;
+        public PhoneNumber PhoneNumber { get; private set; } = null!;
 
         public VolunteerDetails VolunteerDetails { get; private set; } = null!;
 

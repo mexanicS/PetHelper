@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {

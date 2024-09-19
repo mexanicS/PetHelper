@@ -1,9 +1,16 @@
-﻿namespace PetHelper.Domain.Models
+﻿namespace PetHelper.Domain.ValueObjects
 {
     public record SocialNetwork
     {
-        public string Name { get; set; } = null!;
+        private SocialNetwork(string name, string url)
+        {
+            Name = name;
+            Url = url;
+        }
 
-        public string Url { get; set; } = null!;
+        public string Name { get; }
+        public string Url { get; }
+
+        public static SocialNetwork Create(string name, string url) => new SocialNetwork(name, url);
     }
 }
