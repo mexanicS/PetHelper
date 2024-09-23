@@ -20,88 +20,31 @@ public class CreateVolunteerHandler
         CancellationToken cancellationToken = default
     )
     {
-        var id = CreateVolunteerId();
-        var fullName = CreateFullName(request.FullName);
-        var email = CreateEmail(request.Email);
-        var description = CreateDescription(request.Description);
-        var experience = CreateExperience(request.ExperienceInYears);
-        var phoneNumber = CreatePhoneNumber(request.PhoneNumber);
-        var socialNetwork = CreateSocialNetworkList(request.SocialNetworks);
-        var detailsForAssistance = CreateDetailsForAssistanceList(request.DetailsForAssistances);
-
-        var volunteer = CreateVolunteer(
-            id, 
-            fullName, 
-            email, 
-            description, 
-            experience, 
-            phoneNumber, 
-            socialNetwork, 
-            detailsForAssistance
-        );
-
-        await AddVolunteerToRepository(volunteer, cancellationToken);
-
+        var volunteer = CreateVolunteer(request);
+        
+        await _volunteersRepository.Add(volunteer, cancellationToken);
+        
         return volunteer.Id.Value;
     }
-
-    private VolunteerId CreateVolunteerId()
+    private Volunteer CreateVolunteer(CreateVolunteerRequest request)
     {
-        return VolunteerId.NewId();
-    }
-
-    private FullName CreateFullName(FullNameDto fullNameDto)
-    {
-        return FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.MiddleName);
-    }
-
-    private Email CreateEmail(string emailDto)
-    {
-        return Email.Create(emailDto);
-    }
-
-    private Description CreateDescription(string descriptionDto)
-    {
-        return Description.Create(descriptionDto);
-    }
-
-    private ExperienceInYears CreateExperience(int experienceDto)
-    {
-        return ExperienceInYears.Create(experienceDto);
-    }
-
-    private PhoneNumber CreatePhoneNumber(string phoneNumberDto)
-    {
-        return PhoneNumber.Create(phoneNumberDto);
-    }
-
-    private SocialNetworkList CreateSocialNetworkList(SocialNetworkListDto socialNetworkDto)
-    {
-        return new SocialNetworkList(
-            socialNetworkDto.SocialNetworks
+        var id = VolunteerId.NewId();
+        var fullName = FullName.Create(request.FullName.FirstName, request.FullName.LastName, request.FullName.MiddleName);
+        var email = Email.Create(request.Email);
+        var description = Description.Create(request.Description).Value;
+        var experience = ExperienceInYears.Create(request.ExperienceInYears);
+        var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
+        
+        var socialNetwork = new SocialNetworkList(
+            request.SocialNetworks.SocialNetworks
                 .Select(c => SocialNetwork.Create(c.Name, c.Url))
         );
-    }
-
-    private DetailsForAssistanceList CreateDetailsForAssistanceList(DetailsForAssistanceListDto detailsForAssistanceDto)
-    {
-        return new DetailsForAssistanceList(
-            detailsForAssistanceDto.DetailsForAssistances
+        
+        var detailsForAssistance = new DetailsForAssistanceList(
+            request.DetailsForAssistances.DetailsForAssistances
                 .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
         );
-    }
 
-    private Volunteer CreateVolunteer(
-        VolunteerId id,
-        FullName fullName,
-        Email email,
-        Description description,
-        ExperienceInYears experience,
-        PhoneNumber phoneNumber,
-        SocialNetworkList socialNetwork,
-        DetailsForAssistanceList detailsForAssistance
-    )
-    {
         return new Volunteer(
             id,
             fullName,
@@ -112,10 +55,5 @@ public class CreateVolunteerHandler
             socialNetwork,
             detailsForAssistance
         );
-    }
-
-    private async Task AddVolunteerToRepository(Volunteer volunteer, CancellationToken cancellationToken)
-    {
-        await _volunteersRepository.Add(volunteer, cancellationToken);
     }
 }
