@@ -2,16 +2,14 @@ namespace PetHelper.Domain.ValueObjects;
 
 public record DetailsForAssistanceList
 {
-    public IReadOnlyList<DetailsForAssistance> DetailsForAssistances { get; } = [];
-    
-    private DetailsForAssistanceList()
-    {
-    }
-    
-    private DetailsForAssistanceList(IEnumerable<DetailsForAssistance> detailsForAssistance)
-    {
-        DetailsForAssistances = detailsForAssistance.ToList();
-    }
 
-    public static DetailsForAssistanceList Create(IEnumerable<DetailsForAssistance> detailsForAssistance) => new DetailsForAssistanceList();
+    public IReadOnlyList<DetailsForAssistance> DetailsForAssistance { get; }
+
+    private DetailsForAssistanceList() { }
+
+    public DetailsForAssistanceList(IEnumerable<DetailsForAssistance> detailsForAssistance)
+    {
+        DetailsForAssistance = detailsForAssistance.ToList();
+    }
+    
 }

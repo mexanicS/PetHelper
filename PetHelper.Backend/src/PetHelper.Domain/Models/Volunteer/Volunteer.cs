@@ -22,7 +22,8 @@ namespace PetHelper.Domain.Models
             Description description,
             ExperienceInYears experienceInYears,
             PhoneNumber phoneNumber,
-            VolunteerDetails volunteerDetails) 
+            SocialNetworkList socialNetworks,
+            DetailsForAssistanceList detailsForAssistances) 
             : base(volunteerId)
         {
             Id = volunteerId;
@@ -31,7 +32,8 @@ namespace PetHelper.Domain.Models
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
-            VolunteerDetails = volunteerDetails;
+            SocialNetwork = socialNetworks;
+            DetailsForAssistance = detailsForAssistances;
         }
         public VolunteerId Id { get; private set; }
 
@@ -44,8 +46,11 @@ namespace PetHelper.Domain.Models
         public ExperienceInYears ExperienceInYears { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; } = null!;
+        
+        public SocialNetworkList SocialNetwork { get; private set; }
 
-        public VolunteerDetails VolunteerDetails { get; private set; } = null!;
+        public DetailsForAssistanceList DetailsForAssistance { get; private set; } 
+        
 
         private readonly List<Pet> _pets = [];
 

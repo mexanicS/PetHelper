@@ -20,44 +20,102 @@ public class CreateVolunteerHandler
         CancellationToken cancellationToken = default
     )
     {
-        var id = VolunteerId.NewId();
-        
-        var fullNameDto = request.FullName;
-        var emailDto = request.Email;
-        var descriptionDto = request.Description;
-        var experienceDto = request.ExperienceInYears;
-        var phoneNumberDto = request.PhoneNumber;
-        var volunteerDetailsDto = request.VolunteerDetails;
-        
-        var fullName = FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.MiddleName);
-        var email = Email.Create(emailDto);
-        var description = Description.Create(descriptionDto);
-        var experience = ExperienceInYears.Create(experienceDto);
-        var phoneNumber = PhoneNumber.Create(phoneNumberDto);
+        var id = CreateVolunteerId();
+        var fullName = CreateFullName(request.FullName);
+        var email = CreateEmail(request.Email);
+        var description = CreateDescription(request.Description);
+        var experience = CreateExperience(request.ExperienceInYears);
+        var phoneNumber = CreatePhoneNumber(request.PhoneNumber);
+        var socialNetwork = CreateSocialNetworkList(request.SocialNetworks);
+        var detailsForAssistance = CreateDetailsForAssistanceList(request.DetailsForAssistances);
 
-        var volunteerDetailsList = VolunteerDetails.Create(
-            SocialNetworkList.Create(
-                volunteerDetailsDto.SocialNetworks.SocialNetworks
-                    .Select(c => SocialNetwork.Create(c.Name, c.Url))
-            ).SocialNetworks, 
-            DetailsForAssistanceList.Create(
-                volunteerDetailsDto.DetailsForAssistances.DetailsForAssistance
-                    .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
-            ).DetailsForAssistances);
-        
-        
-        var volunteer = new Volunteer(
+        var volunteer = CreateVolunteer(
+            id, 
+            fullName, 
+            email, 
+            description, 
+            experience, 
+            phoneNumber, 
+            socialNetwork, 
+            detailsForAssistance
+        );
+
+        await AddVolunteerToRepository(volunteer, cancellationToken);
+
+        return volunteer.Id.Value;
+    }
+
+    private VolunteerId CreateVolunteerId()
+    {
+        return VolunteerId.NewId();
+    }
+
+    private FullName CreateFullName(FullNameDto fullNameDto)
+    {
+        return FullName.Create(fullNameDto.FirstName, fullNameDto.LastName, fullNameDto.MiddleName);
+    }
+
+    private Email CreateEmail(string emailDto)
+    {
+        return Email.Create(emailDto);
+    }
+
+    private Description CreateDescription(string descriptionDto)
+    {
+        return Description.Create(descriptionDto);
+    }
+
+    private ExperienceInYears CreateExperience(int experienceDto)
+    {
+        return ExperienceInYears.Create(experienceDto);
+    }
+
+    private PhoneNumber CreatePhoneNumber(string phoneNumberDto)
+    {
+        return PhoneNumber.Create(phoneNumberDto);
+    }
+
+    private SocialNetworkList CreateSocialNetworkList(SocialNetworkListDto socialNetworkDto)
+    {
+        return new SocialNetworkList(
+            socialNetworkDto.SocialNetworks
+                .Select(c => SocialNetwork.Create(c.Name, c.Url))
+        );
+    }
+
+    private DetailsForAssistanceList CreateDetailsForAssistanceList(DetailsForAssistanceListDto detailsForAssistanceDto)
+    {
+        return new DetailsForAssistanceList(
+            detailsForAssistanceDto.DetailsForAssistances
+                .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
+        );
+    }
+
+    private Volunteer CreateVolunteer(
+        VolunteerId id,
+        FullName fullName,
+        Email email,
+        Description description,
+        ExperienceInYears experience,
+        PhoneNumber phoneNumber,
+        SocialNetworkList socialNetwork,
+        DetailsForAssistanceList detailsForAssistance
+    )
+    {
+        return new Volunteer(
             id,
             fullName,
             email,
             description,
             experience,
             phoneNumber,
-            volunteerDetailsList
+            socialNetwork,
+            detailsForAssistance
         );
-        
+    }
+
+    private async Task AddVolunteerToRepository(Volunteer volunteer, CancellationToken cancellationToken)
+    {
         await _volunteersRepository.Add(volunteer, cancellationToken);
-        
-        return volunteer.Id.Value;
     }
 }

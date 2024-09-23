@@ -35,7 +35,8 @@ namespace PetHelper.Infastructure.Migrations
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     middle_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     phone_number = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
-                    volunteer_details = table.Column<string>(type: "jsonb", nullable: false)
+                    details_for_assistance = table.Column<string>(type: "jsonb", nullable: false),
+                    social_network = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
