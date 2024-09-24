@@ -1,4 +1,5 @@
 using System.Net;
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.Domain.Shared;
 
@@ -16,8 +17,10 @@ public static class ResponseExtensions
             ErrorType.Failure => StatusCodes.Status500InternalServerError,
             _ => StatusCodes.Status500InternalServerError
         };
+        
+        var envelope = Envelope.Error(error);
 
-        return new ObjectResult(error)
+        return new ObjectResult(envelope)
         {
             StatusCode = statusCode
         };

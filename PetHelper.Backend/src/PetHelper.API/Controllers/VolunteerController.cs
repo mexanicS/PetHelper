@@ -17,7 +17,7 @@ namespace PetHelper.API.Controllers
             if(result.IsFailure)
                 return BadRequest(result.Error.ToResponse());
             
-            return Ok(result.Value);
+            return Ok(Envelope.Ok(result.Value));
         }
     }
 }
