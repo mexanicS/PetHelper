@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PetHelper.API.Extensions;
 using PetHelper.Application.Volunteers.CreateVolunteers;
 
 namespace PetHelper.API.Controllers
@@ -14,7 +15,7 @@ namespace PetHelper.API.Controllers
             var result = await handler.Handle(request, cancellationToken);
             
             if(result.IsFailure)
-                return BadRequest(result.Error);
+                return BadRequest(result.Error.ToResponse());
             
             return Ok(result.Value);
         }

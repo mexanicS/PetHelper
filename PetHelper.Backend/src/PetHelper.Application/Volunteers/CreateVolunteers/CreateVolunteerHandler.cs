@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using PetHelper.Application.DTOs;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
@@ -15,29 +16,47 @@ public class CreateVolunteerHandler
         _volunteersRepository = volunteersRepository;
     }
 
-    public async Task<Result<Guid>> Handle(
+    public async Task<Result<Guid,Error>> Handle(
         CreateVolunteerRequest request,
         CancellationToken cancellationToken = default
     )
     {
         var volunteer = CreateVolunteer(request);
+        if (volunteer.IsFailure)
+            return volunteer.Error;
         
-        await _volunteersRepository.Add(volunteer, cancellationToken);
+        await _volunteersRepository.Add(volunteer.Value, cancellationToken);
         
-        return volunteer.Id.Value;
+        return volunteer.Value.Id.Value;
     }
-    private Volunteer CreateVolunteer(CreateVolunteerRequest request)
+    private Result<Volunteer, Error> CreateVolunteer(CreateVolunteerRequest request)
     {
         var id = VolunteerId.NewId();
-        var fullName = FullName.Create(request.FullName.FirstName, request.FullName.LastName, request.FullName.MiddleName);
+        var fullNameRequest = FullName.Create(
+            request.FullName.FirstName, 
+            request.FullName.LastName, 
+            request.FullName.MiddleName);
+
+        if (fullNameRequest.IsFailure)
+            return fullNameRequest.Error;
+            
         var email = Email.Create(request.Email);
-        var description = Description.Create(request.Description).Value;
+        if (email.IsFailure)
+            return email.Error;
+        
+        var description = Description.Create(request.Description);
+        if (description.IsFailure)
+            return description.Error;
+        
         var experience = ExperienceInYears.Create(request.ExperienceInYears);
+        
         var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
+        if (phoneNumber.IsFailure)
+            return phoneNumber.Error;
         
         var socialNetwork = new SocialNetworkList(
             request.SocialNetworks.SocialNetworks
-                .Select(c => SocialNetwork.Create(c.Name, c.Url))
+                .Select(c => SocialNetwork.Create(c.Name, c.Url).Value)
         );
         
         var detailsForAssistance = new DetailsForAssistanceList(
@@ -47,11 +66,11 @@ public class CreateVolunteerHandler
 
         return new Volunteer(
             id,
-            fullName,
-            email,
-            description,
+            fullNameRequest.Value,
+            email.Value,
+            description.Value,
             experience,
-            phoneNumber,
+            phoneNumber.Value,
             socialNetwork,
             detailsForAssistance
         );

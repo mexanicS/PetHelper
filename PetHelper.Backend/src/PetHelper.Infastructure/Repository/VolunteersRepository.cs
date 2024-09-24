@@ -1,3 +1,4 @@
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHelper.Application.Volunteers;
 using PetHelper.Domain.Models;
@@ -22,15 +23,15 @@ public class VolunteersRepository() : IVolunteersRepository
         return (Guid)volunteer.Id;
     }
 
-    public async Task<Result<Volunteer>> GetVolunteerById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
-    {
+    public async Task<Result<Volunteer, Error>> GetVolunteerById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
+    { 
         var volunteer = await _dbcontext.Volunteers
             .Include(v=>v.Pets)
             .FirstOrDefaultAsync(volunteer => volunteer.Id == volunteerId, cancellationToken);
 
         if (volunteer is null)
-            return "Volunteer not found";
+            Errors.General.NotFound(volunteerId);
         
-        return Result<Volunteer>.Success(volunteer);
+        return volunteer;
     }
 }

@@ -1,9 +1,11 @@
-﻿using PetHelper.Domain.Shared;
+﻿using CSharpFunctionalExtensions;
+using PetHelper.Domain.Shared;
 
 namespace PetHelper.Domain.ValueObjects
 {
     public record DetailsForAssistance
     {
+        public const int MAX_LENGTH = 100;
         public string Name { get; }
         public string Description { get; }
         private DetailsForAssistance(string name, string description)
@@ -12,13 +14,13 @@ namespace PetHelper.Domain.ValueObjects
             Description = description;
         }
 
-        public static Result<DetailsForAssistance> Create(string name, string description)
+        public static Result<DetailsForAssistance, Error> Create(string name, string description)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                return $"DetailsForAssistance {nameof(name)} can't be empty";
+            if (string.IsNullOrWhiteSpace(name) && MAX_LENGTH < name.Length)
+                return Errors.General.ValueIsInvalid("name");
 
-            if (string.IsNullOrWhiteSpace(description))
-                return $"DetailsForAssistance {nameof(description)} can't be empty";
+            if (string.IsNullOrWhiteSpace(description) && MAX_LENGTH < name.Length)
+                return Errors.General.ValueIsInvalid("description");
 
             return new DetailsForAssistance(name, description);
         }
