@@ -18,7 +18,12 @@ public class BreedConfiguration : IEntityTypeConfiguration<Breed>
                 id => id.Value,
                 value => BreedId.Create(value));
         
-        builder.Property(breed => breed.Name)
-            .HasMaxLength(Constants.MAX_BREED_TEXT_LENGTH);
+        builder.ComplexProperty(x => x.Name, tb =>
+        {
+            tb.Property(d => d.Value)
+                .IsRequired()
+                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                .HasColumnName("name");
+        });
     }
 }

@@ -17,7 +17,7 @@ public record Description
     public static Result<Description, Error> Create(string value)
     {
         if (string.IsNullOrWhiteSpace(value) && value.Length < MAX_LENGTH)
-            return Errors.General.ValueIsInvalid("title");
+            return Errors.General.ValueIsInvalid("description");
 
         return new Description(value);
     }

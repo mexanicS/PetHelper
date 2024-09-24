@@ -18,29 +18,53 @@ namespace PetHelper.Infastructure.Configurations
                     id => id.Value,
                     value => PetId.Create(value));
             
-            builder.Property(pet => pet.Name)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(pet => pet.TypePet)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(p => p.Description)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
-
-            builder.Property(p => p.Breed)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(p => p.Color)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(p => p.HealthInformation)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+            builder.ComplexProperty(x => x.Name, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("name");
+            });
+            
+            builder.ComplexProperty(x => x.TypePet, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("type_pet");
+            });
+            
+            builder.ComplexProperty(x => x.Description, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("description");
+            });
+            
+            builder.ComplexProperty(x => x.Breed, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("breed");
+            });
+            
+            builder.ComplexProperty(x => x.Color, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("color");
+            });
+            
+            builder.ComplexProperty(x => x.HealthInformation, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                    .HasColumnName("health_information");
+            });
 
             builder.ComplexProperty(p => p.Address, a => {
                 a.Property(address => address.Street)
@@ -67,9 +91,13 @@ namespace PetHelper.Infastructure.Configurations
 
             builder.Property(p => p.Height);
 
-            builder.Property(p => p.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_PHONE_LENGTH);
+            builder.ComplexProperty(x => x.PhoneNumber, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_PHONE_LENGTH)
+                    .HasColumnName("phone_number");
+            });
 
             builder.Property(p => p.IsNeutered)
                 .IsRequired();
