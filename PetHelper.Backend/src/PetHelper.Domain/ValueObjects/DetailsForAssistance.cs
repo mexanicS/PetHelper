@@ -1,15 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CSharpFunctionalExtensions;
+using PetHelper.Domain.Shared;
 
-namespace PetHelper.Domain.Models
+namespace PetHelper.Domain.ValueObjects
 {
     public record DetailsForAssistance
     {
-        public string Name { get; set; } = null!;
+        public const int MAX_LENGTH = 100;
+        public string Name { get; }
+        public string Description { get; }
+        private DetailsForAssistance(string name, string description)
+        {
+            Name = name;
+            Description = description;
+        }
 
-        public string Description { get; set; } = null!;
+        public static Result<DetailsForAssistance, Error> Create(string name, string description)
+        {
+            if (string.IsNullOrWhiteSpace(name) && MAX_LENGTH < name.Length)
+                return Errors.General.ValueIsInvalid("name");
+
+            if (string.IsNullOrWhiteSpace(description) && MAX_LENGTH < name.Length)
+                return Errors.General.ValueIsInvalid("description");
+
+            return new DetailsForAssistance(name, description);
+        }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
@@ -14,33 +16,41 @@ namespace PetHelper.Domain.Models
         {
         }
 
-        private Volunteer(VolunteerId volunteerId, 
-            
-            string email,
-            string description,
-            int experienceInYears,
-            string phoneNumber) 
+        public Volunteer(VolunteerId volunteerId,
+            FullName fullName,
+            Email email,
+            Description description,
+            ExperienceInYears experienceInYears,
+            PhoneNumber phoneNumber,
+            SocialNetworkList socialNetworks,
+            DetailsForAssistanceList detailsForAssistances) 
             : base(volunteerId)
         {
             Id = volunteerId;
+            Name = fullName;
             Email = email;
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
+            SocialNetwork = socialNetworks;
+            DetailsForAssistance = detailsForAssistances;
         }
         public VolunteerId Id { get; private set; }
 
         public FullName Name { get; private set; } = null!;
 
-        public string Email { get; private set; } = null!;
+        public Email Email { get; private set; } = null!;
+        
+        public Description Description { get; private set; } = null!;
 
-        public string Description { get; private set; } = null!;
+        public ExperienceInYears ExperienceInYears { get; private set; }
 
-        public int ExperienceInYears { get; private set; }
+        public PhoneNumber PhoneNumber { get; private set; } = null!;
+        
+        public SocialNetworkList SocialNetwork { get; private set; }
 
-        public string PhoneNumber { get; private set; } = null!;
-
-        public VolunteerDetails VolunteerDetails { get; private set; } = null!;
+        public DetailsForAssistanceList DetailsForAssistance { get; private set; } 
+        
 
         private readonly List<Pet> _pets = [];
 

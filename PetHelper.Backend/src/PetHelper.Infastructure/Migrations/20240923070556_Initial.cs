@@ -28,14 +28,15 @@ namespace PetHelper.Infastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
-                    experience_in_years = table.Column<int>(type: "integer", nullable: false),
-                    phone_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    email = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
+                    experience = table.Column<int>(type: "integer", maxLength: 4000, nullable: false),
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     middle_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    volunteer_details = table.Column<string>(type: "jsonb", nullable: false)
+                    phone_number = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
+                    details_for_assistance = table.Column<string>(type: "jsonb", nullable: false),
+                    social_network = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {

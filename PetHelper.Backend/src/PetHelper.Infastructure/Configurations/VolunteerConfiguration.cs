@@ -35,53 +35,80 @@ namespace PetHelper.Infastructure.Configurations
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                     .HasColumnName("middle_name");
             });
-
-            builder.Property(volunteer => volunteer.Email)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-
-            builder.Property(volunteer => volunteer.Description)
-                .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
-                .IsRequired();
-
-            builder.Property(volunteer => volunteer.ExperienceInYears)
-                .IsRequired();
-
-            builder.Property(volunteer => volunteer.PhoneNumber)
-                .IsRequired()
-                .HasMaxLength(Constants.MAX_HIGH_PHONE_LENGTH);
+            
+            builder.ComplexProperty(x => x.Email, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("email");
+            });
+            
+            builder.ComplexProperty(x => x.Description, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("description");
+            });
+            
+            builder.ComplexProperty(x => x.ExperienceInYears, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("experience");
+            });
+            
+            builder.ComplexProperty(x => x.PhoneNumber, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                    .HasColumnName("phone_number");
+            });
 
             builder.HasMany(volunteer => volunteer.Pets)
                 .WithOne()
                 .HasForeignKey("volunteer_id")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.OwnsOne(x => x.VolunteerDetails, vd =>
+            builder.OwnsOne(v => v.DetailsForAssistance, vb =>
             {
-                vd.ToJson();
-                vd.OwnsMany(d => d.DetailsForAssistance, r =>
-                {
-                    r.Property(x => x.Name)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                vb.ToJson("details_for_assistance");
 
-                    r.Property(x => x.Description)
+                vb.OwnsMany(cl => cl.DetailsForAssistance, cl =>
+                {
+                    cl.Property(c => c.Name)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("details_for_assistance_name");
+
+                    cl.Property(c => c.Description)
+                        .IsRequired()
+                        .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
+                        .HasColumnName("details_for_assistance_description"); ;
                 });
-                vd.OwnsMany(d => d.SocialNetwork, r =>
-                {
+            });
 
-                    r.Property(x => x.Name)
+            builder.OwnsOne(v => v.SocialNetwork, vb =>
+            {
+                vb.ToJson("social_network");
+
+                vb.OwnsMany(cl => cl.SocialNetwork, cl =>
+                {
+                    cl.Property(c => c.Name)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
-                    r.Property(x => x.Url)
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("social_network_name");
+
+
+                    cl.Property(c => c.Url)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
+                        .HasColumnName("social_network_link");
                 });
             });
         }
-
-
     }
 }
