@@ -49,6 +49,8 @@ public class CreateVolunteerHandler
             return description.Error;
         
         var experience = ExperienceInYears.Create(request.ExperienceInYears);
+        if (experience.IsFailure)
+            return experience.Error;
         
         var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
         if (phoneNumber.IsFailure)
@@ -69,7 +71,7 @@ public class CreateVolunteerHandler
             fullNameRequest.Value,
             email.Value,
             description.Value,
-            experience,
+            experience.Value,
             phoneNumber.Value,
             socialNetwork,
             detailsForAssistance

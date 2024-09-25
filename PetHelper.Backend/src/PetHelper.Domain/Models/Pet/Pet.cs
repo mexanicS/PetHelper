@@ -9,16 +9,16 @@ namespace PetHelper.Domain.Models
         private Pet(PetId id) : base(id)
         { }
 
-        private Pet(PetId petId,
-            string name, 
-            string typePet, 
-            string description,
-            string breed,
-            string color,
-            string healthInformation,
-            double weight,
-            double height,
-            string phoneNumber,
+        public Pet(PetId petId,
+            Name name, 
+            TypePet typePet, 
+            Description description,
+            ValueObjects.Breed breed,
+            Color color,
+            HealthInformation healthInformation,
+            Weight weight,
+            Height height,
+            PhoneNumber phoneNumber,
             bool isNeutered,
             DateOnly birthDate,
             bool isVaccinated,
@@ -44,25 +44,25 @@ namespace PetHelper.Domain.Models
 
         public PetId Id { get; private set; }
 
-        public string Name { get; private set; } = null!;
+        public Name Name { get; private set; } = null!;
 
-        public string TypePet { get; private set; } = null!;
+        public TypePet TypePet { get; private set; } = null!;
 
-        public string Description { get; private set; } = null!;
+        public Description Description { get; private set; } = null!;
 
-        public string Breed { get; private set; } = null!;
+        public ValueObjects.Breed Breed { get; private set; } = null!;
 
-        public string Color { get; private set; } = null!;
+        public Color Color { get; private set; } = null!;
 
-        public string HealthInformation { get; private set; } = null!;
+        public HealthInformation HealthInformation { get; private set; } = null!;
 
         public Address Address { get; private set; } = null!;
 
-        public double Weight { get; private set; }
+        public Weight Weight { get; private set; }
 
-        public double Height { get; private set; }
+        public Height Height { get; private set; }
 
-        public string PhoneNumber { get; private set; } = null!;
+        public PhoneNumber PhoneNumber { get; private set; } = null!;
 
         public bool IsNeutered { get; private set; }
 

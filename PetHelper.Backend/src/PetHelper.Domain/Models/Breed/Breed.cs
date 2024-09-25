@@ -1,4 +1,5 @@
 using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models;
 
@@ -7,10 +8,10 @@ public class Breed : Entity<BreedId>
     private Breed(BreedId id) : base(id)
     { }
 
-    private Breed(BreedId breedId, string name) : this(breedId)
+    public Breed(BreedId breedId, Name name) : this(breedId)
     {
         Name = name;    
     }
     
-    public string Name { get; private set; }
+    public Name Name { get; private set; }
 }

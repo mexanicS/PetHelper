@@ -15,7 +15,7 @@ public record PhoneNumber
     public static Result<PhoneNumber, Error> Create(string number)
     {
         if (string.IsNullOrWhiteSpace(number) && number.Length < PHONE_NUMBER_MAX)
-            return Errors.General.ValueIsInvalid("title");
+            return Errors.General.ValueIsInvalid("phoneNumber");
 
         return new PhoneNumber(number);
     }
