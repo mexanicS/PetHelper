@@ -9,7 +9,7 @@ public class Species : Entity<SpeciesId>
     private Species(SpeciesId id) : base(id)
     { }
     
-    private Species(SpeciesId speciesId, Name name) : this(speciesId)
+    public Species(SpeciesId speciesId, Name name) : this(speciesId)
     {
         Name = name;    
     }

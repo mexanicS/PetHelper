@@ -9,15 +9,15 @@ namespace PetHelper.Domain.Models
         private Pet(PetId id) : base(id)
         { }
 
-        private Pet(PetId petId,
+        public Pet(PetId petId,
             Name name, 
             TypePet typePet, 
             Description description,
             ValueObjects.Breed breed,
             Color color,
             HealthInformation healthInformation,
-            double weight,
-            double height,
+            Weight weight,
+            Height height,
             PhoneNumber phoneNumber,
             bool isNeutered,
             DateOnly birthDate,
@@ -58,9 +58,9 @@ namespace PetHelper.Domain.Models
 
         public Address Address { get; private set; } = null!;
 
-        public double Weight { get; private set; }
+        public Weight Weight { get; private set; }
 
-        public double Height { get; private set; }
+        public Height Height { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; } = null!;
 

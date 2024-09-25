@@ -8,7 +8,7 @@ public class Breed : Entity<BreedId>
     private Breed(BreedId id) : base(id)
     { }
 
-    private Breed(BreedId breedId, Name name) : this(breedId)
+    public Breed(BreedId breedId, Name name) : this(breedId)
     {
         Name = name;    
     }
