@@ -16,7 +16,7 @@ public record Height
 
     public static Result<Height, Error> Create(double value)
     {
-        if (value < MAX_HEIGHT)
+        if (value is > 0 and > MAX_HEIGHT)
             return Errors.General.ValueIsInvalid("height");
 
         return new Height(value);

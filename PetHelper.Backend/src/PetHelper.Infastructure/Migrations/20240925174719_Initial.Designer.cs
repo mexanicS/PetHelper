@@ -13,7 +13,7 @@ using PetHelper.Infastructure;
 namespace PetHelper.Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240924154657_Initial")]
+    [Migration("20240925174719_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -71,10 +71,6 @@ namespace PetHelper.Infastructure.Migrations
                         .HasColumnType("date")
                         .HasColumnName("date_of_birth");
 
-                    b.Property<double>("Height")
-                        .HasColumnType("double precision")
-                        .HasColumnName("height");
-
                     b.Property<bool>("IsNeutered")
                         .HasColumnType("boolean")
                         .HasColumnName("is_neutered");
@@ -86,10 +82,6 @@ namespace PetHelper.Infastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
-
-                    b.Property<double>("Weight")
-                        .HasColumnType("double precision")
-                        .HasColumnName("weight");
 
                     b.Property<Guid?>("volunteer_id")
                         .HasColumnType("uuid")
@@ -167,6 +159,16 @@ namespace PetHelper.Infastructure.Migrations
                                 .HasColumnName("health_information");
                         });
 
+                    b.ComplexProperty<Dictionary<string, object>>("Height", "PetHelper.Domain.Models.Pet.Height#Height", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<double>("Value")
+                                .HasMaxLength(1000)
+                                .HasColumnType("double precision")
+                                .HasColumnName("height");
+                        });
+
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Pet.Name#Name", b1 =>
                         {
                             b1.IsRequired();
@@ -211,6 +213,16 @@ namespace PetHelper.Infastructure.Migrations
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("type_pet");
+                        });
+
+                    b.ComplexProperty<Dictionary<string, object>>("Weight", "PetHelper.Domain.Models.Pet.Weight#Weight", b1 =>
+                        {
+                            b1.IsRequired();
+
+                            b1.Property<double>("Value")
+                                .HasMaxLength(1000)
+                                .HasColumnType("double precision")
+                                .HasColumnName("weight");
                         });
 
                     b.HasKey("Id")
@@ -457,8 +469,8 @@ namespace PetHelper.Infastructure.Migrations
 
                                     b2.Property<string>("Description")
                                         .IsRequired()
-                                        .HasMaxLength(2000)
-                                        .HasColumnType("character varying(2000)")
+                                        .HasMaxLength(1000)
+                                        .HasColumnType("character varying(1000)")
                                         .HasColumnName("details_for_assistance_description");
 
                                     b2.Property<string>("Name")
@@ -513,8 +525,8 @@ namespace PetHelper.Infastructure.Migrations
 
                                     b2.Property<string>("Url")
                                         .IsRequired()
-                                        .HasMaxLength(2000)
-                                        .HasColumnType("character varying(2000)")
+                                        .HasMaxLength(1000)
+                                        .HasColumnType("character varying(1000)")
                                         .HasColumnName("social_network_link");
 
                                     b2.HasKey("SocialNetworkListVolunteerId", "Id");

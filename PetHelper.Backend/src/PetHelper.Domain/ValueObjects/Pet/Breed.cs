@@ -16,7 +16,7 @@ public record Breed
 
     public static Result<Breed, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) && value.Length < MAX_LENGTH_BREED)
+        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH_BREED)
             return Errors.General.ValueIsInvalid("breed");
 
         return new Breed(value);

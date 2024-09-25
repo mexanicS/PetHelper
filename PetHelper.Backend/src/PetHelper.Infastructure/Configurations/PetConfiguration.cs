@@ -86,11 +86,23 @@ namespace PetHelper.Infastructure.Configurations
                     .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                     .HasColumnName("zip_code");
             });
-
-            builder.Property(p => p.Weight);
-
-            builder.Property(p => p.Height);
-
+            
+            builder.ComplexProperty(x => x.Weight, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
+                    .HasColumnName("weight");
+            });
+            
+            builder.ComplexProperty(x => x.Height, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
+                    .HasColumnName("height");
+            });
+            
             builder.ComplexProperty(x => x.PhoneNumber, tb =>
             {
                 tb.Property(d => d.Value)
