@@ -1,8 +1,8 @@
+using FluentValidation.AspNetCore;
+using PetHelper.API.Validation;
 using PetHelper.Application;
-using PetHelper.Application.Volunteers;
-using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Infastructure;
-using PetHelper.Infastructure.Repository;
+using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +16,11 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddApplication()
     .AddInfastructure();
+
+builder.Services.AddFluentValidationAutoValidation(configuration =>
+{
+    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
+});
 
 var app = builder.Build();
 

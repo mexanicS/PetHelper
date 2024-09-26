@@ -7,14 +7,10 @@ public record ResponseError(string? ErrorCode, string? ErrorMessage, string? Inv
 public record Envelope()
 {
     public object? Result { get; }
-
-    //public string? ErrorCode { get; }
-    
-    //public string? ErrorMessage { get; }
     
     public DateTime? TimeGenerated { get; }
 
-    public List<ResponseError> Errors { get; }
+    public List<ResponseError> Errors { get; } = [];
     
     private Envelope(object? result, IEnumerable<ResponseError> errors) : this()
     {
