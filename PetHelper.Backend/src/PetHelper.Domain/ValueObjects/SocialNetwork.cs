@@ -17,10 +17,10 @@ namespace PetHelper.Domain.ValueObjects
 
         public static Result<SocialNetwork, Error> Create(string name, string url)
         {
-            if (string.IsNullOrWhiteSpace(name) && name.Length < SOCIAL_NETWORK_LENGTH)
+            if (string.IsNullOrWhiteSpace(name) || name.Length > SOCIAL_NETWORK_LENGTH)
                 return Errors.General.ValueIsInvalid("name");
             
-            if (string.IsNullOrWhiteSpace(url) && url.Length < SOCIAL_NETWORK_LENGTH)
+            if (string.IsNullOrWhiteSpace(url) || url.Length > SOCIAL_NETWORK_LENGTH)
                 return Errors.General.ValueIsInvalid("url");
             
             return new SocialNetwork(name, url);

@@ -16,8 +16,8 @@ public record Email
 
     public static Result<Email, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) && MAX_LENGTH < value.Length)
-            return Errors.General.ValueIsInvalid(value);
+        if (string.IsNullOrWhiteSpace(value) || MAX_LENGTH < value.Length)
+            return Errors.General.ValueIsInvalid("email");
 
         return new Email(value);
     }

@@ -28,13 +28,13 @@ namespace PetHelper.Domain.Models
         
         public static Result<FullName, Error> Create(string firstName, string lastName, string? middleName)
         {
-            if (string.IsNullOrWhiteSpace(firstName) && firstName.Length < MAX_LENGTH)
+            if (string.IsNullOrWhiteSpace(firstName) || firstName.Length > MAX_LENGTH)
                 return Errors.General.ValueIsInvalid("firstName");
             
-            if (string.IsNullOrWhiteSpace(lastName) && lastName.Length < MAX_LENGTH)
+            if (string.IsNullOrWhiteSpace(lastName) || lastName.Length > MAX_LENGTH)
                 return Errors.General.ValueIsInvalid("lastName");
             
-            if (middleName != null && middleName.Length > 100)
+            if (middleName?.Length > 100)
                 return Errors.General.ValueIsInvalid("middleName");
             
             return new FullName(firstName, lastName, middleName);

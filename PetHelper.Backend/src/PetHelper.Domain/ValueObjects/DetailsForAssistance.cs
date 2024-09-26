@@ -16,10 +16,10 @@ namespace PetHelper.Domain.ValueObjects
 
         public static Result<DetailsForAssistance, Error> Create(string name, string description)
         {
-            if (string.IsNullOrWhiteSpace(name) && MAX_LENGTH < name.Length)
+            if (string.IsNullOrWhiteSpace(name) || MAX_LENGTH < name.Length)
                 return Errors.General.ValueIsInvalid("name");
 
-            if (string.IsNullOrWhiteSpace(description) && MAX_LENGTH < name.Length)
+            if (string.IsNullOrWhiteSpace(description) || MAX_LENGTH < name.Length)
                 return Errors.General.ValueIsInvalid("description");
 
             return new DetailsForAssistance(name, description);

@@ -16,7 +16,7 @@ public record TypePet
 
     public static Result<TypePet, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) && value.Length < MAX_LENGTH_TYPE_PET)
+        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH_TYPE_PET)
             return Errors.General.ValueIsInvalid("typePet");
 
         return new TypePet(value);

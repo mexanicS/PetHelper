@@ -15,7 +15,7 @@ public record ExperienceInYears
 
     public static Result<ExperienceInYears, Error> Create(int value)
     {
-        if (value < MAX_EXPERIENCE_IN_YEARS)
+        if (value is < 0 or > MAX_EXPERIENCE_IN_YEARS)
             return Errors.General.ValueIsInvalid("experienceInYears");
 
         return new ExperienceInYears(value);

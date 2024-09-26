@@ -66,8 +66,6 @@ namespace PetHelper.Infastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    weight = table.Column<double>(type: "double precision", nullable: false),
-                    height = table.Column<double>(type: "double precision", nullable: false),
                     is_neutered = table.Column<bool>(type: "boolean", nullable: false),
                     date_of_birth = table.Column<DateOnly>(type: "date", nullable: false),
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
@@ -82,11 +80,13 @@ namespace PetHelper.Infastructure.Migrations
                     color = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
                     health_information = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    height = table.Column<double>(type: "double precision", maxLength: 1000, nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     type_pet = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    weight = table.Column<double>(type: "double precision", maxLength: 1000, nullable: false),
                     pet_details = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>

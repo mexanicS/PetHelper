@@ -2,6 +2,8 @@ namespace PetHelper.Domain.Shared;
 
 public record Error
 {
+    public const string SEPARATOR = "||";
+    
     public string Code { get; }
     
     public string Message { get; }
@@ -26,8 +28,25 @@ public record Error
     
     public static Error Conflict(string code, string message)=>
         new Error(code, message, ErrorType.Conflict);
+
+    public string Serialize()
+    {
+        return string.Join(SEPARATOR, Code, Message, Type);
+    }
     
-    
+    public static Error Deserialize(string serialized)
+    {
+        var parts = serialized.Split(SEPARATOR);
+        
+        if(parts.Length < 2 )
+            throw new FormatException("Invalid serialized format.");
+
+        if (Enum.TryParse<ErrorType>(parts[2], out var type) == false)
+            throw new FormatException("Invalid serialized format.");
+        
+        
+        return new Error(parts[0], parts[1], type);
+    }
 }
 
 public enum ErrorType

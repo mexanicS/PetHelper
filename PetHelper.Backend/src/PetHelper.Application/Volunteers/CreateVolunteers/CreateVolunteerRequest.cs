@@ -1,3 +1,4 @@
+using FluentValidation;
 using PetHelper.Application.DTOs;
 using PetHelper.Domain.ValueObjects;
 
@@ -11,3 +12,4 @@ public record CreateVolunteerRequest(
     FullNameDto FullName,
     DetailsForAssistanceListDto DetailsForAssistances,
     SocialNetworkListDto SocialNetworks);
+

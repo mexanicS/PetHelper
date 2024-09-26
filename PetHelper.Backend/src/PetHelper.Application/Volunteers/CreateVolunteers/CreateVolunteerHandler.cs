@@ -1,4 +1,5 @@
 using CSharpFunctionalExtensions;
+using FluentValidation;
 using PetHelper.Application.DTOs;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
@@ -9,7 +10,6 @@ namespace PetHelper.Application.Volunteers.CreateVolunteers;
 public class CreateVolunteerHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
-    
     public CreateVolunteerHandler(
         IVolunteersRepository volunteersRepository)
     {
@@ -35,26 +35,15 @@ public class CreateVolunteerHandler
         var fullNameRequest = FullName.Create(
             request.FullName.FirstName, 
             request.FullName.LastName, 
-            request.FullName.MiddleName);
-
-        if (fullNameRequest.IsFailure)
-            return fullNameRequest.Error;
-            
-        var email = Email.Create(request.Email);
-        if (email.IsFailure)
-            return email.Error;
+            request.FullName.MiddleName).Value;
         
-        var description = Description.Create(request.Description);
-        if (description.IsFailure)
-            return description.Error;
+        var email = Email.Create(request.Email).Value;
         
-        var experience = ExperienceInYears.Create(request.ExperienceInYears);
-        if (experience.IsFailure)
-            return experience.Error;
+        var description = Description.Create(request.Description).Value;
         
-        var phoneNumber = PhoneNumber.Create(request.PhoneNumber);
-        if (phoneNumber.IsFailure)
-            return phoneNumber.Error;
+        var experience = ExperienceInYears.Create(request.ExperienceInYears).Value;
+        
+        var phoneNumber = PhoneNumber.Create(request.PhoneNumber).Value;
         
         var socialNetwork = new SocialNetworkList(
             request.SocialNetworks.SocialNetworks
@@ -68,11 +57,11 @@ public class CreateVolunteerHandler
 
         return new Volunteer(
             id,
-            fullNameRequest.Value,
-            email.Value,
-            description.Value,
-            experience.Value,
-            phoneNumber.Value,
+            fullNameRequest,
+            email,
+            description,
+            experience,
+            phoneNumber,
             socialNetwork,
             detailsForAssistance
         );

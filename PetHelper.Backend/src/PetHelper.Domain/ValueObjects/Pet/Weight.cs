@@ -16,7 +16,7 @@ public record Weight
 
     public static Result<Weight, Error> Create(double value)
     {
-        if (value < MAX_WEIGHT)
+        if (value is > 0 and > MAX_WEIGHT)
             return Errors.General.ValueIsInvalid("weight");
 
         return new Weight(value);
