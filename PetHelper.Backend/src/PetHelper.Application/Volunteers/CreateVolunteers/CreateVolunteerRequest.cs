@@ -13,12 +13,3 @@ public record CreateVolunteerRequest(
     DetailsForAssistanceListDto DetailsForAssistances,
     SocialNetworkListDto SocialNetworks);
 
-public record CreateVolunteerRequestImpl(
-    string Email,
-    string Description,
-    int ExperienceInYears,
-    string PhoneNumber,
-    FullNameDto FullName,
-    DetailsForAssistanceListDto DetailsForAssistances,
-    SocialNetworkListDto SocialNetworks) : CreateVolunteerRequest(Email, Description, ExperienceInYears, PhoneNumber, FullName, DetailsForAssistances, SocialNetworks);
-

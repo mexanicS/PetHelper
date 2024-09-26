@@ -16,17 +16,8 @@ namespace PetHelper.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
-            if(validationResult.IsValid == false)
-            {
-                var validationErrors = validationResult.Errors;
-                
-                var errors = from validationError in validationErrors
-                    let error = Error.Validation(validationError.ErrorCode, validationError.ErrorMessage)
-                        select new ResponseError(error.Code, error.Message,validationError.PropertyName);
-                
-                var envelope = Envelope.Error(errors);
-                return BadRequest(envelope);
-            }
+            if (validationResult.IsValid == false)
+                return validationResult.ToValidationErrorResponse();
 
             var result = await handler.Handle(request, cancellationToken);
             

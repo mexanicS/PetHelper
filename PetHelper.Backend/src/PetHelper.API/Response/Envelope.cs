@@ -8,9 +8,9 @@ public record Envelope()
 {
     public object? Result { get; }
 
-    public string? ErrorCode { get; }
+    //public string? ErrorCode { get; }
     
-    public string? ErrorMessage { get; }
+    //public string? ErrorMessage { get; }
     
     public DateTime? TimeGenerated { get; }
 
