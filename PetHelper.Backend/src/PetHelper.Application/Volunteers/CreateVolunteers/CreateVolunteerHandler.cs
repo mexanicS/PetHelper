@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using PetHelper.Application.DTOs;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
@@ -10,10 +11,14 @@ namespace PetHelper.Application.Volunteers.CreateVolunteers;
 public class CreateVolunteerHandler
 {
     private readonly IVolunteersRepository _volunteersRepository;
+    
+    private readonly ILogger _logger;
     public CreateVolunteerHandler(
-        IVolunteersRepository volunteersRepository)
+        IVolunteersRepository volunteersRepository,
+        ILogger<CreateVolunteerHandler> logger)
     {
         _volunteersRepository = volunteersRepository;
+        _logger = logger;
     }
 
     public async Task<Result<Guid,Error>> Handle(
@@ -26,6 +31,7 @@ public class CreateVolunteerHandler
             return volunteer.Error;
         
         await _volunteersRepository.Add(volunteer.Value, cancellationToken);
+        _logger.LogInformation("Created volunteer added with id {volunteerId}", volunteer.Value.Id.Value);
         
         return volunteer.Value.Id.Value;
     }
