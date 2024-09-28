@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using PetHelper.API;
+using PetHelper.API.Middlewares;
 using PetHelper.API.Validation;
 using PetHelper.Application;
 using PetHelper.Infastructure;
@@ -45,6 +46,8 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 
 var app = builder.Build();
 
+app.UseExceptionMiddleware();
+
 app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
@@ -52,7 +55,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     await app.ApplyMigration();
-
 }
 
 app.UseHttpsRedirection();
