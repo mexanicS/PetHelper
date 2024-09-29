@@ -26,7 +26,6 @@ namespace PetHelper.Domain.Models
             DetailsForAssistanceList detailsForAssistances) 
             : base(volunteerId)
         {
-            Id = volunteerId;
             Name = fullName;
             Email = email;
             Description = description;
@@ -35,7 +34,6 @@ namespace PetHelper.Domain.Models
             SocialNetwork = socialNetworks;
             DetailsForAssistance = detailsForAssistances;
         }
-        public VolunteerId Id { get; private set; }
 
         public FullName Name { get; private set; } = null!;
 
