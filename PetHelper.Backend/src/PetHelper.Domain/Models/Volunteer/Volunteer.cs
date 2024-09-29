@@ -82,5 +82,18 @@ namespace PetHelper.Domain.Models
         {
             return Pets.Count(pet => pet.Status == Constants.StatusPet.NeedsHelp);
         }
+
+        public void UpdateMainInformation(FullName fullName,
+            Email email, 
+            Description description, 
+            ExperienceInYears experienceInYears,
+            PhoneNumber phoneNumber)
+        {
+            Name = fullName;
+            Email = email;
+            Description = description;
+            ExperienceInYears = experienceInYears;
+            PhoneNumber = phoneNumber;
+        }
     }
 }

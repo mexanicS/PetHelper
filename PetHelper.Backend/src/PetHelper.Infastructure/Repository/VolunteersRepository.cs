@@ -15,22 +15,37 @@ public class VolunteersRepository() : IVolunteersRepository
          _dbcontext = dbcontext;
     }
 
-    public async Task<Guid> Add(Volunteer volunteer, CancellationToken cancellationToken = default)
+    public async Task<Guid> Add(
+        Volunteer volunteer, 
+        CancellationToken cancellationToken = default)
     {
         await _dbcontext.Volunteers.AddAsync(volunteer, cancellationToken);
         await _dbcontext.SaveChangesAsync(cancellationToken);
         
         return (Guid)volunteer.Id;
     }
+    
+    public async Task<Guid> Update(
+        Volunteer volunteer, 
+        CancellationToken cancellationToken = default)
+    {
+        _dbcontext.Volunteers.Update(volunteer);
+        
+        await _dbcontext.SaveChangesAsync(cancellationToken);
+        
+        return volunteer.Id;
+    }
 
-    public async Task<Result<Volunteer, Error>> GetVolunteerById(VolunteerId volunteerId, CancellationToken cancellationToken = default)
+    public async Task<Result<Volunteer, Error>> GetVolunteerById(
+        VolunteerId volunteerId, 
+        CancellationToken cancellationToken = default)
     { 
         var volunteer = await _dbcontext.Volunteers
             .Include(v=>v.Pets)
             .FirstOrDefaultAsync(volunteer => volunteer.Id == volunteerId, cancellationToken);
 
         if (volunteer is null)
-            return Errors.General.NotFound();
+            return Errors.General.NotFound(volunteerId);
         
         return volunteer;
     }
