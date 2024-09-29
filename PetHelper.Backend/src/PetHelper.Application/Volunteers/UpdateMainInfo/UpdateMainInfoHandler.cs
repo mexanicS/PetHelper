@@ -51,7 +51,7 @@ public class UpdateMainInfoHandler
             experienceRequest, 
             phoneNumberRequest);
         
-        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
             
         _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated ", request.VolunteerId);
         return Guid.NewGuid();
