@@ -53,7 +53,8 @@ public class UpdateMainInfoHandler
         
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
             
-        _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated ", request.VolunteerId);
-        return Guid.NewGuid();
+        _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated", request.VolunteerId);
+
+        return volunteerResult.Value.Id.Value;
     }
 }

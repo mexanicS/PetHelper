@@ -1,0 +1,8 @@
+using PetHelper.Application.DTOs;
+
+namespace PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
+
+public record UpdateDetailsForAssistanceRequest(Guid VolunteerId, 
+    UpdateDetailsForAssistanceRequestDto UpdateDetailsForAssistanceRequestDto);
+
+public record UpdateDetailsForAssistanceRequestDto(DetailsForAssistanceListDto DetailsForAssistanceListDto);

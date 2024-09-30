@@ -6,9 +6,9 @@ using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Application.Volunteers.UpdateMainInfo;
 
-public class UpdateMainInfoHandlerRequestValidator : AbstractValidator<UpdateMainInfoRequest>
+public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoRequest>
 {
-    public UpdateMainInfoHandlerRequestValidator()
+    public UpdateMainInfoRequestValidator()
     {
         RuleFor(x => x.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired());
     }

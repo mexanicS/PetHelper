@@ -1,5 +1,4 @@
 using FluentValidation;
-using PetHelper.Application.DTOs;
 using PetHelper.Application.Validation;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.ValueObjects;

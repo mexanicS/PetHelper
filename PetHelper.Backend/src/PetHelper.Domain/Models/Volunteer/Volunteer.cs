@@ -93,5 +93,15 @@ namespace PetHelper.Domain.Models
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
         }
+
+        public void UpdateSocialNetwork(SocialNetworkList socialNetworks)
+        {
+            SocialNetwork = socialNetworks;
+        }
+        
+        public void UpdateDetailsForAssistance(DetailsForAssistanceList detailsForAssistanceList)
+        {
+            DetailsForAssistance = detailsForAssistanceList;
+        }
     }
 }
