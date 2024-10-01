@@ -26,7 +26,6 @@ namespace PetHelper.Domain.Models
             DetailsForAssistanceList detailsForAssistances) 
             : base(volunteerId)
         {
-            Id = volunteerId;
             Name = fullName;
             Email = email;
             Description = description;
@@ -35,7 +34,6 @@ namespace PetHelper.Domain.Models
             SocialNetwork = socialNetworks;
             DetailsForAssistance = detailsForAssistances;
         }
-        public VolunteerId Id { get; private set; }
 
         public FullName Name { get; private set; } = null!;
 
@@ -81,6 +79,29 @@ namespace PetHelper.Domain.Models
         public int GetCountOfAnimalsLookingForHome()
         {
             return Pets.Count(pet => pet.Status == Constants.StatusPet.NeedsHelp);
+        }
+
+        public void UpdateMainInformation(FullName fullName,
+            Email email, 
+            Description description, 
+            ExperienceInYears experienceInYears,
+            PhoneNumber phoneNumber)
+        {
+            Name = fullName;
+            Email = email;
+            Description = description;
+            ExperienceInYears = experienceInYears;
+            PhoneNumber = phoneNumber;
+        }
+
+        public void UpdateSocialNetwork(SocialNetworkList socialNetworks)
+        {
+            SocialNetwork = socialNetworks;
+        }
+        
+        public void UpdateDetailsForAssistance(DetailsForAssistanceList detailsForAssistanceList)
+        {
+            DetailsForAssistance = detailsForAssistanceList;
         }
     }
 }

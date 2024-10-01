@@ -1,7 +1,7 @@
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 
-namespace PetHelper.Domain.Models;
+namespace PetHelper.Domain.Models.Breed;
 
 public class Breed : Entity<BreedId>
 {

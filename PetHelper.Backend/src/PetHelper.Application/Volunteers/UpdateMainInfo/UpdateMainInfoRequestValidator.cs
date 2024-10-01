@@ -1,13 +1,22 @@
 using FluentValidation;
 using PetHelper.Application.Validation;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 
-namespace PetHelper.Application.Volunteers.CreateVolunteers;
+namespace PetHelper.Application.Volunteers.UpdateMainInfo;
 
-public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteerRequest>
+public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoRequest>
 {
-    public CreateVolunteerRequestValidator()
+    public UpdateMainInfoRequestValidator()
+    {
+        RuleFor(x => x.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired());
+    }
+}
+
+public class UpdateMainInfoHandlerDtoValidator : AbstractValidator<UpdateMainInfoDto>
+{
+    public UpdateMainInfoHandlerDtoValidator()
     {
         RuleFor(request => request.Email).MustBeValueObject(Email.Create);
         
@@ -26,13 +35,5 @@ public class CreateVolunteerRequestValidator : AbstractValidator<CreateVolunteer
                 x.MiddleName
             )
         ); 
-        
-        RuleForEach(request=>request.DetailsForAssistances.DetailsForAssistances)
-            .MustBeValueObject(x => 
-                DetailsForAssistance.Create(x.Description, x.Name));
-        
-        RuleForEach(request=>request.SocialNetworks.SocialNetworks)
-            .MustBeValueObject(x => 
-                DetailsForAssistance.Create(x.Name, x.Url));
     }
 }

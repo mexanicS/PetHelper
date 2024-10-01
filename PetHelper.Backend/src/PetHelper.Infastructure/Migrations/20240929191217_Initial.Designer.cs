@@ -13,7 +13,7 @@ using PetHelper.Infastructure;
 namespace PetHelper.Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240925174719_Initial")]
+    [Migration("20240929191217_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -26,7 +26,7 @@ namespace PetHelper.Infastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PetHelper.Domain.Models.Breed", b =>
+            modelBuilder.Entity("PetHelper.Domain.Models.Breed.Breed", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
@@ -36,7 +36,7 @@ namespace PetHelper.Infastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("species_id");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Breed.Name#Name", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Breed.Breed.Name#Name", b1 =>
                         {
                             b1.IsRequired();
 
@@ -363,7 +363,7 @@ namespace PetHelper.Infastructure.Migrations
                     b.ToTable("volunteer", (string)null);
                 });
 
-            modelBuilder.Entity("PetHelper.Domain.Models.Breed", b =>
+            modelBuilder.Entity("PetHelper.Domain.Models.Breed.Breed", b =>
                 {
                     b.HasOne("PetHelper.Domain.Models.Species", null)
                         .WithMany("Breeds")

@@ -26,7 +26,6 @@ namespace PetHelper.Domain.Models
                 )
             : base(petId)
         {
-            Id = petId;
             Name = name;
             TypePet = typePet;
             Description = description;
@@ -41,8 +40,6 @@ namespace PetHelper.Domain.Models
             IsVaccinated = isVaccinated;
             CreatedDate = createdDate;
         }
-
-        public PetId Id { get; private set; }
 
         public Name Name { get; private set; } = null!;
 
