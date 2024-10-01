@@ -28,6 +28,7 @@ namespace PetHelper.Infastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     description = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
                     email = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
                     experience = table.Column<int>(type: "integer", maxLength: 4000, nullable: false),
@@ -71,6 +72,7 @@ namespace PetHelper.Infastructure.Migrations
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
                     volunteer_id = table.Column<Guid>(type: "uuid", nullable: true),
                     city = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     house_number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),

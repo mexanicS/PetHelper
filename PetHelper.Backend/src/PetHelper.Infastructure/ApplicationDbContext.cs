@@ -2,10 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetHelper.Domain.Models;
+using PetHelper.Infastructure.Interceptors;
 
 namespace PetHelper.Infastructure
 {
-    public class ApplicationDbContext(IConfiguration configuration) : DbContext
+    public class ApplicationDbContext(
+        IConfiguration configuration
+        ) : DbContext
     {
         private const string DataBaseName = nameof(Database);
         
@@ -18,7 +21,9 @@ namespace PetHelper.Infastructure
             optionsBuilder.UseNpgsql(configuration.GetConnectionString(DataBaseName));
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
-
+            optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
+            
             base.OnConfiguring(optionsBuilder);
         }
 
