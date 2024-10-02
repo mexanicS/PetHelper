@@ -1,5 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHelper.Application.Volunteers;
+using PetHelper.Domain.Shared;
+using PetHelper.Infastructure.Interceptors;
 using PetHelper.Infastructure.Repository;
 
 namespace PetHelper.Infastructure;

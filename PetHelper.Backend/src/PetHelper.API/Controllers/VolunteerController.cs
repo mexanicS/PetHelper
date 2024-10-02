@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.API.Extensions;
 using PetHelper.Application.Volunteers.CreateVolunteers;
+using PetHelper.Application.Volunteers.DeleteVolunteer;
 using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
 using PetHelper.Application.Volunteers.UpdateMainInfo;
 using PetHelper.Application.Volunteers.UpdateSocialNetworkList;
@@ -84,6 +85,30 @@ namespace PetHelper.API.Controllers
             CancellationToken cancellationToken = default)
         {
             var request = new UpdateDetailsForAssistanceRequest(id, dto);
+            
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (validationResult.IsValid == false)
+            {
+                return validationResult.ToValidationErrorResponse();
+            }
+            
+            var result = await handler.Handle(request, cancellationToken);
+
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(Envelope.Ok(result.Value));
+        }
+        
+        [HttpDelete("{id:guid}/volunteer")]
+        public async Task<ActionResult> Delete(
+            [FromRoute] Guid id,
+            [FromServices] DeleteVolunteerHandler handler,
+            [FromServices] IValidator<DeleteVolunteerRequest> validator,
+            CancellationToken cancellationToken = default)
+        {
+            var request = new DeleteVolunteerRequest(id);
             
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 

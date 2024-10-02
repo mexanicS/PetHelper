@@ -10,7 +10,7 @@ using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
-    public class Volunteer : Entity<VolunteerId>
+    public class Volunteer : Entity<VolunteerId>, ISoftDeletable
     {
         private Volunteer(VolunteerId id) : base(id)
         {
@@ -49,6 +49,7 @@ namespace PetHelper.Domain.Models
 
         public DetailsForAssistanceList DetailsForAssistance { get; private set; } 
         
+        private bool _isDeleted = false;
 
         private readonly List<Pet> _pets = [];
 
@@ -102,6 +103,16 @@ namespace PetHelper.Domain.Models
         public void UpdateDetailsForAssistance(DetailsForAssistanceList detailsForAssistanceList)
         {
             DetailsForAssistance = detailsForAssistanceList;
+        }
+
+        public void Delete()
+        {
+           _isDeleted = true;
+        }
+
+        public void Restore()
+        {
+            _isDeleted = false;
         }
     }
 }

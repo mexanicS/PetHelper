@@ -109,6 +109,10 @@ namespace PetHelper.Infastructure.Configurations
                         .HasColumnName("social_network_link");
                 });
             });
+            
+            builder.Property<bool>("_isDeleted")
+                .UsePropertyAccessMode(PropertyAccessMode.Field)
+                .HasColumnName("is_deleted");
         }
     }
 }

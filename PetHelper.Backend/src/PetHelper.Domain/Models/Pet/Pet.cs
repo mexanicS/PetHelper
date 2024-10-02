@@ -3,7 +3,7 @@ using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
-    public class Pet : Entity<PetId>
+    public class Pet : Entity<PetId>, ISoftDeletable
     {
         //ef core
         private Pet(PetId id) : base(id)
@@ -78,5 +78,17 @@ namespace PetHelper.Domain.Models
         public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
         
         public SpeciesBreed SpeciesBreed { get; private set; }
+        
+        private bool _isDeleted = false;
+        
+        public void Delete()
+        {
+            _isDeleted = true;
+        }
+
+        public void Restore()
+        {
+            _isDeleted = false;
+        }
     }
 }
