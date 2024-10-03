@@ -4,6 +4,7 @@ using PetHelper.API.Middlewares;
 using PetHelper.API.Validation;
 using PetHelper.Application;
 using PetHelper.Infastructure;
+using PetHelper.Infastructure.Options;
 using Serilog;
 using Serilog.Events;
 using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
@@ -37,7 +38,7 @@ builder.Services.AddHttpLogging(o =>
 
 builder.Services
     .AddApplication()
-    .AddInfastructure();
+    .AddInfastructure(builder.Configuration);
 
 builder.Services.AddFluentValidationAutoValidation(configuration =>
 {
