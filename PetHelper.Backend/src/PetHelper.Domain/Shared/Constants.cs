@@ -21,6 +21,10 @@ namespace PetHelper.Domain.Shared
         public const int MAX_BREED_TEXT_LENGTH = 100;
         
         public const int MAX_BREED_PHONE_LENGTH = 100;
+
+        public const string BACKET_PHOTO = "photos";
+        
+        public const int EXPIRY_IN_SECONDS = 60 * 60 * 24;
         
         public enum StatusPet
         {

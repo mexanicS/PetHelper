@@ -108,11 +108,16 @@ namespace PetHelper.Domain.Models
         public void Delete()
         {
            _isDeleted = true;
+           foreach (var pet in _pets)
+               pet.Delete();
+           
         }
 
         public void Restore()
         {
             _isDeleted = false;
+            foreach (var pet in _pets)
+                pet.Restore();
         }
     }
 }
