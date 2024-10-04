@@ -1,7 +1,5 @@
 using CSharpFunctionalExtensions;
-using FluentValidation;
 using Microsoft.Extensions.Logging;
-using PetHelper.Application.DTOs;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
