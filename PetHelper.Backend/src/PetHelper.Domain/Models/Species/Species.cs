@@ -1,20 +1,27 @@
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 
-namespace PetHelper.Domain.Models;
-
-public class Species : Entity<SpeciesId>
+namespace PetHelper.Domain.Models.Species
 {
-    private readonly List<Breed.Breed> _breeds = [];
-    private Species(SpeciesId id) : base(id)
-    { }
-    
-    public Species(SpeciesId speciesId, Name name) : this(speciesId)
+    public class Species : Entity<SpeciesId>
     {
-        Name = name;    
-    }
+        private readonly List<Breed.Breed> _breeds = [];
+        private Species(SpeciesId id) : base(id)
+        { }
     
-    public Name Name { get; private set; } = null!;
+        public Species(SpeciesId speciesId, Name name) : this(speciesId)
+        {
+            Name = name;    
+        }
+    
+        public Name Name { get; private set; } = null!;
 
-    public IReadOnlyList<Breed.Breed> Breeds => _breeds;
+        public IReadOnlyList<Breed.Breed> Breeds => _breeds;
+
+        public void AddBreed(Breed.Breed breed)
+        {
+            _breeds.Add(breed);
+        }
+    }
 }
+

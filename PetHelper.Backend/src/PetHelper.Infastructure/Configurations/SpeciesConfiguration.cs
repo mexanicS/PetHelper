@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
 
 namespace PetHelper.Infastructure.Configurations;

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Species;
 using PetHelper.Infastructure.Interceptors;
 
 namespace PetHelper.Infastructure
