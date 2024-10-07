@@ -5,12 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CSharpFunctionalExtensions;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Domain.Models
 {
-    public class Volunteer : Entity<VolunteerId>, ISoftDeletable
+    public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
     {
         private Volunteer(VolunteerId id) : base(id)
         {
@@ -118,6 +119,22 @@ namespace PetHelper.Domain.Models
             _isDeleted = false;
             foreach (var pet in _pets)
                 pet.Restore();
+        }
+
+        public UnitResult<Error> AddPet(Pet pet)
+        {
+            _pets.Add(pet);
+            return Result.Success<Error>();
+        }
+
+        public Result<Pet, Error> GetPetById(PetId petId)
+        {
+            var pet = _pets.FirstOrDefault(pet => pet.Id == petId);
+
+            if (pet is null)
+                return Errors.General.NotFound(petId.Value);
+
+            return pet;
         }
     }
 }

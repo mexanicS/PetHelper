@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using PetHelper.API.Contracts;
 using PetHelper.API.Extensions;
+using PetHelper.Application.Volunteers.AddPet;
 using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Application.Volunteers.DeleteVolunteer;
 using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
@@ -120,6 +122,42 @@ namespace PetHelper.API.Controllers
             var result = await handler.Handle(request, cancellationToken);
 
             if (result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(Envelope.Ok(result.Value));
+        }
+
+        [HttpPost("{id:guid}/pet")]
+        public async Task<ActionResult> AddPet(
+            [FromRoute] Guid id, 
+            [FromForm] AddPetRequest request,
+            [FromServices] AddPetHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new AddPetCommand(
+                id,
+                request.SpeciesId,
+                request.BreedId,
+                request.Name,
+                request.TypePet,
+                request.Description,
+                request.Color,
+                request.HealthInformation,
+                request.Weight,
+                request.Height,
+                request.PhoneNumber,
+                request.IsNeutered,
+                request.BirthDate,
+                request.IsVaccinated,
+                request.City,
+                request.Street,
+                request.HouseNumber,
+                request.ZipCode
+            );
+            
+            var result = await handler.Handle(command, cancellationToken);
+            
+            if(result.IsFailure)
                 return result.Error.ToResponse();
             
             return Ok(Envelope.Ok(result.Value));

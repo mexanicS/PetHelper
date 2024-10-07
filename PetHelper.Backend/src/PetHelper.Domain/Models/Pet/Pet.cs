@@ -20,9 +20,11 @@ namespace PetHelper.Domain.Models
             Height height,
             PhoneNumber phoneNumber,
             bool isNeutered,
-            DateOnly birthDate,
+            DateOnly? birthDate,
             bool isVaccinated,
-            DateTime createdDate
+            DateTime createdDate,
+            Address address,
+            SpeciesBreed speciesBreed
                 )
             : base(petId)
         {
@@ -39,6 +41,8 @@ namespace PetHelper.Domain.Models
             DateOfBirth = birthDate;
             IsVaccinated = isVaccinated;
             CreatedDate = createdDate;
+            Address = address;
+            SpeciesBreed = speciesBreed;
         }
 
         public Name Name { get; private set; } = null!;

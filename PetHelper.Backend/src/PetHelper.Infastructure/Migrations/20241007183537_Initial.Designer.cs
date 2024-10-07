@@ -13,7 +13,7 @@ using PetHelper.Infastructure;
 namespace PetHelper.Infastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241001130933_Initial")]
+    [Migration("20241007183537_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -67,7 +67,6 @@ namespace PetHelper.Infastructure.Migrations
                         .HasColumnName("created_date");
 
                     b.Property<DateOnly?>("DateOfBirth")
-                        .IsRequired()
                         .HasColumnType("date")
                         .HasColumnName("date_of_birth");
 
@@ -267,13 +266,13 @@ namespace PetHelper.Infastructure.Migrations
                     b.ToTable("pet_photo", (string)null);
                 });
 
-            modelBuilder.Entity("PetHelper.Domain.Models.Species", b =>
+            modelBuilder.Entity("PetHelper.Domain.Models.Species.Species", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Species.Name#Name", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Domain.Models.Species.Species.Name#Name", b1 =>
                         {
                             b1.IsRequired();
 
@@ -373,7 +372,7 @@ namespace PetHelper.Infastructure.Migrations
 
             modelBuilder.Entity("PetHelper.Domain.Models.Breed.Breed", b =>
                 {
-                    b.HasOne("PetHelper.Domain.Models.Species", null)
+                    b.HasOne("PetHelper.Domain.Models.Species.Species", null)
                         .WithMany("Breeds")
                         .HasForeignKey("species_id")
                         .HasConstraintName("fk_breed_species_species_id");
@@ -563,7 +562,7 @@ namespace PetHelper.Infastructure.Migrations
                     b.Navigation("PetPhotos");
                 });
 
-            modelBuilder.Entity("PetHelper.Domain.Models.Species", b =>
+            modelBuilder.Entity("PetHelper.Domain.Models.Species.Species", b =>
                 {
                     b.Navigation("Breeds");
                 });

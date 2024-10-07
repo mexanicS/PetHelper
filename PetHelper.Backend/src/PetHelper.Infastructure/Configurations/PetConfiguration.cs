@@ -115,7 +115,8 @@ namespace PetHelper.Infastructure.Configurations
                 .IsRequired();
 
             builder.Property(p => p.DateOfBirth)
-                .IsRequired();
+                //.IsRequired()
+                ;
 
             builder.Property(p => p.IsVaccinated)
                 .IsRequired();

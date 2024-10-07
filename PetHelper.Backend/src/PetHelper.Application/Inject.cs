@@ -4,6 +4,7 @@ using PetHelper.Application.File;
 using PetHelper.Application.Species;
 using PetHelper.Application.Species.AddBreed;
 using PetHelper.Application.Species.Create;
+using PetHelper.Application.Volunteers.AddPet;
 using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Application.Volunteers.DeleteVolunteer;
 using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
@@ -26,6 +27,7 @@ public static class Inject
         services.AddScoped<GetFileByNameHandler>();
         services.AddScoped<CreateSpeciesHandler>();
         services.AddScoped<AddBreedHandler>();
+        services.AddScoped<AddPetHandler>();
         
         services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
         

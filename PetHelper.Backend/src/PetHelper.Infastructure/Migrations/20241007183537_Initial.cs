@@ -68,7 +68,7 @@ namespace PetHelper.Infastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     is_neutered = table.Column<bool>(type: "boolean", nullable: false),
-                    date_of_birth = table.Column<DateOnly>(type: "date", nullable: false),
+                    date_of_birth = table.Column<DateOnly>(type: "date", nullable: true),
                     is_vaccinated = table.Column<bool>(type: "boolean", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
