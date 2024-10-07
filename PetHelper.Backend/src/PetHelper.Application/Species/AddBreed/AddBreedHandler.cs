@@ -25,7 +25,7 @@ public class AddBreedHandler
         CancellationToken cancellationToken = default
     )
     {
-        var breedName = Name.Create(request.Name).Value;
+        var breedName = Name.Create(request.AddBreedRequestDto.Name).Value;
         
         var speciesId = SpeciesId.Create(request.SpeciesId);
         var species =  await _speciesRepository.GetSpeciesById(speciesId, cancellationToken);
@@ -55,7 +55,7 @@ public class AddBreedHandler
     {
         var id = BreedId.NewId();
         
-        var name = Name.Create(request.Name).Value;
+        var name = Name.Create(request.AddBreedRequestDto.Name).Value;
         return new Breed(
             id,
             name

@@ -23,12 +23,21 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
     
-    [HttpPost("/breed")]
+    [HttpPost("{speciesId:guid}/breed")]
     public async Task<ActionResult<Guid>> AddBreed(
+        [FromRoute] Guid speciesId,
+        [FromBody] AddBreedRequestDto dto,
         [FromServices] AddBreedHandler handler,
-        [FromBody] AddBreedRequest request,
+        [FromServices] IValidator<AddBreedRequest> validator,
         CancellationToken cancellationToken = default)
     {
+        var request = new AddBreedRequest(speciesId, dto);
+        
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (validationResult.IsValid == false)
+            return validationResult.ToValidationErrorResponse();
+        
         var result = await handler.Handle(request, cancellationToken);
         if (result.IsFailure)
             return result.Error.ToResponse();
