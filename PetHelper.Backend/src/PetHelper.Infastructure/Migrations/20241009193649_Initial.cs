@@ -78,7 +78,6 @@ namespace PetHelper.Infastructure.Migrations
                     house_number = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     street = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     zip_code = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    breed = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     color = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     description = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
                     health_information = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -89,7 +88,8 @@ namespace PetHelper.Infastructure.Migrations
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     type_pet = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     weight = table.Column<double>(type: "double precision", maxLength: 1000, nullable: false),
-                    pet_details = table.Column<string>(type: "jsonb", nullable: false)
+                    pet_details = table.Column<string>(type: "jsonb", nullable: false),
+                    pet_photos_list = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,26 +98,6 @@ namespace PetHelper.Infastructure.Migrations
                         name: "fk_pet_volunteer_volunteer_id",
                         column: x => x.volunteer_id,
                         principalTable: "volunteer",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "pet_photo",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    file_path = table.Column<string>(type: "text", nullable: false),
-                    is_main = table.Column<bool>(type: "boolean", nullable: false),
-                    pet_id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_pet_photo", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_pet_photo_pet_pet_id",
-                        column: x => x.pet_id,
-                        principalTable: "pet",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -131,11 +111,6 @@ namespace PetHelper.Infastructure.Migrations
                 name: "ix_pet_volunteer_id",
                 table: "pet",
                 column: "volunteer_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_pet_photo_pet_id",
-                table: "pet_photo",
-                column: "pet_id");
         }
 
         /// <inheritdoc />
@@ -145,13 +120,10 @@ namespace PetHelper.Infastructure.Migrations
                 name: "breed");
 
             migrationBuilder.DropTable(
-                name: "pet_photo");
+                name: "pet");
 
             migrationBuilder.DropTable(
                 name: "species");
-
-            migrationBuilder.DropTable(
-                name: "pet");
 
             migrationBuilder.DropTable(
                 name: "volunteer");

@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PetHelper.Application.DTOs.Pet;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
+using PetHelper.Infastructure.Extensions;
 
 namespace PetHelper.Infastructure.Configurations
 {
@@ -40,14 +43,6 @@ namespace PetHelper.Infastructure.Configurations
                     .IsRequired()
                     .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
                     .HasColumnName("description");
-            });
-            
-            builder.ComplexProperty(x => x.Breed, tb =>
-            {
-                tb.Property(d => d.Value)
-                    .IsRequired()
-                    .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                    .HasColumnName("breed");
             });
             
             builder.ComplexProperty(x => x.Color, tb =>
@@ -123,24 +118,39 @@ namespace PetHelper.Infastructure.Configurations
 
             builder.Property(p => p.Status)
                 .IsRequired();
-
-            builder.HasMany(p => p.PetPhotos)
-                .WithOne()
-                .HasForeignKey("pet_id")
-                .IsRequired();
+            
+            builder.OwnsOne(x => x.PetPhotosList, pp =>
+            {
+                pp.ToJson("pet_photos_list");
+                
+                pp.OwnsMany(i => i.PetPhotos, j =>
+                {
+                    j.Property(k => k.FilePath)
+                        .HasConversion(
+                            p => p.Value,
+                            value => FilePath.Create(value).Value)
+                        .HasMaxLength(FilePath.MAX_FILEPATH_LENGTH)
+                        .IsRequired(true)
+                        .HasJsonPropertyName("path");
+                    
+                });
+            });
 
             builder.OwnsOne(x => x.PetDetails, pd =>
             {
-                pd.ToJson();
+                pd.ToJson("pet_details");
+                
                 pd.OwnsMany(d => d.DetailsForAssistances, rb =>
                 {
                     rb.Property(r => r.Name)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
+                        .HasColumnName("details_for_assistance_name");
                     
                     rb.Property(r => r.Description)
                         .IsRequired()
-                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH);
+                        .HasMaxLength(Constants.MAX_HIGH_TEXT_LENGTH)
+                        .HasColumnName("details_for_assistance_name");
                 });
             });
             

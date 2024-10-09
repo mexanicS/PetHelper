@@ -3,6 +3,7 @@ using PetHelper.Application.Providers;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Pet;
 
 namespace PetHelper.Application.Volunteers.AddPet;
 
@@ -49,13 +50,18 @@ public class AddPetHandler
         var speciesBreed = SpeciesBreed
             .Create(SpeciesId.Create(command.SpeciesId), command.BreedId).Value;
         
+        var detailsForAssistance = new PetDetails(
+            command.DetailsForAssistances.DetailsForAssistances
+                .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
+        );
+
+        var photoEmptyList = PetPhotoList.CreateEmpty();
         
         var pet = new Pet(
             petId,
             name,
             typePet,
             description,
-            breed,
             color,
             healthInformation,
             weight,
@@ -64,9 +70,11 @@ public class AddPetHandler
             command.IsNeutered,
             command.BirthDate,
             command.IsVaccinated,
-           DateTime.UtcNow, 
+            DateTime.UtcNow, 
             address,
-            speciesBreed);
+            speciesBreed,
+            detailsForAssistance,
+            photoEmptyList);
 
         volunteerResult.Value.AddPet(pet);
         

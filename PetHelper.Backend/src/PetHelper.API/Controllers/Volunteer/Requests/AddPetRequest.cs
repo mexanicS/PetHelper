@@ -1,3 +1,5 @@
+using PetHelper.Application.DTOs;
+
 namespace PetHelper.API.Contracts;
 
 public record AddPetRequest(
@@ -18,4 +20,5 @@ public record AddPetRequest(
     string City, 
     string Street,
     string HouseNumber,
-    string? ZipCode);
+    string? ZipCode,
+    DetailsForAssistanceListDto DetailsForAssistances);

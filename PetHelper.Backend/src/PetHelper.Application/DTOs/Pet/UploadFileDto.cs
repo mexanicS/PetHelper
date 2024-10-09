@@ -1,5 +1,5 @@
 namespace PetHelper.Application.DTOs.Pet;
 
 public record UploadFileDto(
-    string FilePath,
+    string FileName,
     Stream Content);
