@@ -6,18 +6,12 @@ using PetHelper.Domain.ValueObjects;
 
 namespace PetHelper.Application.Volunteers.UpdateMainInfo;
 
-public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoRequest>
+public class UpdateMainInfoRequestValidator : AbstractValidator<UpdateMainInfoCommand>
 {
     public UpdateMainInfoRequestValidator()
     {
-        RuleFor(x => x.VolunteerId).NotEmpty().WithError(Errors.General.ValueIsRequired());
-    }
-}
-
-public class UpdateMainInfoHandlerDtoValidator : AbstractValidator<UpdateMainInfoDto>
-{
-    public UpdateMainInfoHandlerDtoValidator()
-    {
+        RuleFor(x => x.Id).NotEmpty().WithError(Errors.General.ValueIsRequired());
+    
         RuleFor(request => request.Email).MustBeValueObject(Email.Create);
         
         RuleFor(request => request.Description).MustBeValueObject(Description.Create);

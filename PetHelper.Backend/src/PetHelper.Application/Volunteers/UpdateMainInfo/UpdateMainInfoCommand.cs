@@ -2,10 +2,9 @@ using PetHelper.Application.DTOs;
 
 namespace PetHelper.Application.Volunteers.UpdateMainInfo;
 
-public record UpdateMainInfoRequest(Guid VolunteerId, 
-    UpdateMainInfoDto Dto);
-    
-public record UpdateMainInfoDto(string Email,
+public record UpdateMainInfoCommand(
+    Guid Id,
+    string Email,
     string Description,
     int ExperienceInYears,
     string PhoneNumber,

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\PetHelper.Application\PetHelper.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

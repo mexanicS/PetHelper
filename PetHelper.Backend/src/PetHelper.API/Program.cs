@@ -47,6 +47,7 @@ builder.Services.AddFluentValidationAutoValidation(configuration =>
 
 var app = builder.Build();
 
+
 app.UseExceptionMiddleware();
 
 app.UseSerilogRequestLogging();

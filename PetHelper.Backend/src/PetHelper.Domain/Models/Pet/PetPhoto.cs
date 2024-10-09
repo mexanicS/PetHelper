@@ -8,6 +8,10 @@ namespace PetHelper.Domain.Models
 {
     public class PetPhoto
     {
+        public PetPhoto()
+        {
+            
+        }
         public Guid Id { get; set; }
 
         public string FilePath { get; set; } = null!;

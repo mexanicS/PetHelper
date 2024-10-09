@@ -11,4 +11,6 @@ public class MinioOptions
     public string SecretKey { get; init; } = string.Empty;
     
     public bool WithSSL { get; init; } = false;
+    
+    
 }

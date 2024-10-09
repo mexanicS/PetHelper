@@ -49,7 +49,7 @@ public class VolunteersRepository() : IVolunteersRepository
     { 
         var volunteer = await _dbcontext.Volunteers
             .Include(v=>v.Pets)
-            .FirstOrDefaultAsync(volunteer => volunteer.Id == volunteerId, cancellationToken);
+            .FirstOrDefaultAsync(volunteer => volunteer.Id == volunteerId.Value, cancellationToken);
 
         if (volunteer is null)
             return Errors.General.NotFound(volunteerId);
