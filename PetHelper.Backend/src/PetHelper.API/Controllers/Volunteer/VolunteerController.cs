@@ -1,6 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using PetHelper.API.Contracts;
+using PetHelper.API.Controllers.Volunteer.Requests;
 using PetHelper.API.Extensions;
+using PetHelper.API.Processors;
+using PetHelper.Application.Volunteers.AddPet;
+using PetHelper.Application.Volunteers.AddPetPhotos;
 using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Application.Volunteers.DeleteVolunteer;
 using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
@@ -30,11 +35,10 @@ namespace PetHelper.API.Controllers
         public async Task<ActionResult> Update(
             [FromRoute] Guid id,
             [FromServices] UpdateMainInfoHandler handler,
-            [FromBody] UpdateMainInfoDto dto,
+            [FromBody] UpdateMainInfoRequest request,
             [FromServices] IValidator<UpdateMainInfoRequest> validator,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateMainInfoRequest(id, dto);
             
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
@@ -42,8 +46,17 @@ namespace PetHelper.API.Controllers
             {
                 return validationResult.ToValidationErrorResponse();
             }
+
+            var command = new UpdateMainInfoCommand(
+                id,
+                request.Email,
+                request.Description,
+                request.ExperienceInYears,
+                request.PhoneNumber,
+                request.FullName
+                );
             
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
@@ -123,6 +136,69 @@ namespace PetHelper.API.Controllers
                 return result.Error.ToResponse();
             
             return Ok(Envelope.Ok(result.Value));
+        }
+
+        [HttpPost("{id:guid}/pet")]
+        public async Task<ActionResult> AddPet(
+            [FromRoute] Guid id, 
+            [FromBody] AddPetRequest request,
+            [FromServices] AddPetHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new AddPetCommand(
+                id,
+                request.SpeciesId,
+                request.BreedId,
+                request.Name,
+                request.TypePet,
+                request.Description,
+                request.Color,
+                request.HealthInformation,
+                request.Weight,
+                request.Height,
+                request.PhoneNumber,
+                request.IsNeutered,
+                request.BirthDate,
+                request.IsVaccinated,
+                request.City,
+                request.Street,
+                request.HouseNumber,
+                request.ZipCode,
+                request.DetailsForAssistances
+            );
+            
+            var result = await handler.Handle(command, cancellationToken);
+            
+            if(result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(Envelope.Ok(result.Value));
+        }
+
+        [HttpPost("{volunteerId:guid}/pets/{petId:guid}/photos")]
+        public async Task<IActionResult> AddPetPhoto(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId,
+            [FromForm] AddPetPhotosRequest request,
+            [FromServices] AddPetPhotoHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            await using var fileProcessor = new FormFileProcessor();
+
+            var fileList = fileProcessor.Process(request.Files);
+
+            var command = new AddPetPhotosCommand(
+                volunteerId,
+                petId,
+                fileList);
+
+            var handleResult = await handler
+                .Handle(command, cancellationToken);
+            
+            if(handleResult.IsFailure)
+                return handleResult.Error.ToResponse();
+
+            return Ok();
         }
     }
 }

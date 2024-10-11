@@ -9,9 +9,12 @@ namespace PetHelper.Domain.Models
 {
     public record PetDetails
     {
-        private readonly List<DetailsForAssistance> _detailsForAssistances = [];
+        public IReadOnlyList<DetailsForAssistance> DetailsForAssistances;
+        private PetDetails() { }
 
-        public IReadOnlyList<DetailsForAssistance> DetailsForAssistances => _detailsForAssistances;
-
+        public PetDetails(IEnumerable<DetailsForAssistance> detailsForAssistances)
+        {
+            DetailsForAssistances = detailsForAssistances.ToList();
+        }
     }
 }

@@ -26,6 +26,11 @@ public static class Errors
         {
             return Error.Validation("record.already.exist", "Record already exist");
         }
+        
+        public static Error ByteCountExceeded(long byteCount)
+        {
+            return Error.Validation("byte.count.exceeded", $"exceeds the maximum allowed size of {byteCount} bytes");
+        }
     }
 
     public static class Volunteer

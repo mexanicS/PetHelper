@@ -1,5 +1,6 @@
 ﻿using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Pet;
 
 namespace PetHelper.Domain.Models
 {
@@ -13,23 +14,25 @@ namespace PetHelper.Domain.Models
             Name name, 
             TypePet typePet, 
             Description description,
-            ValueObjects.Breed breed,
             Color color,
             HealthInformation healthInformation,
             Weight weight,
             Height height,
             PhoneNumber phoneNumber,
             bool isNeutered,
-            DateOnly birthDate,
+            DateOnly? birthDate,
             bool isVaccinated,
-            DateTime createdDate
+            DateTime createdDate,
+            Address address,
+            SpeciesBreed speciesBreed,
+            PetDetails petDetails,
+            PetPhotoList photos
                 )
             : base(petId)
         {
             Name = name;
             TypePet = typePet;
             Description = description;
-            Breed = breed;
             Color = color;
             HealthInformation = healthInformation;
             Weight = weight;
@@ -39,6 +42,10 @@ namespace PetHelper.Domain.Models
             DateOfBirth = birthDate;
             IsVaccinated = isVaccinated;
             CreatedDate = createdDate;
+            Address = address;
+            SpeciesBreed = speciesBreed;
+            PetDetails = petDetails;
+            PetPhotosList = photos;
         }
 
         public Name Name { get; private set; } = null!;
@@ -46,8 +53,6 @@ namespace PetHelper.Domain.Models
         public TypePet TypePet { get; private set; } = null!;
 
         public Description Description { get; private set; } = null!;
-
-        public ValueObjects.Breed Breed { get; private set; } = null!;
 
         public Color Color { get; private set; } = null!;
 
@@ -69,17 +74,20 @@ namespace PetHelper.Domain.Models
 
         public Constants.StatusPet Status { get; private set; }
         
-        public PetDetails PetDetails { get; private set; } = null!;
+        public PetDetails PetDetails { get; private set; }
 
         public DateTime CreatedDate { get; private set; }
 
-        private readonly List<PetPhoto> _petPhotos = [];
-
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        public PetPhotoList PetPhotosList { get; private set; }= null!;
         
         public SpeciesBreed SpeciesBreed { get; private set; }
         
         private bool _isDeleted = false;
+
+        public void UpdatePhotos(PetPhotoList petPhotoList)
+        {
+            PetPhotosList = petPhotoList;
+        }
         
         public void Delete()
         {

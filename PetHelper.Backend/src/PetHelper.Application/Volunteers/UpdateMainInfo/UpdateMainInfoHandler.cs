@@ -1,10 +1,8 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
-using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
-
 namespace PetHelper.Application.Volunteers.UpdateMainInfo;
 
 public class UpdateMainInfoHandler
@@ -21,28 +19,28 @@ public class UpdateMainInfoHandler
     }
     
     public async Task<Result<Guid,Error>> Handle(
-        UpdateMainInfoRequest request,
+        UpdateMainInfoCommand command,
         CancellationToken cancellationToken = default
     )
     {
         var volunteerResult = await _volunteersRepository.
-            GetVolunteerById(VolunteerId.Create(request.VolunteerId), cancellationToken);
+            GetVolunteerById(VolunteerId.Create(command.Id), cancellationToken);
         
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
         
         var fullNameRequest = FullName.Create(
-            request.Dto.FullName.FirstName, 
-            request.Dto.FullName.LastName, 
-            request.Dto.FullName.MiddleName).Value;
+            command.FullName.FirstName, 
+            command.FullName.LastName, 
+            command.FullName.MiddleName).Value;
         
-        var emailRequest = Email.Create(request.Dto.Email).Value;
+        var emailRequest = Email.Create(command.Email).Value;
         
-        var descriptionRequest = Description.Create(request.Dto.Description).Value;
+        var descriptionRequest = Description.Create(command.Description).Value;
         
-        var experienceRequest = ExperienceInYears.Create(request.Dto.ExperienceInYears).Value;
+        var experienceRequest = ExperienceInYears.Create(command.ExperienceInYears).Value;
         
-        var phoneNumberRequest = PhoneNumber.Create(request.Dto.PhoneNumber).Value;
+        var phoneNumberRequest = PhoneNumber.Create(command.PhoneNumber).Value;
         
         volunteerResult.Value.UpdateMainInformation(
             fullNameRequest, 
@@ -53,7 +51,7 @@ public class UpdateMainInfoHandler
         
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
             
-        _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated", request.VolunteerId);
+        _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated", command.Id);
 
         return volunteerResult.Value.Id.Value;
     }
