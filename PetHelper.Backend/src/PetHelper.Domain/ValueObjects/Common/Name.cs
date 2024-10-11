@@ -5,7 +5,7 @@ namespace PetHelper.Domain.ValueObjects;
 
 public record Name
 {
-    public const int MAX_LENGTH_NAME = 100;
+    public const int MAX_LENGTH = 100;
     
     public string Value { get; }
 
@@ -16,7 +16,7 @@ public record Name
 
     public static Result<Name, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH_NAME)
+        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH)
             return Errors.General.ValueIsInvalid("name");
 
         return new Name(value);

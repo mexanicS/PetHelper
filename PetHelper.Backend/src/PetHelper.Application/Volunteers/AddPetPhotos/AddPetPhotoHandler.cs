@@ -71,8 +71,8 @@ public class AddPetPhotoHandler
 
             if (uploadResult.IsFailure)
                 return uploadResult.Error;
-
-            var petPhotos = PetPhotoList.Create(files.Select(x => PetPhoto.Create(x.FilePath).Value));
+            
+            var petPhotos = new PetPhotoList(files.Select(x => PetPhoto.Create(x.FilePath).Value));
             
             petResult.Value.UpdatePhotos(petPhotos);
             

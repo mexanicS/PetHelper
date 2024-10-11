@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using PetHelper.Application.Providers;
+using PetHelper.Application.Species;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
@@ -11,13 +12,16 @@ public class AddPetHandler
 {
     private readonly IFileProvider _fileProvider;
     private readonly IVolunteersRepository _volunteersRepository;
+    private readonly ISpeciesRepository _speciesRepository;
 
     public AddPetHandler(
         IFileProvider fileProvider,
-        IVolunteersRepository volunteersRepository)
+        IVolunteersRepository volunteersRepository,
+        ISpeciesRepository speciesRepository)
     {
         _fileProvider = fileProvider;
         _volunteersRepository = volunteersRepository;
+        _speciesRepository = speciesRepository;
     }
     
     public async Task<Result<Guid,Error>> Handle(
@@ -30,6 +34,15 @@ public class AddPetHandler
 
         if (volunteerResult.IsFailure)
             return volunteerResult.Error;
+        
+        var speciesId = SpeciesId.Create(command.SpeciesId);
+        var breedId = BreedId.Create(command.BreedId);
+        
+        var isExistingSpeciesAndBreed =  
+           await _speciesRepository.IsExistingSpeciesAndBreed(speciesId, breedId, cancellationToken);
+
+        if (isExistingSpeciesAndBreed.IsFailure)
+            return isExistingSpeciesAndBreed.Error;
         
         var petId = PetId.NewId();
         var name = Name.Create(command.Name).Value;
@@ -45,17 +58,18 @@ public class AddPetHandler
             command.Street,
             command.HouseNumber,
             command.ZipCode).Value;
+
         
-        var breed = Breed.Create("CAT").Value;
+        
         var speciesBreed = SpeciesBreed
-            .Create(SpeciesId.Create(command.SpeciesId), command.BreedId).Value;
+            .Create(speciesId, breedId.Value).Value;
         
         var detailsForAssistance = new PetDetails(
             command.DetailsForAssistances.DetailsForAssistances
                 .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
         );
 
-        var photoEmptyList = PetPhotoList.CreateEmpty();
+        var photoEmptyList = new PetPhotoList(null);
         
         var pet = new Pet(
             petId,

@@ -10,6 +10,8 @@ public class UploadFileDtoValidator : AbstractValidator<UploadFileDto>
     {
         RuleFor(x => x.FileName).NotEmpty()
             .WithError(Errors.General.ValueIsInvalid());
-        RuleFor(x => x.Content.Length).LessThan(5000000);
+        
+        RuleFor(x => x.Content.Length).LessThan(5000000)
+            .WithError(Errors.General.ByteCountExceeded(5000000));
     }
 }
