@@ -105,6 +105,13 @@ namespace PetHelper.Infastructure.Configurations
                     .HasMaxLength(Constants.MAX_HIGH_PHONE_LENGTH)
                     .HasColumnName("phone_number");
             });
+            
+            builder.ComplexProperty(x => x.SerialNumber, tb =>
+            {
+                tb.Property(d => d.Value)
+                    .IsRequired()
+                    .HasColumnName("serial_number");
+            });
 
             builder.Property(p => p.IsNeutered)
                 .IsRequired();
@@ -118,6 +125,13 @@ namespace PetHelper.Infastructure.Configurations
 
             builder.Property(p => p.Status)
                 .IsRequired();
+            
+            builder.ComplexProperty(x => x.Position, db =>
+            {
+                db.Property(z => z.Value)
+                    .IsRequired()
+                    .HasColumnName("position");
+            });
             
             builder.OwnsOne(x => x.PetPhotosList, pp =>
             {

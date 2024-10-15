@@ -84,6 +84,8 @@ namespace PetHelper.Infastructure.Migrations
                     height = table.Column<double>(type: "double precision", maxLength: 1000, nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     phone_number = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    position = table.Column<int>(type: "integer", nullable: false),
+                    serial_number = table.Column<int>(type: "integer", nullable: false),
                     breed_id = table.Column<Guid>(type: "uuid", nullable: false),
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     type_pet = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
