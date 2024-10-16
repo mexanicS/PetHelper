@@ -5,7 +5,7 @@ namespace PetHelper.Domain.ValueObjects;
 
 public record TypePet
 {
-    public const int MAX_LENGTH_TYPE_PET = 100;
+    public const int MAX_LENGTH = 100;
     
     public string Value { get; }
 
@@ -16,7 +16,7 @@ public record TypePet
 
     public static Result<TypePet, Error> Create(string value)
     {
-        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH_TYPE_PET)
+        if (string.IsNullOrWhiteSpace(value) || value.Length > MAX_LENGTH)
             return Errors.General.ValueIsInvalid("typePet");
 
         return new TypePet(value);

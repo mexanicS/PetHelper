@@ -1,10 +1,11 @@
-﻿using PetHelper.Domain.Shared;
+﻿using CSharpFunctionalExtensions;
+using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Pet;
 
 namespace PetHelper.Domain.Models
 {
-    public class Pet : Entity<PetId>, ISoftDeletable
+    public class Pet : Shared.Entity<PetId>, ISoftDeletable
     {
         //ef core
         private Pet(PetId id) : base(id)
@@ -82,6 +83,10 @@ namespace PetHelper.Domain.Models
         
         public SpeciesBreed SpeciesBreed { get; private set; }
         
+        public SerialNumber SerialNumber { get; private set; }
+        
+        public Position Position { get; private set; } = null!;
+        
         private bool _isDeleted = false;
 
         public void UpdatePhotos(PetPhotoList petPhotoList)
@@ -97,6 +102,42 @@ namespace PetHelper.Domain.Models
         public void Restore()
         {
             _isDeleted = false;
+        }
+
+        public void SetSerialNumber(SerialNumber serialNumber)
+        {
+            SerialNumber = serialNumber;
+        }
+        
+        public void UpdatePosition(Position number)
+            => Position = number;
+        
+        public UnitResult<Error> MoveForward()
+        {
+            var newPosition = Position.Forward();
+            
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+            
+            Position = newPosition.Value;
+            
+            return Result.Success<Error>();
+        }
+        public UnitResult<Error> MoveBackward()
+        {
+            var newPosition = Position.Backward();
+            
+            if (newPosition.IsFailure)
+                return newPosition.Error;
+            
+            Position = newPosition.Value;
+            
+            return Result.Success<Error>();
+        }
+        
+        public void MoveToPosition(Position position)
+        {
+            Position = position;
         }
     }
 }
