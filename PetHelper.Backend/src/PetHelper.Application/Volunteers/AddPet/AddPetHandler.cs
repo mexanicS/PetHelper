@@ -1,6 +1,8 @@
 using CSharpFunctionalExtensions;
+using Microsoft.Extensions.Logging;
 using PetHelper.Application.Providers;
 using PetHelper.Application.Species;
+using PetHelper.Application.Volunteers.CreateVolunteers;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
@@ -10,18 +12,18 @@ namespace PetHelper.Application.Volunteers.AddPet;
 
 public class AddPetHandler
 {
-    private readonly IFileProvider _fileProvider;
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ISpeciesRepository _speciesRepository;
+    private readonly ILogger<AddPetHandler> _logger;
 
     public AddPetHandler(
-        IFileProvider fileProvider,
         IVolunteersRepository volunteersRepository,
-        ISpeciesRepository speciesRepository)
+        ISpeciesRepository speciesRepository,
+        ILogger<AddPetHandler> logger)
     {
-        _fileProvider = fileProvider;
         _volunteersRepository = volunteersRepository;
         _speciesRepository = speciesRepository;
+        _logger = logger;
     }
     
     public async Task<Result<Guid,Error>> Handle(
@@ -59,8 +61,6 @@ public class AddPetHandler
             command.HouseNumber,
             command.ZipCode).Value;
 
-        
-        
         var speciesBreed = SpeciesBreed
             .Create(speciesId, breedId.Value).Value;
         
@@ -93,6 +93,8 @@ public class AddPetHandler
         volunteerResult.Value.AddPet(pet);
         
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        
+        _logger.LogInformation("Created pet added fot volunteer with id {volunteerId}", volunteerId);
         
         return pet.Id.Value;
     }
