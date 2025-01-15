@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using PetHelper.Application.DTOs;
 using PetHelper.Application.DTOs.Pet;
+using PetHelper.Application.FileProvider;
 using PetHelper.Application.Providers;
 using PetHelper.Domain.Models;
 using PetHelper.Domain.ValueObjects;
@@ -28,12 +29,13 @@ public class VolunteerTests
     private readonly Mock<ISpeciesRepository> _speciesRepositoryMock = new();
     private readonly Mock<IValidator<AddPetCommand>> _validatorMock = new();
     private readonly Mock<ILogger<AddPetHandler>> _loggerMock = new();
+    //private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     
     [Fact]
     public async void AddPetPhotosService_Should_Add_Photos_To_Pet()
     {
         // arrange
-        /*var cancellationToken = new CancellationTokenSource().Token;
+        var cancellationToken = new CancellationTokenSource().Token;
         var volunteer = GenerateVolunteer();
         var pet = GeneratePet();
         
@@ -56,18 +58,26 @@ public class VolunteerTests
             FilePath.Create(Guid.NewGuid(), ".jpg").Value
         ];
         
-        _fileProviderMock.Setup(f => f.UploadFiles(It.IsAny<List<UploadingFileDto>>(), "",cancellationToken))
-            .ReturnsAsync(Result.Success<IReadOnlyList<FilePath>, Error>).Should<>(filePaths);
+        _fileProviderMock
+            .Setup(f => f.UploadFiles(It.IsAny<List<FileData>>(),
+                "testBucketName", 
+                cancellationToken))
+            .ReturnsAsync(Result.Success<IReadOnlyList<FilePath>, Error>(filePaths));
         
-        _volunteerRepositoryMock.Setup(v => v.GetByIdAsync(volunteer.Id, cancellationToken))
+        _volunteerRepositoryMock.Setup(v => v.GetVolunteerById(volunteer.Id, cancellationToken))
             .ReturnsAsync(volunteer);
+
+        /*
+        var asd = new Mock<IUnitOfWork>();
+        
+        
         _validatorMock.Setup(v => v.ValidateAsync(command, cancellationToken))
             .ReturnsAsync(new ValidationResult());
-        _unitOfWorkMock.Setup(u => u.SaveChangesAsync(cancellationToken))
-            .Returns(Task.CompletedTask);
-        var service = new AddPetPhotosService(
-            _fileProviderMock.Object,
+        
+        var service = new AddPetPhotoHandler(
+            
             _volunteerRepositoryMock.Object,
+            _fileProviderMock.Object,
             _validatorMock.Object,
             _loggerMock.Object,
             _unitOfWorkMock.Object);
@@ -254,7 +264,7 @@ public class VolunteerTests
         fifthPet.Position.Value.Should().Be(4);
     }
 
-    private Volunteer GenerateVolunteer()
+    public Volunteer GenerateVolunteer()
     {
         var fullName = FullName.Create("test", "test", "test").Value;
         var email = Email.Create("test@sail.ru").Value;
@@ -274,7 +284,7 @@ public class VolunteerTests
         return volunteer;
     }
 
-    private Pet GeneratePet()
+    public Pet GeneratePet()
     {
         var petId = PetId.NewId();
         var name = Name.Create("test").Value;
@@ -330,7 +340,7 @@ public class VolunteerTests
         return breed;
     }
     
-    private AddPetCommand GenerateCommand(Guid volunteerId, Guid speciesId, Guid breedId)
+    public AddPetCommand GenerateCommand(Guid volunteerId, Guid speciesId, Guid breedId)
     {
         var name = "Test";
         var description = "Test";

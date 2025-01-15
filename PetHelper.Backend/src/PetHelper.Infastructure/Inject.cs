@@ -1,12 +1,18 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Minio;
+using PetHelper.Application.FileProvider;
+using PetHelper.Application.Messaging;
 using PetHelper.Application.Providers;
 using PetHelper.Application.Species;
 using PetHelper.Application.Volunteers;
+using PetHelper.Infastructure.BackgroundServices;
+using PetHelper.Infastructure.Files;
+using PetHelper.Infastructure.MessageQueues;
 using PetHelper.Infastructure.Options;
 using PetHelper.Infastructure.Providers;
 using PetHelper.Infastructure.Repository;
+using FileInfo = PetHelper.Application.FileProvider.FileInfo;
 
 namespace PetHelper.Infastructure;
 
@@ -20,6 +26,11 @@ public static class Inject
         
         services.AddScoped<IVolunteersRepository, VolunteersRepository>();
         services.AddScoped<ISpeciesRepository, SpeciesRepository>();
+        
+        services.AddScoped<IFilesCleanerService, FilesCleanerService>();
+        services.AddHostedService<FilesCleanerBackgroudService>();
+
+        services.AddSingleton<IMessageQueue<IEnumerable<FileInfo>>, InMemoryMessageQueue<IEnumerable<FileInfo>>>();
         
         services.AddMinio(configuration);
         
