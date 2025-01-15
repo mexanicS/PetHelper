@@ -1,6 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using PetHelper.Application.File;
+using PetHelper.Application.FileProvider;
 using PetHelper.Application.Species;
 using PetHelper.Application.Species.AddBreed;
 using PetHelper.Application.Species.Create;

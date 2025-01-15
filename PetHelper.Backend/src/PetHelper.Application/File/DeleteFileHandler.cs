@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using PetHelper.Application.FileProvider;
 using PetHelper.Application.Providers;
 using PetHelper.Domain.Shared;
+using FileInfo = PetHelper.Application.FileProvider.FileInfo;
 
 namespace PetHelper.Application.File;
 

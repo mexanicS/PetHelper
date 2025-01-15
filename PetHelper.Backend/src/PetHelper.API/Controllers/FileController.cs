@@ -7,7 +7,9 @@ using PetHelper.API.Extensions;
 using PetHelper.Application.File;
 using PetHelper.Application.FileProvider;
 using PetHelper.Application.Providers;
+using PetHelper.Domain.ValueObjects;
 using PetHelper.Infastructure.Options;
+using FileInfo = PetHelper.Application.FileProvider.FileInfo;
 
 namespace PetHelper.API.Controllers;
 
@@ -22,8 +24,10 @@ public class FileController : ApplicationController
         CancellationToken cancellationToken)
     {
         await using var stream = file.OpenReadStream();
+        //ToDo
+        var fileInfo = new FileInfo(FilePath.Create(Guid.NewGuid(), Path.GetExtension(file.FileName)).Value, BUCKET_NAME);
         
-        var fileData = new FileData(stream, BUCKET_NAME, Guid.NewGuid().ToString());
+        var fileData = new FileData(stream, fileInfo);
         var result = await handler.Handle(fileData, cancellationToken);
         if (result.IsFailure)
         {
@@ -55,7 +59,6 @@ public class FileController : ApplicationController
         [FromServices] DeleteFileHandler handler,
         CancellationToken cancellationToken)
     {
-        
         var fileMetadata = new FileMetaData(BUCKET_NAME, objectName.ToString());
         var result = await handler.Handle(fileMetadata, cancellationToken);
         
