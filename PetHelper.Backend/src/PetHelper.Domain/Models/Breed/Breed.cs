@@ -13,5 +13,5 @@ public class Breed : Entity<BreedId>
         Name = name;    
     }
     
-    public Name Name { get; private set; }
+    public Name Name { get; private set; } = default!;
 }
