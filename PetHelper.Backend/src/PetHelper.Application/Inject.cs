@@ -1,17 +1,8 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Abstractions.Queries;
 using PetHelper.Application.File;
-using PetHelper.Application.FileProvider;
-using PetHelper.Application.Species;
-using PetHelper.Application.Species.AddBreed;
-using PetHelper.Application.Species.Create;
-using PetHelper.Application.Volunteers.AddPet;
-using PetHelper.Application.Volunteers.AddPetPhotos;
-using PetHelper.Application.Volunteers.CreateVolunteers;
-using PetHelper.Application.Volunteers.DeleteVolunteer;
-using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
-using PetHelper.Application.Volunteers.UpdateMainInfo;
-using PetHelper.Application.Volunteers.UpdateSocialNetworkList;
 
 namespace PetHelper.Application;
 
@@ -19,21 +10,33 @@ public static class Inject
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<CreateVolunteerHandler>();
-        services.AddScoped<UpdateMainInfoHandler>();
-        services.AddScoped<UpdateSocialNetworkListHandler>();
-        services.AddScoped<UpdateDetailsForAssistanceHandler>();
-        services.AddScoped<DeleteVolunteerHandler>();
+        //эти еще не наследовал от ICommand
         services.AddScoped<AddFileHandler>();
         services.AddScoped<DeleteFileHandler>();
         services.AddScoped<GetFileByNameHandler>();
-        services.AddScoped<CreateSpeciesHandler>();
-        services.AddScoped<AddBreedHandler>();
-        services.AddScoped<AddPetHandler>();
-        services.AddScoped<AddPetPhotoHandler>();
-        
-        services.AddValidatorsFromAssembly(typeof(Inject).Assembly);
+
+        services.AddCommands()
+            .AddQueries()
+            .AddValidatorsFromAssembly(typeof(Inject).Assembly);;
         
         return services;
+    }
+    
+    private static IServiceCollection AddCommands(this IServiceCollection services)
+    {
+        return services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(classes => classes
+                .AssignableToAny(typeof(ICommandHandler<,>),typeof(ICommandHandler<>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
+    }
+    
+    private static IServiceCollection AddQueries(this IServiceCollection services)
+    {
+        return services.Scan(scan => scan.FromAssemblies(typeof(Inject).Assembly)
+            .AddClasses(classes => classes
+                .AssignableTo(typeof(IQueryHandler<,>)))
+            .AsSelfWithInterfaces()
+            .WithScopedLifetime());
     }
 }

@@ -2,15 +2,17 @@ using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHelper.Application.Volunteers;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
+using PetHelper.Infastructure.DbContexts;
 
 namespace PetHelper.Infastructure.Repository;
 
 public class VolunteersRepository() : IVolunteersRepository
 {
-    private readonly ApplicationDbContext _dbcontext;
+    private readonly WriteDbContext _dbcontext;
 
-    public VolunteersRepository(ApplicationDbContext dbcontext) : this()
+    public VolunteersRepository(WriteDbContext dbcontext) : this()
     {
          _dbcontext = dbcontext;
     }
@@ -55,5 +57,14 @@ public class VolunteersRepository() : IVolunteersRepository
             return Errors.General.NotFound(volunteerId);
         
         return volunteer;
+    }
+    
+    public async Task<Result<IReadOnlyList<Volunteer>, Error>> GetAllVolunteers(
+        VolunteerId volunteerId, 
+        CancellationToken cancellationToken = default)
+    { 
+        var volunteers = await _dbcontext.Volunteers.ToListAsync(cancellationToken);
+
+        return volunteers;
     }
 }

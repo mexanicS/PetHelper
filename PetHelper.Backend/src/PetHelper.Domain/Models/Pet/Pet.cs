@@ -1,9 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 using PetHelper.Domain.ValueObjects.Pet;
 
-namespace PetHelper.Domain.Models
+namespace PetHelper.Domain.Models.Pet
 {
     public class Pet : Shared.Entity<PetId>, ISoftDeletable
     {
@@ -82,7 +83,7 @@ namespace PetHelper.Domain.Models
         public PetPhotoList PetPhotosList { get; private set; }= null!;
         
         public SpeciesBreed SpeciesBreed { get; private set; }
-        
+
         public SerialNumber SerialNumber { get; private set; }
         
         public Position Position { get; private set; } = null!;

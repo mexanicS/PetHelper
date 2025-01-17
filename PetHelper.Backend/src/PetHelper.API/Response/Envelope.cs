@@ -1,6 +1,6 @@
 using PetHelper.Domain.Shared;
 
-namespace PetHelper.API;
+namespace PetHelper.API.Response;
 
 public record ResponseError(string? ErrorCode, string? ErrorMessage, string? InvalidField);
 
@@ -10,18 +10,18 @@ public record Envelope()
     
     public DateTime? TimeGenerated { get; }
 
-    public List<ResponseError> Errors { get; } = [];
+    public ErrorList? Errors { get; }
     
-    private Envelope(object? result, IEnumerable<ResponseError> errors) : this()
+    private Envelope(object? result, ErrorList? errors) : this()
     {
         Result = result;
-        Errors = errors.ToList();
+        Errors = errors;
         TimeGenerated = DateTime.Now;
     }
     
     public static Envelope Ok(object? result = null) => 
-        new (result, []);
+        new (result, null);
     
-    public static Envelope Error(IEnumerable<ResponseError> errors) => 
+    public static Envelope Error(ErrorList errors) => 
         new (null, errors);
 }

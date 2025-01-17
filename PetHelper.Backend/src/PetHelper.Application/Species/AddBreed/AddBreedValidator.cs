@@ -2,10 +2,11 @@ using FluentValidation;
 using PetHelper.Application.Validation;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 
 namespace PetHelper.Application.Species.AddBreed;
 
-public class AddBreedValidator : AbstractValidator<AddBreedRequest>
+public class AddBreedValidator : AbstractValidator<AddBreedCommand>
 {
     public AddBreedValidator()
     {
@@ -13,7 +14,7 @@ public class AddBreedValidator : AbstractValidator<AddBreedRequest>
     }
 }
 
-public class AddBreedDtoValidator : AbstractValidator<AddBreedRequestDto>
+public class AddBreedDtoValidator : AbstractValidator<AddBreedCommandDto>
 {
     public AddBreedDtoValidator()
     {

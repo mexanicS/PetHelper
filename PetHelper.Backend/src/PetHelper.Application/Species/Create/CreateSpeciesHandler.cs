@@ -1,12 +1,16 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
+using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Volunteers.Commands.Create;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 
 namespace PetHelper.Application.Species.Create;
 
-public class CreateSpeciesHandler
+public class CreateSpeciesHandler : ICommandHandler<Guid,CreateSpeciesCommand>
 {
     private readonly ISpeciesRepository _speciesRepository;
     
@@ -19,18 +23,18 @@ public class CreateSpeciesHandler
         _logger = logger;
     }
     
-    public async Task<Result<Guid,Error>> Handle(
-        CreateSpeciesRequest request,
+    public async Task<Result<Guid,ErrorList>> Handle(
+        CreateSpeciesCommand command,
         CancellationToken cancellationToken = default
     )
     {
-        var name = Name.Create(request.Name).Value;
+        var name = Name.Create(command.Name).Value;
         var species =  await _speciesRepository.GetSpeciesByName(name, cancellationToken);
 
         if (species.IsSuccess)
-            return Errors.General.AlreadyExist();
+            return Errors.General.AlreadyExist().ToErrorList();
         
-        var speciesToCreate = CreateSpecies(request);
+        var speciesToCreate = CreateSpecies(command);
         
         await _speciesRepository.Add(speciesToCreate.Value, cancellationToken);
         _logger.LogInformation("Created species added with id {speciesId}", speciesToCreate.Value.Id.Value);
@@ -38,10 +42,10 @@ public class CreateSpeciesHandler
         return speciesToCreate.Value.Id.Value;
     }
 
-    private Result<Domain.Models.Species.Species, Error> CreateSpecies(CreateSpeciesRequest request)
+    private Result<Domain.Models.Species.Species, Error> CreateSpecies(CreateSpeciesCommand command)
     {
         var id = SpeciesId.NewId();
-        var name = Name.Create(request.Name).Value;
+        var name = Name.Create(command.Name).Value;
         return new Domain.Models.Species.Species(
             id,
             name

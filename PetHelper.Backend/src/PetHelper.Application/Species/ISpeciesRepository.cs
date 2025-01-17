@@ -1,7 +1,10 @@
 using CSharpFunctionalExtensions;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Breed;
+using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 using Breed = PetHelper.Domain.Models.Breed.Breed;
 
 namespace PetHelper.Application.Species;

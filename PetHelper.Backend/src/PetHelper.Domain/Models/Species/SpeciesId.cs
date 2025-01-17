@@ -1,4 +1,4 @@
-namespace PetHelper.Domain.Models;
+namespace PetHelper.Domain.Models.Species;
 
 public record SpeciesId()
 {

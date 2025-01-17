@@ -1,5 +1,6 @@
 using CSharpFunctionalExtensions;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 

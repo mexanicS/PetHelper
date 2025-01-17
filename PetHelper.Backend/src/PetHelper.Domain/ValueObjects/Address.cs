@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 using PetHelper.Domain.Shared;
 
-namespace PetHelper.Domain.Models
+namespace PetHelper.Domain.ValueObjects
 {
     public record Address
     {
