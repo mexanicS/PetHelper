@@ -2,7 +2,7 @@ using FluentValidation;
 using PetHelper.Application.Validation;
 using PetHelper.Domain.Shared;
 
-namespace PetHelper.Application.Species.DeleteBreed;
+namespace PetHelper.Application.Species.Command.DeleteBreed;
 
 public class DeleteBreedValidator : AbstractValidator<DeleteBreedCommand>
 {

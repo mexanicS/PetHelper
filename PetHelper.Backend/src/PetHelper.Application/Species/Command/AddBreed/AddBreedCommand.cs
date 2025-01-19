@@ -1,6 +1,6 @@
 using PetHelper.Application.Abstractions.Commands;
 
-namespace PetHelper.Application.Species.AddBreed;
+namespace PetHelper.Application.Species.Command.AddBreed;
 
 public record AddBreedCommand(
     Guid SpeciesId,

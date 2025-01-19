@@ -1,4 +1,4 @@
-using PetHelper.Application.Species.DeleteBreed;
+using PetHelper.Application.Species.Command.DeleteBreed;
 
 namespace PetHelper.API.Controllers.Species.Requests;
 

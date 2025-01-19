@@ -1,14 +1,11 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
-using PetHelper.Application.Volunteers.Commands.Create;
-using PetHelper.Domain.Models;
 using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
-using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Common;
 
-namespace PetHelper.Application.Species.Create;
+namespace PetHelper.Application.Species.Command.Create;
 
 public class CreateSpeciesHandler : ICommandHandler<Guid,CreateSpeciesCommand>
 {

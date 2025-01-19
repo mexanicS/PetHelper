@@ -12,6 +12,9 @@ public class SpeciesDtoConfiguration : IEntityTypeConfiguration<SpeciesDto>
         builder.ToTable("species");
 
         builder.HasKey(pet => pet.Id);
-           
+        
+        builder.HasMany(pet => pet.Breeds)
+            .WithOne()
+            .HasForeignKey(pet => pet.SpeciesId);
     }
 }

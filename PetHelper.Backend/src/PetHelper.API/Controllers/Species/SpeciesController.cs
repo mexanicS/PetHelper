@@ -2,10 +2,11 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.API.Controllers.Species.Requests;
 using PetHelper.API.Extensions;
-using PetHelper.Application.Species.AddBreed;
-using PetHelper.Application.Species.Create;
-using PetHelper.Application.Species.Delete;
-using PetHelper.Application.Species.DeleteBreed;
+using PetHelper.Application.Species.Command.AddBreed;
+using PetHelper.Application.Species.Command.Create;
+using PetHelper.Application.Species.Command.Delete;
+using PetHelper.Application.Species.Command.DeleteBreed;
+using PetHelper.Application.Species.Queries.GetSpecieses;
 
 namespace PetHelper.API.Controllers.Species;
 
@@ -74,4 +75,14 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
     
+    [HttpGet]
+    public async Task<ActionResult> Get(
+        [FromQuery] GetSpeciesRequest request,
+        [FromServices] GetSpeciesesHandler handler, 
+        CancellationToken cancellationToken = default)
+    {
+        var response = await handler.Handle(request.ToQuery(), cancellationToken);
+        
+        return Ok(response);
+    }
 }

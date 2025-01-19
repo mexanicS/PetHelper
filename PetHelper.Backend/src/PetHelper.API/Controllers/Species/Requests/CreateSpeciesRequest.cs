@@ -1,4 +1,4 @@
-using PetHelper.Application.Species.Create;
+using PetHelper.Application.Species.Command.Create;
 
 namespace PetHelper.API.Controllers.Species.Requests;
 

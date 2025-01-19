@@ -1,4 +1,4 @@
-using PetHelper.Application.Species.AddBreed;
+using PetHelper.Application.Species.Command.AddBreed;
 
 namespace PetHelper.API.Controllers.Species.Requests;
 
