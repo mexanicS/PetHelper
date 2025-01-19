@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using PetHelper.Application.Abstractions.Commands;
 using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Application.Species.Delete;
@@ -10,7 +11,7 @@ using PetHelper.Domain.Shared;
 
 namespace PetHelper.Application.Species.DeleteBreed;
 
-public class DeleteBreedHandler
+public class DeleteBreedHandler : ICommandHandler<Guid, DeleteBreedCommand>
 {
     private readonly ISpeciesRepository _speciesRepository;
     private readonly IValidator<DeleteBreedCommand> _validator;
@@ -35,7 +36,7 @@ public class DeleteBreedHandler
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
-        if (validationResult.IsValid)
+        if (validationResult.IsValid == false)
         {
             return validationResult.ToErrorList();
         }
@@ -58,6 +59,7 @@ public class DeleteBreedHandler
                 "Cannot delete breed because it is in use by pets").ToErrorList();
 
         speciesResult.Value.RemoveBreed(foundBreed);
+        
         await _speciesRepository.Save(speciesResult.Value, cancellationToken);
         
         _logger.LogInformation($"Breed with name is {command.BreedName} deleted", command.BreedName);

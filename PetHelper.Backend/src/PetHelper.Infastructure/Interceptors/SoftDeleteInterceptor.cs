@@ -22,9 +22,9 @@ public class SoftDeleteInterceptor : SaveChangesInterceptor
 
         foreach (var entry in entries)
         {
-            entry.State = EntityState.Modified;
             if (entry.Entity is ISoftDeletable softDeletable)
             {
+                entry.State = EntityState.Modified;
                 softDeletable.Delete();
             }
         }

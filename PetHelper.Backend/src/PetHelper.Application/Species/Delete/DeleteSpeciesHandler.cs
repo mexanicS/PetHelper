@@ -35,7 +35,7 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
     {
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
-        if (validationResult.IsValid)
+        if (validationResult.IsValid == false)
         {
             return validationResult.ToErrorList();
         }
