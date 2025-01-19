@@ -1,9 +1,9 @@
 using PetHelper.Application.DTOs;
+using PetHelper.Application.Volunteers.Commands.AddPet;
 
-namespace PetHelper.API.Contracts;
+namespace PetHelper.API.Controllers.Volunteer.Requests;
 
 public record AddPetRequest(
-    Guid VolunteerId,
     Guid SpeciesId,
     Guid BreedId,
     string Name,
@@ -17,8 +17,30 @@ public record AddPetRequest(
     bool IsNeutered,
     DateOnly? BirthDate,
     bool IsVaccinated,
-    string City, 
+    string City,
     string Street,
     string HouseNumber,
     string? ZipCode,
-    DetailsForAssistanceListDto DetailsForAssistances);
+    DetailsForAssistanceListDto DetailsForAssistances)
+{
+    public AddPetCommand ToCommand(Guid volunteerId) =>
+        new(volunteerId,
+            SpeciesId,
+            BreedId,
+            Name,
+            TypePet,
+            Description,
+            Color,
+            HealthInformation,
+            Weight,
+            Height,
+            PhoneNumber,
+            IsNeutered,
+            BirthDate,
+            IsVaccinated,
+            City,
+            Street,
+            HouseNumber,
+            ZipCode,
+            DetailsForAssistances);
+}

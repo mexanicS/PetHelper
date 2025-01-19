@@ -1,5 +1,6 @@
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 
 namespace PetHelper.Domain.Models.Species
 {

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
+using PetHelper.Domain.Models.Pet;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
 using PetHelper.Domain.ValueObjects.Pet;
 
-namespace PetHelper.Domain.Models
+namespace PetHelper.Domain.Models.Volunteer
 {
     public class Volunteer : Shared.Entity<VolunteerId>, ISoftDeletable
     {
@@ -54,9 +48,9 @@ namespace PetHelper.Domain.Models
         
         private bool _isDeleted = false;
 
-        private readonly List<Pet> _pets = [];
+        private readonly List<Pet.Pet> _pets = [];
 
-        public IReadOnlyList<Pet> Pets => _pets;
+        public IReadOnlyList<Pet.Pet> Pets => _pets;
 
         /// <summary>
         /// Количество домашних животных, которые нашли новый дом
@@ -123,7 +117,7 @@ namespace PetHelper.Domain.Models
                 pet.Restore();
         }
 
-        public UnitResult<Error> AddPet(Pet pet)
+        public UnitResult<Error> AddPet(Pet.Pet pet)
         {
             
             var position = Position.Create(_pets.Count + 1);
@@ -133,12 +127,14 @@ namespace PetHelper.Domain.Models
 
             pet.UpdatePosition(position.Value);
             
+            pet.SetSerialNumber(SerialNumber.Create(1).Value);
+            
             _pets.Add(pet);
             
             return Result.Success<Error>();
         }
 
-        public Result<Pet, Error> GetPetById(PetId petId)
+        public Result<Pet.Pet, Error> GetPetById(PetId petId)
         {
             var pet = _pets.FirstOrDefault(pet => pet.Id == petId);
 
@@ -148,7 +144,7 @@ namespace PetHelper.Domain.Models
             return pet;
         }
         
-        public UnitResult<Error> MovePet(Pet pet, Position newPosition)
+        public UnitResult<Error> MovePet(Pet.Pet pet, Position newPosition)
         {
             var currentPosition = pet.Position;
             

@@ -1,7 +1,7 @@
 using FluentValidation.AspNetCore;
 using PetHelper.API;
+using PetHelper.API.Extensions;
 using PetHelper.API.Middlewares;
-using PetHelper.API.Validation;
 using PetHelper.Application;
 using PetHelper.Infastructure;
 using PetHelper.Infastructure.Options;
@@ -40,10 +40,10 @@ builder.Services
     .AddApplication()
     .AddInfastructure(builder.Configuration);
 
-builder.Services.AddFluentValidationAutoValidation(configuration =>
+/*builder.Services.AddFluentValidationAutoValidation(configuration =>
 {
     configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-});
+});*/
 
 var app = builder.Build();
 
@@ -56,6 +56,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseStaticFiles();
+
     await app.ApplyMigration();
 }
 

@@ -1,4 +1,6 @@
 using System.Net;
+using PetHelper.API.Response;
+using PetHelper.Domain.Shared;
 
 namespace PetHelper.API.Middlewares;
 
@@ -19,8 +21,8 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
-            var responseError = new ResponseError("server.internal",ex.Message, null);
-            var envelope = Envelope.Error([responseError]);
+            var responseError = Error.Failure("server.internal",ex.Message);
+            var envelope = Envelope.Error(responseError);
             
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;

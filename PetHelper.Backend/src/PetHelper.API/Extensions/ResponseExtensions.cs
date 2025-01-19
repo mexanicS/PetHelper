@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
+using PetHelper.API.Response;
 using PetHelper.Domain.Shared;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
@@ -11,7 +12,41 @@ public static class ResponseExtensions
 {
     public static ActionResult ToResponse(this Error error)
     {
-        var statusCode = error.Type switch
+        var statusCode = GetStatusCodeForErrorType(error.Type);
+        
+        var envelope = Envelope.Error(error.ToErrorList());
+
+        return new ObjectResult(envelope)
+        {
+            StatusCode = statusCode
+        };
+    }
+    public static ActionResult ToResponse(this ErrorList errors)
+    {
+        if (!errors.Any())
+        {
+            return new ObjectResult(null)
+            {
+                StatusCode = StatusCodes.Status500InternalServerError
+            };
+        }
+        
+        var distinctErrorsType = errors.Select(x=>x.Type).Distinct().ToList();
+        
+        var statusCode =  distinctErrorsType.Count > 1 
+            ? StatusCodes.Status500InternalServerError 
+            : GetStatusCodeForErrorType(distinctErrorsType.First());
+        
+        var envelope = Envelope.Error(errors);
+        
+        return new ObjectResult(envelope)
+        {
+            StatusCode = statusCode
+        };
+    }
+    
+    private static int GetStatusCodeForErrorType(ErrorType errorType) =>
+        errorType switch
         {
             ErrorType.Validation => StatusCodes.Status400BadRequest,
             ErrorType.NotFound => StatusCodes.Status404NotFound,
@@ -19,17 +54,7 @@ public static class ResponseExtensions
             ErrorType.Failure => StatusCodes.Status500InternalServerError,
             _ => StatusCodes.Status500InternalServerError
         };
-        var responceError = new ResponseError(error.Code, error.Message, null);
-        
-        var envelope = Envelope.Error([responceError]);
-
-        return new ObjectResult(envelope)
-        {
-            StatusCode = statusCode
-        };
-    }
-    
-    public static ActionResult ToValidationErrorResponse(this ValidationResult result)
+    /*public static ActionResult ToValidationErrorResponse(this ValidationResult result)
     {
         if (result.IsValid)
             throw new InvalidOperationException("Result can not be succeed");
@@ -47,5 +72,5 @@ public static class ResponseExtensions
         {
             StatusCode = StatusCodes.Status400BadRequest,
         };
-    }
+    }*/
 }

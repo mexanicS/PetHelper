@@ -1,4 +1,4 @@
-namespace PetHelper.Domain.Models;
+namespace PetHelper.Domain.Models.Volunteer;
 
 public record VolunteerId()
 {

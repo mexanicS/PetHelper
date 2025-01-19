@@ -1,7 +1,7 @@
 using CSharpFunctionalExtensions;
 using PetHelper.Domain.Shared;
 
-namespace PetHelper.Domain.ValueObjects;
+namespace PetHelper.Domain.ValueObjects.Common;
 
 public record Description
 {

@@ -1,19 +1,18 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using PetHelper.API.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
 using PetHelper.API.Controllers.Volunteer.Requests;
 using PetHelper.API.Extensions;
 using PetHelper.API.Processors;
-using PetHelper.Application.Volunteers.AddPet;
-using PetHelper.Application.Volunteers.AddPetPhotos;
-using PetHelper.Application.Volunteers.CreateVolunteers;
-using PetHelper.Application.Volunteers.DeleteVolunteer;
-using PetHelper.Application.Volunteers.UpdateDetailsForAssistance;
-using PetHelper.Application.Volunteers.UpdateMainInfo;
-using PetHelper.Application.Volunteers.UpdateSocialNetworkList;
-using PetHelper.Domain.Shared;
+using PetHelper.API.Response;
+using PetHelper.Application.Volunteers.Commands.AddPet;
+using PetHelper.Application.Volunteers.Commands.AddPetPhotos;
+using PetHelper.Application.Volunteers.Commands.Create;
+using PetHelper.Application.Volunteers.Commands.Delete;
+using PetHelper.Application.Volunteers.Commands.UpdateDetailsForAssistance;
+using PetHelper.Application.Volunteers.Commands.UpdateMainInfo;
+using PetHelper.Application.Volunteers.Commands.UpdateSocialNetworkList;
+using PetHelper.Application.Volunteers.Queries.GetVolunteers;
 
-namespace PetHelper.API.Controllers
+namespace PetHelper.API.Controllers.Volunteer
 {
     public class VolunteerController : ApplicationController
     {
@@ -23,38 +22,39 @@ namespace PetHelper.API.Controllers
             [FromBody] CreateVolunteerRequest request,
             CancellationToken cancellationToken = default)
         {
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(request.ToCommand(), cancellationToken);
             
             if(result.IsFailure)
                 return BadRequest(result.Error.ToResponse());
             
-            return Ok(Envelope.Ok(result.Value));
+            return Ok(result.Value);
         }
         
-        [HttpPut("{id:guid}/main-info")]
+        [HttpPut("{volunteerId:guid}/main-info")]
         public async Task<ActionResult> Update(
-            [FromRoute] Guid id,
+            [FromRoute] Guid volunteerId,
             [FromServices] UpdateMainInfoHandler handler,
             [FromBody] UpdateMainInfoRequest request,
-            [FromServices] IValidator<UpdateMainInfoRequest> validator,
             CancellationToken cancellationToken = default)
         {
+            var command = request.ToCommand(volunteerId);
             
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-
-            var command = new UpdateMainInfoCommand(
-                id,
-                request.Email,
-                request.Description,
-                request.ExperienceInYears,
-                request.PhoneNumber,
-                request.FullName
-                );
+            if (result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(result.Value);
+        }
+        
+        [HttpPut("{volunteerId:guid}/social-network")]
+        public async Task<ActionResult> UpdateSocialNetworkList(
+            [FromRoute] Guid volunteerId,
+            [FromServices] UpdateSocialNetworkListHandler handler,
+            [FromBody] UpdateSocialNetworkListRequest request,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(volunteerId);
             
             var result = await handler.Handle(command, cancellationToken);
 
@@ -64,108 +64,47 @@ namespace PetHelper.API.Controllers
             return Ok(Envelope.Ok(result.Value));
         }
         
-        [HttpPut("{id:guid}/social-network")]
-        public async Task<ActionResult> UpdateSocialNetworkList(
-            [FromRoute] Guid id,
-            [FromServices] UpdateSocialNetworkListHandler handler,
-            [FromBody] UpdateSocialNetworkListRequestDto dto,
-            [FromServices] IValidator<UpdateSocialNetworkListRequest> validator,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new UpdateSocialNetworkListRequest(id, dto);
-            
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-            
-            var result = await handler.Handle(request, cancellationToken);
-
-            if (result.IsFailure)
-                return result.Error.ToResponse();
-            
-            return Ok(Envelope.Ok(result.Value));
-        }
-        
-        [HttpPut("{id:guid}/details-for-assistance")]
+        [HttpPut("{volunteerId:guid}/details-for-assistance")]
         public async Task<ActionResult> UpdateDetailsForAssistanceList(
-            [FromRoute] Guid id,
+            [FromRoute] Guid volunteerId,
             [FromServices] UpdateDetailsForAssistanceHandler handler,
-            [FromBody] UpdateDetailsForAssistanceRequestDto dto,
-            [FromServices] IValidator<UpdateDetailsForAssistanceRequest> validator,
+            [FromBody] UpdateDetailsForAssistanceRequest request,
             CancellationToken cancellationToken = default)
         {
-            var request = new UpdateDetailsForAssistanceRequest(id, dto);
+            var command = request.ToCommand(volunteerId);
             
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-            
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
             
-            return Ok(Envelope.Ok(result.Value));
+            return Ok(result.Value);
         }
         
-        [HttpDelete("{id:guid}/volunteer")]
+        [HttpDelete("{volunteerId:guid}/volunteer")]
         public async Task<ActionResult> Delete(
-            [FromRoute] Guid id,
+            [FromRoute] Guid volunteerId,
             [FromServices] DeleteVolunteerHandler handler,
-            [FromServices] IValidator<DeleteVolunteerRequest> validator,
             CancellationToken cancellationToken = default)
         {
-            var request = new DeleteVolunteerRequest(id);
+            var command = new DeleteVolunteerCommand(volunteerId);
             
-            var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            if (validationResult.IsValid == false)
-            {
-                return validationResult.ToValidationErrorResponse();
-            }
-            
-            var result = await handler.Handle(request, cancellationToken);
+            var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
             
-            return Ok(Envelope.Ok(result.Value));
+            return Ok(result.Value);
         }
 
-        [HttpPost("{id:guid}/pet")]
+        [HttpPost("{volunteerId:guid}/pet")]
         public async Task<ActionResult> AddPet(
-            [FromRoute] Guid id, 
+            [FromRoute] Guid volunteerId, 
             [FromBody] AddPetRequest request,
             [FromServices] AddPetHandler handler,
             CancellationToken cancellationToken = default)
         {
-            var command = new AddPetCommand(
-                id,
-                request.SpeciesId,
-                request.BreedId,
-                request.Name,
-                request.TypePet,
-                request.Description,
-                request.Color,
-                request.HealthInformation,
-                request.Weight,
-                request.Height,
-                request.PhoneNumber,
-                request.IsNeutered,
-                request.BirthDate,
-                request.IsVaccinated,
-                request.City,
-                request.Street,
-                request.HouseNumber,
-                request.ZipCode,
-                request.DetailsForAssistances
-            );
+            var command = request.ToCommand(volunteerId);
             
             var result = await handler.Handle(command, cancellationToken);
             
@@ -187,10 +126,7 @@ namespace PetHelper.API.Controllers
 
             var fileList = fileProcessor.Process(request.Files);
 
-            var command = new AddPetPhotosCommand(
-                volunteerId,
-                petId,
-                fileList);
+            var command = request.ToCommand(volunteerId, petId, fileList);
 
             var handleResult = await handler
                 .Handle(command, cancellationToken);
@@ -199,6 +135,19 @@ namespace PetHelper.API.Controllers
                 return handleResult.Error.ToResponse();
 
             return Ok();
+        }
+        
+        [HttpGet]
+        public async Task<ActionResult> Get(
+            [FromQuery] GetVolunteersWithPaginationRequest request,
+            [FromServices] GetVolunteersWithPaginationHandler withPaginationHandler, 
+            CancellationToken cancellationToken = default)
+        {
+            var query = request.ToQuery();
+        
+            var response = await withPaginationHandler.Handle(query, cancellationToken);
+        
+            return Ok(response);
         }
     }
 }

@@ -2,18 +2,21 @@ using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHelper.Application.Species;
 using PetHelper.Domain.Models;
+using PetHelper.Domain.Models.Breed;
 using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
+using PetHelper.Domain.ValueObjects.Common;
+using PetHelper.Infastructure.DbContexts;
 using Breed = PetHelper.Domain.Models.Breed.Breed;
 
 namespace PetHelper.Infastructure.Repository;
 
 public class SpeciesRepository : ISpeciesRepository
 {
-    private readonly ApplicationDbContext _dbContext;
+    private readonly WriteDbContext _dbContext;
 
-    public SpeciesRepository(ApplicationDbContext dbContext)
+    public SpeciesRepository(WriteDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -22,7 +25,7 @@ public class SpeciesRepository : ISpeciesRepository
         Species species, 
         CancellationToken cancellationToken = default)
     {
-        await _dbContext.Specieses.AddAsync(species, cancellationToken);
+        await _dbContext.Species.AddAsync(species, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         return (Guid)species.Id;
@@ -32,7 +35,7 @@ public class SpeciesRepository : ISpeciesRepository
         Name speciesName, 
         CancellationToken cancellationToken = default)
     { 
-        var species= await _dbContext.Specieses
+        var species= await _dbContext.Species
             .Include(s=>s.Breeds)
             .FirstOrDefaultAsync(species => species.Name == speciesName, cancellationToken);
 
@@ -46,7 +49,7 @@ public class SpeciesRepository : ISpeciesRepository
         SpeciesId speciesId, 
         CancellationToken cancellationToken = default)
     { 
-        var species= await _dbContext.Specieses
+        var species= await _dbContext.Species
             .Include(s=>s.Breeds)
             .FirstOrDefaultAsync(species => species.Id == speciesId, cancellationToken);
 
@@ -61,7 +64,7 @@ public class SpeciesRepository : ISpeciesRepository
         BreedId breedId,
         CancellationToken cancellationToken = default)
     {
-        var species = await _dbContext.Specieses
+        var species = await _dbContext.Species
             .Include(s=>s.Breeds)
             .FirstOrDefaultAsync(species => species.Id == speciesId, cancellationToken);
         
@@ -78,7 +81,7 @@ public class SpeciesRepository : ISpeciesRepository
         Species species, 
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Specieses.Attach(species);
+        _dbContext.Species.Attach(species);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         return species.Id;
