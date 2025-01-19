@@ -1,6 +1,8 @@
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Species;
 using PetHelper.Domain.Models.Breed;
 using PetHelper.Domain.Models.Pet;
@@ -18,15 +20,18 @@ public class AddPetHandler : ICommandHandler<Guid,AddPetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<AddPetHandler> _logger;
+    private readonly IReadDbContext _readDbContext;
 
     public AddPetHandler(
         IVolunteersRepository volunteersRepository,
         ISpeciesRepository speciesRepository,
-        ILogger<AddPetHandler> logger)
+        ILogger<AddPetHandler> logger,
+        IReadDbContext readDbContext)
     {
         _volunteersRepository = volunteersRepository;
         _speciesRepository = speciesRepository;
         _logger = logger;
+        _readDbContext = readDbContext;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -44,7 +49,7 @@ public class AddPetHandler : ICommandHandler<Guid,AddPetCommand>
         var breedId = BreedId.Create(command.BreedId);
         
         var isExistingSpeciesAndBreed =  
-           await _speciesRepository.IsExistingSpeciesAndBreed(speciesId, breedId, cancellationToken);
+           await IsExistingSpeciesAndBreed(speciesId, breedId, cancellationToken);
 
         if (isExistingSpeciesAndBreed.IsFailure)
             return isExistingSpeciesAndBreed.Error.ToErrorList();
@@ -100,5 +105,25 @@ public class AddPetHandler : ICommandHandler<Guid,AddPetCommand>
         _logger.LogInformation("Created pet added fot volunteer with id {volunteerId}", volunteerId);
         
         return pet.Id.Value;
+    }
+    
+    private async Task<Result<bool, Error>> IsExistingSpeciesAndBreed(
+        SpeciesId speciesId,
+        BreedId breedId,
+        CancellationToken cancellationToken = default)
+    {
+        var species = await _readDbContext.Species
+            .FirstOrDefaultAsync(species => species.Id == speciesId, cancellationToken);
+        
+        if (species is null)
+            return Errors.General.NotFound();
+
+        var breed = await _readDbContext.Breeds
+            .FirstOrDefaultAsync(breed => breed.Id == breedId.Value, cancellationToken);
+
+        if (breed is null)
+            return Errors.General.NotFound();
+
+        return true;
     }
 }
