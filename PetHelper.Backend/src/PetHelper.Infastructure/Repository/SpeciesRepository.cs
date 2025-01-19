@@ -86,4 +86,11 @@ public class SpeciesRepository : ISpeciesRepository
         
         return species.Id;
     }
+
+    public Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+    
+    
 }

@@ -4,6 +4,7 @@ using PetHelper.API.Controllers.Species.Requests;
 using PetHelper.API.Extensions;
 using PetHelper.Application.Species.AddBreed;
 using PetHelper.Application.Species.Create;
+using PetHelper.Application.Species.Delete;
 
 namespace PetHelper.API.Controllers.Species;
 
@@ -39,4 +40,21 @@ public class SpeciesController : ApplicationController
         
         return Ok(result.Value);
     }
+
+    [HttpPost("{speciesId:guid}/breed")]
+    public async Task<ActionResult> Delete(
+        [FromRoute] Guid speciesId,
+        [FromServices] DeleteSpeciesHandler handler,
+        CancellationToken cancellationToken = default)
+    {
+        var command = new DeleteSpeciesCommand(speciesId);
+        
+        var result = await handler.Handle(command, cancellationToken);
+
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+        
+        return Ok(result.Value);
+    }
+    
 }

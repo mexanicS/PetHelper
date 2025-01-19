@@ -5,9 +5,9 @@ using PetHelper.Domain.ValueObjects.Common;
 
 namespace PetHelper.Application.Species.Create;
 
-public class CreateSpeciesRequestValidator : AbstractValidator<CreateSpeciesCommand>
+public class CreateSpeciesCommandValidator : AbstractValidator<CreateSpeciesCommand>
 {
-    public CreateSpeciesRequestValidator()
+    public CreateSpeciesCommandValidator()
     {
         RuleFor(request => request.Name).MustBeValueObject(Name.Create);
     }
