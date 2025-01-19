@@ -6,6 +6,7 @@ using PetHelper.Application.Species.Command.AddBreed;
 using PetHelper.Application.Species.Command.Create;
 using PetHelper.Application.Species.Command.Delete;
 using PetHelper.Application.Species.Command.DeleteBreed;
+using PetHelper.Application.Species.Queries.GetBreedsBySpecies;
 using PetHelper.Application.Species.Queries.GetSpecieses;
 
 namespace PetHelper.API.Controllers.Species;
@@ -79,6 +80,17 @@ public class SpeciesController : ApplicationController
     public async Task<ActionResult> Get(
         [FromQuery] GetSpeciesRequest request,
         [FromServices] GetSpeciesesHandler handler, 
+        CancellationToken cancellationToken = default)
+    {
+        var response = await handler.Handle(request.ToQuery(), cancellationToken);
+        
+        return Ok(response);
+    }
+    
+    [HttpGet("/breeds")]
+    public async Task<ActionResult> GetBreedsBySpecies(
+        [FromQuery] GetBreedsBySpeciesRequest request,
+        [FromServices] GetBreedsBySpeciesHandler handler, 
         CancellationToken cancellationToken = default)
     {
         var response = await handler.Handle(request.ToQuery(), cancellationToken);

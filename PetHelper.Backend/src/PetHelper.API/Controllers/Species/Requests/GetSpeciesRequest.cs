@@ -4,6 +4,6 @@ namespace PetHelper.API.Controllers.Species.Requests;
 
 public record GetSpeciesRequest()
 {
-    public  GetSpeciesQuery ToQuery() => 
+    public  GetSpeciesesQuery ToQuery() => 
         new ();
 };

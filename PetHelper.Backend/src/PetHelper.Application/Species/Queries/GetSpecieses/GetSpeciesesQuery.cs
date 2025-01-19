@@ -2,4 +2,4 @@ using PetHelper.Application.Abstractions.Queries;
 
 namespace PetHelper.Application.Species.Queries.GetSpecieses;
 
-public record GetSpeciesQuery() : IQuery;
+public record GetSpeciesesQuery() : IQuery;

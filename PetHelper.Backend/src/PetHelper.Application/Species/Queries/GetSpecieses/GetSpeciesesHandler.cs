@@ -9,7 +9,7 @@ using PetHelper.Application.Volunteers.Queries.GetVolunteers;
 namespace PetHelper.Application.Species.Queries.GetSpecieses;
 
 public class GetSpeciesesHandler 
-    : IQueryHandler<List<SpeciesDto>, GetSpeciesQuery>
+    : IQueryHandler<List<SpeciesDto>, GetSpeciesesQuery>
 {
     private readonly IReadDbContext _readDbContext;
     
@@ -18,7 +18,7 @@ public class GetSpeciesesHandler
         _readDbContext = readDbContext;
     }
     public async Task<List<SpeciesDto>> Handle(
-        GetSpeciesQuery query, 
+        GetSpeciesesQuery query, 
         CancellationToken cancellationToken)
     {
         return await _readDbContext.Species.ToListAsync(cancellationToken);
