@@ -28,5 +28,4 @@ public interface ISpeciesRepository
     
     Task<Guid> Delete(Domain.Models.Species.Species species, 
         CancellationToken cancellationToken = default);
-    
 }

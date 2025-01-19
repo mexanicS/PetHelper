@@ -87,10 +87,11 @@ public class SpeciesRepository : ISpeciesRepository
         return species.Id;
     }
 
-    public Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
+    public async Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _dbContext.Species.Remove(species);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return species.Id;
     }
-    
-    
 }

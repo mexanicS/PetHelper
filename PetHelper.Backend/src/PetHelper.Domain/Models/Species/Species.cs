@@ -23,6 +23,11 @@ namespace PetHelper.Domain.Models.Species
         {
             _breeds.Add(breed);
         }
+
+        public void RemoveBreed(Breed.Breed breed)
+        {
+            _breeds.Remove(breed);
+        }
     }
 }
 
