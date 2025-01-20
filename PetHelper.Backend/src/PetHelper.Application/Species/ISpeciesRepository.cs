@@ -20,9 +20,9 @@ public interface ISpeciesRepository
     Task<Result<Domain.Models.Species.Species, Error>> GetSpeciesById(SpeciesId speciesId,
         CancellationToken cancellationToken = default);
 
-    Task<Result<bool, Error>> IsExistingSpeciesAndBreed(SpeciesId speciesId, BreedId breedId,
+    Task<Guid> Save(Domain.Models.Species.Species species,
         CancellationToken cancellationToken = default);
     
-    Task<Guid> Save(Domain.Models.Species.Species species,
+    Task<Guid> Delete(Domain.Models.Species.Species species, 
         CancellationToken cancellationToken = default);
 }

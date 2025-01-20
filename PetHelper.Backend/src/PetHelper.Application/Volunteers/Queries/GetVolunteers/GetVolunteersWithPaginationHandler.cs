@@ -25,5 +25,4 @@ public class GetVolunteersWithPaginationHandler
         //фильтрация
         return await volunteerQuery.ToPagedList(query.Page, query.PageSize, cancellationToken);
     }
-    
 }

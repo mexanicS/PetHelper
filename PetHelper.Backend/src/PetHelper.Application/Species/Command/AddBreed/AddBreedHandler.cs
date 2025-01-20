@@ -3,16 +3,13 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
 using PetHelper.Application.Extensions;
-using PetHelper.Application.Volunteers.Commands.Create;
-using PetHelper.Domain.Models;
 using PetHelper.Domain.Models.Breed;
 using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
-using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Common;
 using Breed = PetHelper.Domain.Models.Breed.Breed;
 
-namespace PetHelper.Application.Species.AddBreed;
+namespace PetHelper.Application.Species.Command.AddBreed;
 
 public class AddBreedHandler : ICommandHandler<Guid,AddBreedCommand>
 {

@@ -41,6 +41,10 @@ public class PetDto
     public Constants.StatusPet Status { get; private set; }
 
     public DateTime CreatedDate { get; private set; }
+    
+    public Guid SpeciesId { get; private set; }
+    
+    public Guid BreedId { get; private set; }
         
     //public Guid SpeciesBreed { get; private set; }
         

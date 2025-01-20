@@ -1,10 +1,9 @@
 using FluentValidation;
 using PetHelper.Application.Validation;
 using PetHelper.Domain.Shared;
-using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Common;
 
-namespace PetHelper.Application.Species.AddBreed;
+namespace PetHelper.Application.Species.Command.AddBreed;
 
 public class AddBreedValidator : AbstractValidator<AddBreedCommand>
 {

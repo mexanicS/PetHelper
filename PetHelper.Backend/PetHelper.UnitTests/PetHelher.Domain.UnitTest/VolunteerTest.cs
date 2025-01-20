@@ -3,6 +3,7 @@ using FluentAssertions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using Moq;
+using PetHelper.Application.Database;
 using PetHelper.Application.DTOs;
 using PetHelper.Application.DTOs.Pet;
 using PetHelper.Application.FileProvider;
@@ -33,6 +34,7 @@ public class VolunteerTests
     private readonly Mock<ISpeciesRepository> _speciesRepositoryMock = new();
     private readonly Mock<IValidator<AddPetCommand>> _validatorMock = new();
     private readonly Mock<ILogger<AddPetHandler>> _loggerMock = new();
+    private readonly Mock<IReadDbContext> _readDbContext = new();
     //private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     
     [Fact]
@@ -124,7 +126,8 @@ public class VolunteerTests
         var handler = new AddPetHandler(
             _volunteerRepositoryMock.Object,
             _speciesRepositoryMock.Object,
-            _loggerMock.Object);
+            _loggerMock.Object,
+            _readDbContext.Object);
         
         // act
         var result = await handler.Handle(command, cancellationToken);

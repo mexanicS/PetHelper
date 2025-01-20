@@ -59,29 +59,19 @@ public class SpeciesRepository : ISpeciesRepository
         return species;
     }
 
-    public async Task<Result<bool, Error>> IsExistingSpeciesAndBreed(
-        SpeciesId speciesId,
-        BreedId breedId,
-        CancellationToken cancellationToken = default)
-    {
-        var species = await _dbContext.Species
-            .Include(s=>s.Breeds)
-            .FirstOrDefaultAsync(species => species.Id == speciesId, cancellationToken);
-        
-        if (species is null)
-            return Errors.General.NotFound();
-
-        if (species.Breeds.All(b => b.Id != breedId))
-            return Errors.General.NotFound();
-
-        return true;
-    }
-    
     public async Task<Guid> Save(
         Species species, 
         CancellationToken cancellationToken = default)
     {
         _dbContext.Species.Attach(species);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        
+        return species.Id;
+    }
+
+    public async Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
+    {
+        _dbContext.Species.Remove(species);
         await _dbContext.SaveChangesAsync(cancellationToken);
         
         return species.Id;
