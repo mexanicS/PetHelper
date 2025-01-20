@@ -6,7 +6,7 @@ using PetHelper.Domain.ValueObjects.Pet;
 
 namespace PetHelper.Domain.Models.Pet
 {
-    public class Pet : Shared.Entity<PetId>, ISoftDeletable
+    public class Pet : Shared.Entity<PetId>
     {
         //ef core
         private Pet(PetId id) : base(id)

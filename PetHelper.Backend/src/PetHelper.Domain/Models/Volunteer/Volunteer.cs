@@ -208,5 +208,10 @@ namespace PetHelper.Domain.Models.Volunteer
             }
             return Result.Success<Error>();
         }
+
+        public void RemovePet(Pet.Pet pet)
+        {
+            _pets.Remove(pet);
+        }
     }
 }
