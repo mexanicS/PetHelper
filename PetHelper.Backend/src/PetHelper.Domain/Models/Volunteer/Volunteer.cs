@@ -119,7 +119,6 @@ namespace PetHelper.Domain.Models.Volunteer
 
         public UnitResult<Error> AddPet(Pet.Pet pet)
         {
-            
             var position = Position.Create(_pets.Count + 1);
 
             if (position.IsFailure)

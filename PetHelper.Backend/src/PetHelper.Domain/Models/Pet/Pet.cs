@@ -140,5 +140,25 @@ namespace PetHelper.Domain.Models.Pet
         {
             Position = position;
         }
+
+        public void Update(Pet pet)
+        {
+            Name = pet.Name;
+            TypePet = pet.TypePet;
+            Description = pet.Description;
+            Color = pet.Color;
+            HealthInformation = pet.HealthInformation;
+            Weight = pet.Weight;
+            Height = pet.Height;
+            PhoneNumber = pet.PhoneNumber;
+            IsNeutered = pet.IsNeutered;
+            DateOfBirth = pet.DateOfBirth;
+            IsVaccinated = pet.IsVaccinated;
+            CreatedDate = pet.CreatedDate;
+            Address = pet.Address;
+            SpeciesBreed = pet.SpeciesBreed;
+            PetDetails = pet.PetDetails;
+            PetPhotosList = pet.PetPhotosList;
+        }
     }
 }

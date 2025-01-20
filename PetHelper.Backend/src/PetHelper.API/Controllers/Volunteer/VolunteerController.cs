@@ -9,6 +9,7 @@ using PetHelper.Application.Volunteers.Commands.Create;
 using PetHelper.Application.Volunteers.Commands.Delete;
 using PetHelper.Application.Volunteers.Commands.UpdateDetailsForAssistance;
 using PetHelper.Application.Volunteers.Commands.UpdateMainInfo;
+using PetHelper.Application.Volunteers.Commands.UpdatePetCommand;
 using PetHelper.Application.Volunteers.Commands.UpdateSocialNetworkList;
 using PetHelper.Application.Volunteers.Queries.GetVolunteers;
 
@@ -148,6 +149,24 @@ namespace PetHelper.API.Controllers.Volunteer
             var response = await withPaginationHandler.Handle(query, cancellationToken);
         
             return Ok(response);
+        }
+        
+        [HttpPost("{volunteerId:guid}/pets/{petId:guid}")]
+        public async Task<ActionResult> UpdatePet(
+            [FromRoute] Guid volunteerId, 
+            [FromRoute] Guid petId, 
+            [FromBody] UpdatePetRequest request,
+            [FromServices] UpdatePetHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(volunteerId, petId);
+            
+            var result = await handler.Handle(command, cancellationToken);
+            
+            if(result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(result.Value);
         }
     }
 }
