@@ -160,5 +160,10 @@ namespace PetHelper.Domain.Models.Pet
             PetDetails = pet.PetDetails;
             PetPhotosList = pet.PetPhotosList;
         }
+
+        public void ChangeStatus(Constants.StatusPet status)
+        {
+            Status = status;
+        }
     }
 }

@@ -115,7 +115,7 @@ public class UpdatePetHandler : ICommandHandler<Guid,UpdatePetCommand>
         
         await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
         
-        _logger.LogInformation("Updated pet fot volunteer with id {volunteerId}", volunteerId);
+        _logger.LogInformation("Updated pet fot volunteer with id {volunteerId}", volunteerId.Value);
         
         return pet.Id.Value;
     }

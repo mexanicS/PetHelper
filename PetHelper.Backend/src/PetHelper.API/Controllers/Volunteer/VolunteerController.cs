@@ -5,6 +5,7 @@ using PetHelper.API.Processors;
 using PetHelper.API.Response;
 using PetHelper.Application.Volunteers.Commands.AddPet;
 using PetHelper.Application.Volunteers.Commands.AddPetPhotos;
+using PetHelper.Application.Volunteers.Commands.ChangeStatusPet;
 using PetHelper.Application.Volunteers.Commands.Create;
 using PetHelper.Application.Volunteers.Commands.Delete;
 using PetHelper.Application.Volunteers.Commands.UpdateDetailsForAssistance;
@@ -151,7 +152,7 @@ namespace PetHelper.API.Controllers.Volunteer
             return Ok(response);
         }
         
-        [HttpPost("{volunteerId:guid}/pets/{petId:guid}")]
+        [HttpPost("{volunteerId:guid}/pets/{petId:guid}/update")]
         public async Task<ActionResult> UpdatePet(
             [FromRoute] Guid volunteerId, 
             [FromRoute] Guid petId, 
@@ -168,5 +169,24 @@ namespace PetHelper.API.Controllers.Volunteer
             
             return Ok(result.Value);
         }
+        
+        [HttpPost("{volunteerId:guid}/pets/{petId:guid}/change-status")]
+        public async Task<ActionResult> ChangeStatusPet(
+            [FromRoute] Guid volunteerId,
+            [FromRoute] Guid petId, 
+            [FromBody] ChangeStatusPetRequest request,
+            [FromServices] ChangeStatusPetHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = request.ToCommand(volunteerId, petId);
+            
+            var result = await handler.Handle(command, cancellationToken);
+            
+            if(result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(result.Value);
+        }
+        
     }
 }
