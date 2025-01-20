@@ -61,7 +61,7 @@ namespace PetHelper.API.Controllers.Volunteer
             if (result.IsFailure)
                 return result.Error.ToResponse();
             
-            return Ok(Envelope.Ok(result.Value));
+            return Ok(result.Value);
         }
         
         [HttpPut("{volunteerId:guid}/details-for-assistance")]
@@ -111,7 +111,7 @@ namespace PetHelper.API.Controllers.Volunteer
             if(result.IsFailure)
                 return result.Error.ToResponse();
             
-            return Ok(Envelope.Ok(result.Value));
+            return Ok(result.Value);
         }
 
         [HttpPost("{volunteerId:guid}/pets/{petId:guid}/photos")]
