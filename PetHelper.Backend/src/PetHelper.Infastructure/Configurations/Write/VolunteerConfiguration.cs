@@ -72,6 +72,7 @@ namespace PetHelper.Infastructure.Configurations.Write
             builder.HasMany(volunteer => volunteer.Pets)
                 .WithOne()
                 .HasForeignKey("volunteer_id")
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.OwnsOne(v => v.DetailsForAssistance, vb =>

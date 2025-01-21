@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <Folder Include="Species\Command\" />
-    <Folder Include="Volunteers\Commands\" />
   </ItemGroup>
 
 </Project>

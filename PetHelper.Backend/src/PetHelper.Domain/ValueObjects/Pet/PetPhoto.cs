@@ -5,15 +5,17 @@ namespace PetHelper.Domain.ValueObjects.Pet;
 
 public record PetPhoto
 {
-    private PetPhoto(FilePath filePath)
+    private PetPhoto(FilePath filePath, bool isMain)
     {
         FilePath = filePath;
+        IsMain = isMain;
     }
     
+    public bool IsMain { get; }
     public FilePath FilePath { get; }
     
-    public static Result<PetPhoto, Error> Create(FilePath filePath)
+    public static Result<PetPhoto, ErrorList> Create(FilePath filePath, bool isMain = false)
     {
-        return new PetPhoto(filePath);
+        return new PetPhoto(filePath, isMain);
     }
 }

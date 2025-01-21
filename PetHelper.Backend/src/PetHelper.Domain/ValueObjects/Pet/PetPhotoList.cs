@@ -1,7 +1,9 @@
 
+using System.Collections;
+
 namespace PetHelper.Domain.ValueObjects.Pet;
 
-public record PetPhotoList
+public record PetPhotoList : IEnumerable
 {
     private PetPhotoList() { }
     
@@ -10,5 +12,9 @@ public record PetPhotoList
         PetPhotos = (photos ?? []).ToList();
     } 
     
-    public IReadOnlyList<PetPhoto> PetPhotos { get; }
+    public List<PetPhoto> PetPhotos { get; }
+    public IEnumerator GetEnumerator()
+    {
+        throw new NotImplementedException();
+    }
 }

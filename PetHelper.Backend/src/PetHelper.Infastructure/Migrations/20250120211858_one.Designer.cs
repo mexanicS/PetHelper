@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetHelper.Infastructure.DbContexts;
@@ -12,9 +13,11 @@ using PetHelper.Infastructure.DbContexts;
 namespace PetHelper.Infastructure.Migrations
 {
     [DbContext(typeof(WriteDbContext))]
-    partial class WriteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250120211858_one")]
+    partial class one
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,10 +394,6 @@ namespace PetHelper.Infastructure.Migrations
                                         .HasMaxLength(200)
                                         .HasColumnType("character varying(200)")
                                         .HasAnnotation("Relational:JsonPropertyName", "path");
-
-                                    b2.Property<bool>("IsMain")
-                                        .HasColumnType("boolean")
-                                        .HasColumnName("is_main");
 
                                     b2.HasKey("PetPhotoListPetId", "Id");
 

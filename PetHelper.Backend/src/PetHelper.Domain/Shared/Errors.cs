@@ -32,7 +32,16 @@ public static class Errors
             return Error.Validation("byte.count.exceeded", $"exceeds the maximum allowed size of {byteCount} bytes");
         }
     }
-
+    
+    internal class Pet
+    {
+        public static Error PhotoNotFound(string? path = null)
+        {
+            return Error.Validation("photo.not.found",
+                $"photo with path: {path} was not found");
+        }
+    }
+    
     public static class Volunteer
     {
         
