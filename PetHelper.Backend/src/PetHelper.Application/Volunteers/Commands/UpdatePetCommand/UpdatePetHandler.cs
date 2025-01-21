@@ -24,17 +24,20 @@ public class UpdatePetHandler : ICommandHandler<Guid,UpdatePetCommand>
     private readonly ILogger<UpdatePetHandler> _logger;
     private readonly IValidator<UpdatePetCommand> _validator;
     private readonly IReadDbContext _readDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdatePetHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<UpdatePetHandler> logger,
         IValidator<UpdatePetCommand> validator,
-        IReadDbContext readDbContext)
+        IReadDbContext readDbContext,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
         _readDbContext = readDbContext;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -113,7 +116,8 @@ public class UpdatePetHandler : ICommandHandler<Guid,UpdatePetCommand>
         
         petToUpdate.Update(pet);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation("Updated pet fot volunteer with id {volunteerId}", volunteerId.Value);
         

@@ -20,17 +20,20 @@ public class AddPetHandler : ICommandHandler<Guid,AddPetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ISpeciesRepository _speciesRepository;
     private readonly ILogger<AddPetHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IReadDbContext _readDbContext;
 
     public AddPetHandler(
         IVolunteersRepository volunteersRepository,
         ISpeciesRepository speciesRepository,
         ILogger<AddPetHandler> logger,
+        IUnitOfWork unitOfWork,
         IReadDbContext readDbContext)
     {
         _volunteersRepository = volunteersRepository;
         _speciesRepository = speciesRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
         _readDbContext = readDbContext;
     }
     
@@ -100,10 +103,11 @@ public class AddPetHandler : ICommandHandler<Guid,AddPetCommand>
 
         volunteerResult.Value.AddPet(pet);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        _logger.LogInformation("Created pet added fot volunteer with id {volunteerId}", volunteerId);
-        
+        _logger.LogInformation("Created pet added for volunteer with id {volunteerId}", volunteerId);
+    
         return pet.Id.Value;
     }
     

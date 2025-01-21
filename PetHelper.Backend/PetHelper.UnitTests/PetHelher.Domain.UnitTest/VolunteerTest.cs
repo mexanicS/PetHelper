@@ -35,7 +35,7 @@ public class VolunteerTests
     private readonly Mock<IValidator<AddPetCommand>> _validatorMock = new();
     private readonly Mock<ILogger<AddPetHandler>> _loggerMock = new();
     private readonly Mock<IReadDbContext> _readDbContext = new();
-    //private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
+    private readonly Mock<IUnitOfWork> _unitOfWorkMock = new();
     
     [Fact]
     public async void AddPetPhotosService_Should_Add_Photos_To_Pet()
@@ -127,6 +127,7 @@ public class VolunteerTests
             _volunteerRepositoryMock.Object,
             _speciesRepositoryMock.Object,
             _loggerMock.Object,
+            _unitOfWorkMock.Object,
             _readDbContext.Object);
         
         // act

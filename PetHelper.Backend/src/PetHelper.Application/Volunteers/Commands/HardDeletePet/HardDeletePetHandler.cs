@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Application.Volunteers.Commands.SoftDeletePet;
 using PetHelper.Domain.Models.Pet;
@@ -15,15 +16,18 @@ public class HardDeletePetHandler  : ICommandHandler<Guid,HardDeletePetCommand>
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IValidator<HardDeletePetCommand> _validator;
     private readonly ILogger<HardDeletePetHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public HardDeletePetHandler(
         IVolunteersRepository volunteersRepository,
         IValidator<HardDeletePetCommand> validator,
-        ILogger<HardDeletePetHandler> logger)
+        ILogger<HardDeletePetHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -52,7 +56,8 @@ public class HardDeletePetHandler  : ICommandHandler<Guid,HardDeletePetCommand>
 
         volunteerResult.Value.RemovePet(pet);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation("Pet with id = {petId} hard deleted", command.PetId);
         

@@ -21,12 +21,11 @@ public class SpeciesRepository : ISpeciesRepository
         _dbContext = dbContext;
     }
     
-    public async Task<Guid> Add(
+    public async Task<Guid> AddAsync(
         Species species, 
         CancellationToken cancellationToken = default)
     {
         await _dbContext.Species.AddAsync(species, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         
         return (Guid)species.Id;
     }
@@ -59,21 +58,19 @@ public class SpeciesRepository : ISpeciesRepository
         return species;
     }
 
-    public async Task<Guid> Save(
+    public Task<Guid> Update(
         Species species, 
         CancellationToken cancellationToken = default)
     {
-        _dbContext.Species.Attach(species);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        _dbContext.Species.Update(species);
         
-        return species.Id;
+        return Task.FromResult<Guid>(species.Id);
     }
 
-    public async Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
+    public Task<Guid> Delete(Species species, CancellationToken cancellationToken = default)
     {
         _dbContext.Species.Remove(species);
-        await _dbContext.SaveChangesAsync(cancellationToken);
         
-        return species.Id;
+        return Task.FromResult<Guid>(species.Id);
     }
 }

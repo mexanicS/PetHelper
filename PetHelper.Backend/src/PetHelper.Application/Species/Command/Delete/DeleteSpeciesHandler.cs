@@ -16,17 +16,20 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
     private readonly IValidator<DeleteSpeciesCommand> _validator;
     private readonly ILogger<DeleteSpeciesHandler> _logger;
     private readonly IReadDbContext _readDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
     public DeleteSpeciesHandler(
         ISpeciesRepository speciesRepository,
         IValidator<DeleteSpeciesCommand> validator,
         ILogger<DeleteSpeciesHandler> logger,
-        IReadDbContext readDbContext)
+        IReadDbContext readDbContext,
+        IUnitOfWork unitOfWork)
     {
         _speciesRepository = speciesRepository;
         _validator = validator;
         _logger = logger;
         _readDbContext = readDbContext;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -51,6 +54,7 @@ public class DeleteSpeciesHandler : ICommandHandler<Guid, DeleteSpeciesCommand>
                 "Cannot delete species because it is in use by pets").ToErrorList();
         
         await _speciesRepository.Delete(speciesResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation($"Species with id = {command.SpeciesId} deleted", command.SpeciesId);
 

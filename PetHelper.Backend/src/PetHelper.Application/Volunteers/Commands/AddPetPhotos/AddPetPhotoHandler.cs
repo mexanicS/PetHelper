@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.FileProvider;
 using PetHelper.Application.Messaging;
 using PetHelper.Application.Providers;
@@ -25,19 +26,22 @@ public class AddPetPhotoHandler : ICommandHandler<AddPetPhotosCommand>
     private readonly ILogger<AddPetPhotoHandler> _logger;
     private readonly IValidator<AddPetPhotosCommand> _validator;
     private readonly IMessageQueue<IEnumerable<FileInfo>> _messageQueue;
+    private readonly IUnitOfWork _unitOfWork;
 
     public AddPetPhotoHandler(
         IVolunteersRepository volunteersRepository,
         IFileProvider fileProvider,
         ILogger<AddPetPhotoHandler> logger,
         IValidator<AddPetPhotosCommand> validator,
-        IMessageQueue<IEnumerable<FileInfo>> messageQueue)
+        IMessageQueue<IEnumerable<FileInfo>> messageQueue,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _fileProvider = fileProvider;
         _logger = logger;
         _validator = validator;
         _messageQueue = messageQueue;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<UnitResult<ErrorList>> Handle(
@@ -58,7 +62,7 @@ public class AddPetPhotoHandler : ICommandHandler<AddPetPhotosCommand>
             return petResult.Error.ToErrorList();
         
         List<FileData> files = [];
-
+        var transaction = await _unitOfWork.BeginTransaction(cancellationToken);
         try
         {
             foreach (var file in command.Files)
@@ -87,12 +91,17 @@ public class AddPetPhotoHandler : ICommandHandler<AddPetPhotosCommand>
             
             petResult.Value.UpdatePhotos(petPhotos);
             
-            await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
-
+            await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            
+            transaction.Commit();
+            
             return Result.Success<ErrorList>();
         }
         catch (Exception ex)
         {
+            transaction.Rollback();
+            
             _logger.LogError(
                 ex,
                 "Error occured while uploading pet photos to volunteer with id {id}",
