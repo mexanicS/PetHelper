@@ -1,6 +1,5 @@
 using CSharpFunctionalExtensions;
 using FluentValidation;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Moq;
 using PetHelper.Application.DTOs.Pet;
@@ -9,12 +8,11 @@ using PetHelper.Application.Species;
 using PetHelper.Application.Volunteers;
 using PetHelper.Application.Volunteers.Commands.AddPet;
 using PetHelper.Application.Volunteers.Commands.AddPetPhotos;
-using PetHelper.Domain.Models;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 using IFileProvider = PetHelper.Application.Providers.IFileProvider;
 
-namespace PetHelper.UnitTests.PetHelher.Domain.UnitTest;
+namespace PetHelper.UnitTests;
 
 public class UploadPhotosToPetTests
 {
