@@ -8,11 +8,8 @@ using PetHelper.Application.DTOs;
 using PetHelper.Application.DTOs.Pet;
 using PetHelper.Application.FileProvider;
 using PetHelper.Application.Providers;
-using PetHelper.Domain.Models;
-using PetHelper.Domain.ValueObjects;
-using PetHelper.Domain.ValueObjects.Pet;
-using PetHelper.Application.Volunteers;
 using PetHelper.Application.Species;
+using PetHelper.Application.Volunteers;
 using PetHelper.Application.Volunteers.Commands.AddPet;
 using PetHelper.Application.Volunteers.Commands.AddPetPhotos;
 using PetHelper.Domain.Models.Breed;
@@ -20,11 +17,12 @@ using PetHelper.Domain.Models.Pet;
 using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
+using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Common;
+using PetHelper.Domain.ValueObjects.Pet;
 using Breed = PetHelper.Domain.Models.Breed.Breed;
-using PetPhoto = PetHelper.Domain.ValueObjects.Pet.PetPhoto;
 
-namespace PetHelper.UnitTests.PetHelher.Domain.UnitTest;
+namespace PetHelper.UnitTests;
 
 public class VolunteerTests
 {
