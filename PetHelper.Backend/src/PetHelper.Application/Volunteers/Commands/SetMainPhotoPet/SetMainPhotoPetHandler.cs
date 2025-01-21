@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Domain.Models.Pet;
 using PetHelper.Domain.Models.Volunteer;
@@ -16,15 +17,18 @@ public class SetMainPhotoPetHandler : ICommandHandler<string,SetMainPhotoPetComm
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IValidator<SetMainPhotoPetCommand> _validator;
     private readonly ILogger<SetMainPhotoPetHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public SetMainPhotoPetHandler(
         IVolunteersRepository volunteersRepository,
         IValidator<SetMainPhotoPetCommand> validator,
-        ILogger<SetMainPhotoPetHandler> logger)
+        ILogger<SetMainPhotoPetHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<string, ErrorList>> Handle(
@@ -57,7 +61,8 @@ public class SetMainPhotoPetHandler : ICommandHandler<string,SetMainPhotoPetComm
         if(setMainPhotoResult.IsFailure)
             return setMainPhotoResult.Error;
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         return command.PathPhoto;
     }

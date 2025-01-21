@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
@@ -15,15 +16,18 @@ public class UpdateDetailsForAssistanceHandler : ICommandHandler<Guid,UpdateDeta
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IValidator<UpdateDetailsForAssistanceCommand> _validator;
     private readonly ILogger<UpdateDetailsForAssistanceHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateDetailsForAssistanceHandler(
         IVolunteersRepository volunteersRepository,
         IValidator<UpdateDetailsForAssistanceCommand> validator,
-        ILogger<UpdateDetailsForAssistanceHandler> logger)
+        ILogger<UpdateDetailsForAssistanceHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -31,7 +35,6 @@ public class UpdateDetailsForAssistanceHandler : ICommandHandler<Guid,UpdateDeta
         CancellationToken cancellationToken = default
     )
     {
-        
         var validationResult = await _validator.ValidateAsync(command, cancellationToken);
 
         if (validationResult.IsValid == false)
@@ -52,8 +55,9 @@ public class UpdateDetailsForAssistanceHandler : ICommandHandler<Guid,UpdateDeta
         
         volunteerResult.Value.UpdateDetailsForAssistance(detailsForAssistance);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
-            
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         _logger.LogInformation("The list of details for assistance for user {volunteerId} has been updated", command.VolunteerId);
         
         return volunteerResult.Value.Id.Value;

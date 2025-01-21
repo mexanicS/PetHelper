@@ -1,6 +1,7 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Domain.Models.Species;
 using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects.Common;
@@ -12,12 +13,16 @@ public class CreateSpeciesHandler : ICommandHandler<Guid,CreateSpeciesCommand>
     private readonly ISpeciesRepository _speciesRepository;
     
     private readonly ILogger _logger;
+    private readonly IUnitOfWork _unitOfWork;
+
     public CreateSpeciesHandler(
         ISpeciesRepository speciesRepository,
-        ILogger<CreateSpeciesHandler> logger)
+        ILogger<CreateSpeciesHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _speciesRepository = speciesRepository;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -33,7 +38,9 @@ public class CreateSpeciesHandler : ICommandHandler<Guid,CreateSpeciesCommand>
         
         var speciesToCreate = CreateSpecies(command);
         
-        await _speciesRepository.Add(speciesToCreate.Value, cancellationToken);
+        await _speciesRepository.AddAsync(speciesToCreate.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         _logger.LogInformation("Created species added with id {speciesId}", speciesToCreate.Value.Id.Value);
         
         return speciesToCreate.Value.Id.Value;

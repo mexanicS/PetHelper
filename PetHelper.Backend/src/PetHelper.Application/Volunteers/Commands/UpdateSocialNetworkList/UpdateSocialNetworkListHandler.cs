@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
@@ -15,15 +16,18 @@ public class UpdateSocialNetworkListHandler : ICommandHandler<Guid,UpdateSocialN
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ILogger<UpdateSocialNetworkListHandler> _logger;
     private readonly IValidator<UpdateSocialNetworkListCommand> _validator;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateSocialNetworkListHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<UpdateSocialNetworkListHandler> logger,
-        IValidator<UpdateSocialNetworkListCommand> validator)
+        IValidator<UpdateSocialNetworkListCommand> validator,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -51,8 +55,9 @@ public class UpdateSocialNetworkListHandler : ICommandHandler<Guid,UpdateSocialN
         
         volunteerResult.Value.UpdateSocialNetwork(socialNetwork);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
-            
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         _logger.LogInformation("The list of social networks for user {volunteerId} has been updated", command.VolunteerId);
         
         return volunteerResult.Value.Id.Value;

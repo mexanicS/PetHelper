@@ -11,7 +11,7 @@ namespace PetHelper.Application.Species;
 
 public interface ISpeciesRepository
 {
-    Task<Guid> Add(Domain.Models.Species.Species volunteer, 
+    Task<Guid> AddAsync(Domain.Models.Species.Species volunteer, 
         CancellationToken cancellationToken = default);
 
     Task<Result<Domain.Models.Species.Species, Error>> GetSpeciesByName(Name speciesName, 
@@ -20,7 +20,7 @@ public interface ISpeciesRepository
     Task<Result<Domain.Models.Species.Species, Error>> GetSpeciesById(SpeciesId speciesId,
         CancellationToken cancellationToken = default);
 
-    Task<Guid> Save(Domain.Models.Species.Species species,
+    Task<Guid> Update(Domain.Models.Species.Species species,
         CancellationToken cancellationToken = default);
     
     Task<Guid> Delete(Domain.Models.Species.Species species, 

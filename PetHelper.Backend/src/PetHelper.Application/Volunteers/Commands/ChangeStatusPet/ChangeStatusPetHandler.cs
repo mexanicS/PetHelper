@@ -2,16 +2,11 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
-using PetHelper.Application.FileProvider;
-using PetHelper.Application.Messaging;
-using PetHelper.Application.Volunteers.Commands.AddPetPhotos;
 using PetHelper.Domain.Models.Pet;
 using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
-using PetHelper.Domain.ValueObjects;
-using PetHelper.Domain.ValueObjects.Pet;
-using FileInfo = System.IO.FileInfo;
 
 namespace PetHelper.Application.Volunteers.Commands.ChangeStatusPet;
 
@@ -20,15 +15,18 @@ public class ChangeStatusPetHandler : ICommandHandler<Guid, ChangeStatusPetComma
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly ILogger<ChangeStatusPetHandler> _logger;
     private readonly IValidator<ChangeStatusPetCommand> _validator;
+    private readonly IUnitOfWork _unitOfWork;
 
     public ChangeStatusPetHandler(
         IVolunteersRepository volunteersRepository,
         ILogger<ChangeStatusPetHandler> logger,
-        IValidator<ChangeStatusPetCommand> validator)
+        IValidator<ChangeStatusPetCommand> validator,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _logger = logger;
         _validator = validator;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -60,7 +58,8 @@ public class ChangeStatusPetHandler : ICommandHandler<Guid, ChangeStatusPetComma
         
         pet.ChangeStatus(status);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation("Pet with id = {petId} status changed from {oldStatus} to {newStatus} fot volunteer with id {volunteerId}", 
             petId.Value, oldStatus, command.Status.ToString(), volunteerId.Value);

@@ -17,17 +17,20 @@ public class DeleteBreedHandler : ICommandHandler<Guid, DeleteBreedCommand>
     private readonly IValidator<DeleteBreedCommand> _validator;
     private readonly ILogger<DeleteSpeciesHandler> _logger;
     private readonly IReadDbContext _readDbContext;
+    private readonly IUnitOfWork _unitOfWork;
 
     public DeleteBreedHandler(
         ISpeciesRepository speciesRepository,
         IValidator<DeleteBreedCommand> validator,
         ILogger<DeleteSpeciesHandler> logger,
-        IReadDbContext readDbContext)
+        IReadDbContext readDbContext,
+        IUnitOfWork unitOfWork)
     {
         _speciesRepository = speciesRepository;
         _validator = validator;
         _logger = logger;
         _readDbContext = readDbContext;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid, ErrorList>> Handle(
@@ -60,7 +63,8 @@ public class DeleteBreedHandler : ICommandHandler<Guid, DeleteBreedCommand>
 
         speciesResult.Value.RemoveBreed(foundBreed);
         
-        await _speciesRepository.Save(speciesResult.Value, cancellationToken);
+        await _speciesRepository.Update(speciesResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation($"Breed with name is {command.BreedName} deleted", command.BreedName);
 

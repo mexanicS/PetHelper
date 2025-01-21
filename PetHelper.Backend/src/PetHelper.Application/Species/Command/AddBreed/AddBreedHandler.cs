@@ -2,6 +2,7 @@ using CSharpFunctionalExtensions;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Domain.Models.Breed;
 using PetHelper.Domain.Models.Species;
@@ -17,14 +18,18 @@ public class AddBreedHandler : ICommandHandler<Guid,AddBreedCommand>
     private readonly IValidator<AddBreedCommand> _validator;
 
     private readonly ILogger _logger;
+    private readonly IUnitOfWork _unitOfWork;
+
     public AddBreedHandler(
         ISpeciesRepository speciesRepository,
         IValidator<AddBreedCommand> validator,
-        ILogger<AddBreedHandler> logger)
+        ILogger<AddBreedHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _speciesRepository = speciesRepository;
         _validator = validator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -56,7 +61,9 @@ public class AddBreedHandler : ICommandHandler<Guid,AddBreedCommand>
             return breedToCreate.Error.ToErrorList();
         
         species.Value.AddBreed(breedToCreate.Value);
-        await _speciesRepository.Save(species.Value, cancellationToken);
+        
+        await _speciesRepository.Update(species.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
         
         _logger.LogInformation("Added breed with species id {speciesId}", breedToCreate.Value.Id.Value);
         

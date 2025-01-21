@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.Logging;
 using PetHelper.Application.Abstractions;
 using PetHelper.Application.Abstractions.Commands;
+using PetHelper.Application.Database;
 using PetHelper.Application.Extensions;
 using PetHelper.Domain.Models.Volunteer;
 using PetHelper.Domain.Shared;
@@ -16,15 +17,18 @@ public class UpdateMainInfoHandler : ICommandHandler<Guid, UpdateMainInfoCommand
     private readonly IVolunteersRepository _volunteersRepository;
     private readonly IValidator<UpdateMainInfoCommand> _validator;
     private readonly ILogger<UpdateMainInfoHandler> _logger;
+    private readonly IUnitOfWork _unitOfWork;
 
     public UpdateMainInfoHandler(
         IVolunteersRepository volunteersRepository,
         IValidator<UpdateMainInfoCommand> validator,
-        ILogger<UpdateMainInfoHandler> logger)
+        ILogger<UpdateMainInfoHandler> logger,
+        IUnitOfWork unitOfWork)
     {
         _volunteersRepository = volunteersRepository;
         _validator = validator;
         _logger = logger;
+        _unitOfWork = unitOfWork;
     }
     
     public async Task<Result<Guid,ErrorList>> Handle(
@@ -65,8 +69,9 @@ public class UpdateMainInfoHandler : ICommandHandler<Guid, UpdateMainInfoCommand
             experienceRequest, 
             phoneNumberRequest);
         
-        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
-            
+        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+        
         _logger.LogInformation("Main information for volunteer ID {volunteerId} has been updated", command.Id);
 
         return volunteerResult.Value.Id.Value;
