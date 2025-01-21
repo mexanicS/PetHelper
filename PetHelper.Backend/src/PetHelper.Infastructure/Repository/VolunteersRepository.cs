@@ -36,16 +36,6 @@ public class VolunteersRepository() : IVolunteersRepository
         
         return volunteer.Id;
     }
-
-    public async Task<Guid> Update(
-        Volunteer volunteer, 
-        CancellationToken cancellationToken = default)
-    {
-        _dbcontext.Volunteers.Update(volunteer);
-        await _dbcontext.SaveChangesAsync(cancellationToken);
-        
-        return volunteer.Id;
-    }
     
     public async Task<Guid> Delete(Volunteer volunteer, CancellationToken cancellationToken = default)
     {

@@ -9,6 +9,7 @@ using PetHelper.Application.Volunteers.Commands.ChangeStatusPet;
 using PetHelper.Application.Volunteers.Commands.Create;
 using PetHelper.Application.Volunteers.Commands.Delete;
 using PetHelper.Application.Volunteers.Commands.HardDeletePet;
+using PetHelper.Application.Volunteers.Commands.SetMainPhotoPet;
 using PetHelper.Application.Volunteers.Commands.SoftDeletePet;
 using PetHelper.Application.Volunteers.Commands.UpdateDetailsForAssistance;
 using PetHelper.Application.Volunteers.Commands.UpdateMainInfo;
@@ -219,6 +220,24 @@ namespace PetHelper.API.Controllers.Volunteer
             var result = await handler.Handle(command, cancellationToken);
 
             if (result.IsFailure)
+                return result.Error.ToResponse();
+            
+            return Ok(result.Value);
+        }
+        
+        [HttpPost("{volunteerId:guid}/pets/{petId:guid}/set-main-photo")]
+        public async Task<ActionResult> SetMainPhoto(
+            [FromRoute] Guid volunteerId, 
+            [FromRoute] Guid petId, 
+            [FromQuery] string photoPath,
+            [FromServices] SetMainPhotoPetHandler handler,
+            CancellationToken cancellationToken = default)
+        {
+            var command = new SetMainPhotoPetCommand(volunteerId, petId, photoPath);
+            
+            var result = await handler.Handle(command, cancellationToken);
+            
+            if(result.IsFailure)
                 return result.Error.ToResponse();
             
             return Ok(result.Value);

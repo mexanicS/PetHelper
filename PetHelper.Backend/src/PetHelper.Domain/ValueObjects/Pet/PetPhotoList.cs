@@ -12,7 +12,7 @@ public record PetPhotoList : IEnumerable
         PetPhotos = (photos ?? []).ToList();
     } 
     
-    public IReadOnlyList<PetPhoto> PetPhotos { get; }
+    public List<PetPhoto> PetPhotos { get; }
     public IEnumerator GetEnumerator()
     {
         throw new NotImplementedException();

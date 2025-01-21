@@ -52,7 +52,7 @@ public class HardDeletePetHandler  : ICommandHandler<Guid,HardDeletePetCommand>
 
         volunteerResult.Value.RemovePet(pet);
         
-        await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
+        await _volunteersRepository.Save(volunteerResult.Value, cancellationToken);
         
         _logger.LogInformation("Pet with id = {petId} hard deleted", command.PetId);
         

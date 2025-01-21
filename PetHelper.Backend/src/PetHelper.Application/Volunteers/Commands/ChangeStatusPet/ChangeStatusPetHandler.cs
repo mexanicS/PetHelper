@@ -12,7 +12,6 @@ using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Pet;
 using FileInfo = System.IO.FileInfo;
-using PetPhoto = PetHelper.Domain.Models.Pet.PetPhoto;
 
 namespace PetHelper.Application.Volunteers.Commands.ChangeStatusPet;
 

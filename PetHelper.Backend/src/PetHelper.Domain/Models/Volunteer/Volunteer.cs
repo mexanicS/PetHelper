@@ -4,6 +4,7 @@ using PetHelper.Domain.Shared;
 using PetHelper.Domain.ValueObjects;
 using PetHelper.Domain.ValueObjects.Common;
 using PetHelper.Domain.ValueObjects.Pet;
+using PetPhoto = PetHelper.Domain.ValueObjects.Pet.PetPhoto;
 
 namespace PetHelper.Domain.Models.Volunteer
 {
@@ -212,6 +213,18 @@ namespace PetHelper.Domain.Models.Volunteer
         public void RemovePet(Pet.Pet pet)
         {
             _pets.Remove(pet);
+        }
+
+        public UnitResult<ErrorList> SetMainPetPhoto(PetId petId, PetPhoto photo)
+        {
+            var pet = _pets.FirstOrDefault(pet => pet.Id == petId);
+
+            if (pet is null)
+                return Errors.General.NotFound(petId.Value).ToErrorList();
+
+            var result = pet.SetMainPhoto(photo.FilePath.Value);
+            
+            return result;
         }
     }
 }

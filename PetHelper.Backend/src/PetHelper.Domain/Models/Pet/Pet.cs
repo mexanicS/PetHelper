@@ -11,7 +11,6 @@ namespace PetHelper.Domain.Models.Pet
         //ef core
         private Pet(PetId id) : base(id)
         { }
-
         public Pet(PetId petId,
             Name name, 
             TypePet typePet, 
@@ -80,7 +79,7 @@ namespace PetHelper.Domain.Models.Pet
 
         public DateTime CreatedDate { get; private set; }
 
-        public PetPhotoList PetPhotosList { get; private set; }= null!;
+        public PetPhotoList PetPhotosList { get; private set; }
         
         public SpeciesBreed SpeciesBreed { get; private set; }
 
@@ -164,6 +163,30 @@ namespace PetHelper.Domain.Models.Pet
         public void ChangeStatus(Constants.StatusPet status)
         {
             Status = status;
+        }
+
+        public UnitResult<ErrorList> SetMainPhoto(string pathPhoto)
+        {
+            var oldPhoto = PetPhotosList.PetPhotos.FirstOrDefault(p => p.FilePath.Value == pathPhoto);
+            if(oldPhoto is null)
+                return Errors.Pet.PhotoNotFound().ToErrorList();
+            
+            var oldMainPhoto =  PetPhotosList.PetPhotos.FirstOrDefault(p => p.IsMain);
+            
+            if (oldMainPhoto != null)
+            {
+                var oldMainPhotoWithNewProperty = PetPhoto.Create(oldMainPhoto.FilePath).Value;
+                PetPhotosList.PetPhotos.Remove(oldMainPhoto);
+                PetPhotosList.PetPhotos.Add(oldMainPhotoWithNewProperty);
+            }
+            PetPhotosList.PetPhotos.Remove(oldPhoto);
+            
+            var mainPhoto = PetPhoto.Create(FilePath.Create(pathPhoto).Value, true).Value;
+            PetPhotosList.PetPhotos.Add(mainPhoto);
+            
+            UpdatePhotos(new PetPhotoList(PetPhotosList.PetPhotos.OrderByDescending(p=>p.IsMain)));
+
+            return Result.Success<ErrorList>();
         }
     }
 }

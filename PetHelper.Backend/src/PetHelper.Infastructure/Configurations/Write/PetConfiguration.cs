@@ -144,9 +144,13 @@ namespace PetHelper.Infastructure.Configurations.Write
                             p => p.Value,
                             value => FilePath.Create(value).Value)
                         .HasMaxLength(FilePath.MAX_FILEPATH_LENGTH)
-                        .IsRequired(true)
+                        .IsRequired()
                         .HasJsonPropertyName("path");
-                    
+
+                    j.Property(i => i.IsMain)
+                        .IsRequired()
+                        .HasColumnName("is_main");
+
                 });
             });
 
