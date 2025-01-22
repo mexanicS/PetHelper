@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Contracts\PetHelper.Volunteer.Contracts.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Domain\PetHelper.Species.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
+    </ItemGroup>
+
+</Project>

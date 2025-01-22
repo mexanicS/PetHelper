@@ -1,3 +1,0 @@
-namespace PetHelper.Application.DTOs;
-
-public record DetailsForAssistanceListDto(IEnumerable<DetailsForAssistanceDto> DetailsForAssistances);

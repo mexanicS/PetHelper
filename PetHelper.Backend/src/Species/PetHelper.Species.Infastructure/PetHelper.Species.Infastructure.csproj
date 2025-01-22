@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.1" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\PetHelper.SharedKernel\PetHelper.SharedKernel.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Contracts\PetHelper.Volunteer.Contracts.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Domain\PetHelper.Species.Domain.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Application\PetHelper.Species.Application.csproj" />
+    </ItemGroup>
+
+</Project>
