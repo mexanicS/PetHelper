@@ -1,6 +1,5 @@
-using System.Net;
-using PetHelper.API.Response;
-using PetHelper.Domain.Shared;
+using PetHelper.Core.Models;
+using PetHelper.SharedKernel;
 
 namespace PetHelper.API.Middlewares;
 

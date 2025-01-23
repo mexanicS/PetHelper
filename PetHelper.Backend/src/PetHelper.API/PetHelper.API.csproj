@@ -27,9 +27,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PetHelper.Application\PetHelper.Application.csproj" />
-    <ProjectReference Include="..\PetHelper.Domain\PetHelper.Domain.csproj" />
-    <ProjectReference Include="..\PetHelper.Infastructure\PetHelper.Infastructure.csproj" />
+    <ProjectReference Include="..\Accounts\PetHelper.Accounts.Application\PetHelper.Accounts.Application.csproj" />
+    <ProjectReference Include="..\Accounts\PetHelper.Accounts.Controllers\PetHelper.Accounts.Controllers.csproj" />
+    <ProjectReference Include="..\Accounts\PetHelper.Accounts.Domain\PetHelper.Accounts.Domain.csproj" />
+    <ProjectReference Include="..\Accounts\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
+    <ProjectReference Include="..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
+    <ProjectReference Include="..\Species\PetHelper.Species.Controllers\PetHelper.Species.Controllers.csproj" />
+    <ProjectReference Include="..\Volunteers\PetHelper.Volunteer.Controllers\PetHelper.Volunteer.Controllers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

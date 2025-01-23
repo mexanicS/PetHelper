@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>PetHelper.Accounts.Comtrollers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PetHelper.Accounts.Application\PetHelper.Accounts.Application.csproj" />
+      <ProjectReference Include="..\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Requests\" />
+    </ItemGroup>
+
+</Project>

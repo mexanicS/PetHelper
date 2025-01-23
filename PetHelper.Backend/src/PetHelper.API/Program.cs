@@ -1,13 +1,20 @@
-using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.OpenApi.Models;
+using PetHelper.Accounts.Application;
+using PetHelper.Accounts.Comtrollers;
+using PetHelper.Accounts.Infastructure;
 using PetHelper.API;
 using PetHelper.API.Extensions;
 using PetHelper.API.Middlewares;
-using PetHelper.Application;
-using PetHelper.Infastructure;
-using PetHelper.Infastructure.Options;
+using PetHelper.Species.Application;
+using PetHelper.Species.Controllers;
+using PetHelper.Species.Controllers.Controllers;
+using PetHelper.Volunteer.Application;
+using PetHelper.Volunteer.Controllers;
+using PetHelper.Volunteer.Controllers.Controllers.Pet;
+using PetHelper.Volunteer.Controllers.Controllers.Volunteer;
 using Serilog;
 using Serilog.Events;
-using SharpGrip.FluentValidation.AutoValidation.Mvc.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +32,39 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 // Add services to the container.
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(SpeciesController).Assembly)
+    .AddApplicationPart(typeof(VolunteerController).Assembly)
+    .AddApplicationPart(typeof(PetController).Assembly);
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
 builder.Services.AddSerilog();
 
 builder.Services.AddHttpLogging(o =>
@@ -37,19 +73,23 @@ builder.Services.AddHttpLogging(o =>
 });
 
 builder.Services
-    .AddApplication()
-    .AddInfastructure(builder.Configuration);
+    .AddVolunteersInfrastructure(builder.Configuration)
+    .AddSpeciesInfrastructure(builder.Configuration)
+    .AddVolunteersApplication()
+    .AddSpeciesApplication()
+    .AddAccountsInfrastructure(builder.Configuration)
+    .AddAccountsApplication()
+    //.AddAuthorizationServices(builder.Configuration)
+    .AddAccountsPresentation();
 
-/*builder.Services.AddFluentValidationAutoValidation(configuration =>
-{
-    configuration.OverrideDefaultResultFactoryWith<CustomResultFactory>();
-});*/
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
+//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
-
+//var accountSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+//await accountSeeder.SeedAsync();
 
 app.UseExceptionMiddleware();
-
 app.UseSerilogRequestLogging();
 
 if (app.Environment.IsDevelopment())
@@ -58,11 +98,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseStaticFiles();
 
-    await app.ApplyMigration();
+    //await app.ApplyMigration();
 }
 
+/*
+app.UseCors(config =>
+{
+    config.WithOrigins("http://localhost:5221").AllowAnyHeader().AllowAnyMethod();
+});*/
+
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
+
 app.MapControllers();
 
 app.Run();
