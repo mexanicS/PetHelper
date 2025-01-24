@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using PetHelper.Accounts.Application;
-using PetHelper.Accounts.Comtrollers;
+using PetHelper.Accounts.Controllers;
 using PetHelper.Accounts.Infastructure;
 using PetHelper.API;
 using PetHelper.API.Extensions;
@@ -79,10 +79,10 @@ builder.Services
     .AddSpeciesApplication()
     .AddAccountsInfrastructure(builder.Configuration)
     .AddAccountsApplication()
-    //.AddAuthorizationServices(builder.Configuration)
+    .AddAuthorizationServices(builder.Configuration)
     .AddAccountsPresentation();
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();

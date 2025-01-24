@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using PetHelper.Accounts.Domain.AccountModels;
+using PetHelper.Core.DTOs;
 using PetHelper.SharedKernel.ValueObjects;
 using PetHelper.SharedKernel.ValueObjects.Pet;
 
@@ -29,6 +30,18 @@ public class User : IdentityUser<Guid>
             UserName = userName,
             _roles = [role],
             FullName = fullName
+        };
+    }
+    
+    public static User CreateParticipant(string email, 
+        string userName,
+        FullName fullName)
+    {
+        return new User
+        {
+            Email = email,
+            UserName = userName,
+            FullName = fullName,
         };
     }
 }

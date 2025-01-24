@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PetHelper.Accounts.Contracts;
 
-namespace PetHelper.Accounts.Comtrollers;
+namespace PetHelper.Accounts.Controllers;
 
 public static class Inject
 {

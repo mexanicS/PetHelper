@@ -14,7 +14,9 @@ public class WriteAccountsDbContext : IdentityDbContext<User, Role, Guid>
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<AdminAccount> AdminAccounts => Set<AdminAccount>();
     public DbSet<ParticipantAccount> ParticipantAccounts => Set<ParticipantAccount>();
+    
     public DbSet<VolunteerAccount> VolunteerAccounts => Set<VolunteerAccount>();
+    
     public DbSet<RefreshSession> RefreshSessions => Set<RefreshSession>();
     public DbSet<Permission> Permissions => Set<Permission>();
     public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
@@ -56,8 +58,8 @@ public class WriteAccountsDbContext : IdentityDbContext<User, Role, Guid>
             .ToTable("user_roles");
         
         modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(WriteAccountsDbContext).Assembly,
-            x => x.FullName!.Contains("Configurations.Write"));
+            typeof(WriteAccountsDbContext).Assembly, 
+            type => type.FullName?.Contains("Configurations.Write") ?? false);
         
         //modelBuilder.HasDefaultSchema("PetHelper_Accounts");
     }

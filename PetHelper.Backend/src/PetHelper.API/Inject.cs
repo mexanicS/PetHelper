@@ -5,7 +5,7 @@ using PetHelper.Framework.Authorization;
 
 namespace PetHelper.API;
 
-public static class Inject
+public static class  Inject
 {
     public static IServiceCollection AddAuthorizationServices(this IServiceCollection services,
         IConfiguration configuration)
@@ -26,7 +26,7 @@ public static class Inject
             });
         
         services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        //services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         
         return services;
     }

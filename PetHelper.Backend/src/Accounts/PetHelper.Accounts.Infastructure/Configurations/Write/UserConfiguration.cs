@@ -34,7 +34,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .HasColumnName("middle_name");
         });
-        
         builder
             .Property(u => u.SocialNetworks)
             .ValueObjectsJsonConversion(

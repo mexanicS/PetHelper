@@ -31,6 +31,7 @@ namespace PetHelper.Volunteer.Infastructure.DbContexts
             modelBuilder.ApplyConfigurationsFromAssembly(
                 typeof(VolunteerWriteDbContext).Assembly, 
                 type => type.FullName?.Contains("Configurations.Write") ?? false);
+            
             //modelBuilder.HasDefaultSchema("PetHelper_Volunteers");
         }
 
