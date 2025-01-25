@@ -7,6 +7,7 @@ public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
     {
         //
+        //Создал ветку ID-B-27
         throw new NotImplementedException();
     }
 
