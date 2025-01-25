@@ -1,18 +1,19 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using PetHelper.Accounts.Application;
-using PetHelper.Accounts.Comtrollers;
+using PetHelper.Accounts.Controllers;
 using PetHelper.Accounts.Infastructure;
 using PetHelper.API;
-using PetHelper.API.Extensions;
 using PetHelper.API.Middlewares;
 using PetHelper.Species.Application;
 using PetHelper.Species.Controllers;
 using PetHelper.Species.Controllers.Controllers;
+using PetHelper.Species.Infastructure;
 using PetHelper.Volunteer.Application;
 using PetHelper.Volunteer.Controllers;
 using PetHelper.Volunteer.Controllers.Controllers.Pet;
 using PetHelper.Volunteer.Controllers.Controllers.Volunteer;
+using PetHelper.Volunteer.Infastructure;
 using Serilog;
 using Serilog.Events;
 
@@ -73,16 +74,22 @@ builder.Services.AddHttpLogging(o =>
 });
 
 builder.Services
-    .AddVolunteersInfrastructure(builder.Configuration)
     .AddSpeciesInfrastructure(builder.Configuration)
-    .AddVolunteersApplication()
+    .AddSpeciesPresentation()
     .AddSpeciesApplication()
-    .AddAccountsInfrastructure(builder.Configuration)
-    .AddAccountsApplication()
-    //.AddAuthorizationServices(builder.Configuration)
-    .AddAccountsPresentation();
 
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+    .AddVolunteerInfastructure(builder.Configuration)
+    .AddVolunteersPresentation()
+    .AddVolunteersApplication()
+
+    .AddAccountsInfrastructure(builder.Configuration)
+    .AddAccountsPresentation()
+    .AddAccountsApplication()
+    
+    .AddAuthorizationServices(builder.Configuration);
+    
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();

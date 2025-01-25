@@ -19,7 +19,7 @@ namespace PetHelper.Volunteer.Infastructure;
 
 public static class Inject
 {
-    public static IServiceCollection AddInfastructure(
+    public static IServiceCollection AddVolunteerInfastructure(
         this IServiceCollection services,
         IConfiguration configuration)
     {
@@ -56,7 +56,7 @@ public static class Inject
     private static IServiceCollection AddServices(
         this IServiceCollection services)
     {
-        services.AddScoped<IFilesCleanerService, FilesCleanerService>();
+        services.AddScoped<FilesCleanerService>();
         
         return services;
     }

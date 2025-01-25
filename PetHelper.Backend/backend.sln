@@ -57,6 +57,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Framework", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Accounts.Contracts", "src\Accounts\PetHelper.Accounts.Contracts\PetHelper.Accounts.Contracts.csproj", "{A42FF11E-5341-4B31-8B46-4E47C8D24125}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.ArchitectureTests", "tests\PetHelper.ArchitectureTests\PetHelper.ArchitectureTests.csproj", "{99FADEFA-31F4-40E3-8757-EEC4020DC632}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Accounts.ArchitectureTests", "src\Accounts\PetHelper.Accounts.ArchitectureTests\PetHelper.Accounts.ArchitectureTests.csproj", "{380895EE-F82A-4B23-B156-5C626EF93B99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Species.ArchitectureTests", "src\Species\PetHelper.Species.ArchitectureTests\PetHelper.Species.ArchitectureTests.csproj", "{E4702A75-4B9F-45DF-9B54-4BC665091047}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetHelper.Volunteer.ArchitectureTests", "src\Volunteers\PetHelper.Volunteer.ArchitectureTests\PetHelper.Volunteer.ArchitectureTests.csproj", "{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -148,6 +156,22 @@ Global
 		{A42FF11E-5341-4B31-8B46-4E47C8D24125}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A42FF11E-5341-4B31-8B46-4E47C8D24125}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A42FF11E-5341-4B31-8B46-4E47C8D24125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99FADEFA-31F4-40E3-8757-EEC4020DC632}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99FADEFA-31F4-40E3-8757-EEC4020DC632}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99FADEFA-31F4-40E3-8757-EEC4020DC632}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99FADEFA-31F4-40E3-8757-EEC4020DC632}.Release|Any CPU.Build.0 = Release|Any CPU
+		{380895EE-F82A-4B23-B156-5C626EF93B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{380895EE-F82A-4B23-B156-5C626EF93B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{380895EE-F82A-4B23-B156-5C626EF93B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{380895EE-F82A-4B23-B156-5C626EF93B99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4702A75-4B9F-45DF-9B54-4BC665091047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4702A75-4B9F-45DF-9B54-4BC665091047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4702A75-4B9F-45DF-9B54-4BC665091047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4702A75-4B9F-45DF-9B54-4BC665091047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,5 +205,9 @@ Global
 		{8BCB267E-A069-462A-8A71-FC9D3FC4FD74} = {46E0AFC7-B933-4F5D-AC51-34A682517F81}
 		{2C022958-A830-43C0-9556-A20EB41F0FDA} = {46E0AFC7-B933-4F5D-AC51-34A682517F81}
 		{A42FF11E-5341-4B31-8B46-4E47C8D24125} = {51BA222B-B4A5-42A6-A942-5FA15A8BC4D7}
+		{99FADEFA-31F4-40E3-8757-EEC4020DC632} = {46D72DB5-1531-4D3A-A21E-9DD136ACF617}
+		{380895EE-F82A-4B23-B156-5C626EF93B99} = {51BA222B-B4A5-42A6-A942-5FA15A8BC4D7}
+		{E4702A75-4B9F-45DF-9B54-4BC665091047} = {316A846E-8E6B-4356-A9B2-F4832B59346D}
+		{50D4EEAA-7A39-4EEC-A2E4-746A3C90AB36} = {4BB14E22-CCD9-46DD-8059-B50DFA4496DC}
 	EndGlobalSection
 EndGlobal

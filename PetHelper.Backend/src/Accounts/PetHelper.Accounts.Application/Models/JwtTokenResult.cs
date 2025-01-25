@@ -1,6 +1,3 @@
 namespace PetHelper.Accounts.Application.Models;
 
-public class JwtTokenResult
-{
-    
-}
+public record JwtTokenResult(string AccessToken, Guid Jti);

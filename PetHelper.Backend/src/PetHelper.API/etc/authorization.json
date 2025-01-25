@@ -72,12 +72,6 @@
     "Accounts": [
       "accounts.read",
       "accounts.update"
-    ],
-    "VolunteerRequests": [
-      "request.create",
-      "request.read",
-      "request.update",
-      "request.delete"
     ]
   }
 }
