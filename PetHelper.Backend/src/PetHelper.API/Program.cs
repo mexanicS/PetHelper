@@ -4,7 +4,6 @@ using PetHelper.Accounts.Application;
 using PetHelper.Accounts.Controllers;
 using PetHelper.Accounts.Infastructure;
 using PetHelper.API;
-using PetHelper.API.Extensions;
 using PetHelper.API.Middlewares;
 using PetHelper.Species.Application;
 using PetHelper.Species.Controllers;

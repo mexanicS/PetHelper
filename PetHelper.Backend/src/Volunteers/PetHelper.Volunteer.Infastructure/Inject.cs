@@ -56,7 +56,7 @@ public static class Inject
     private static IServiceCollection AddServices(
         this IServiceCollection services)
     {
-        services.AddScoped<IFilesCleanerService, FilesCleanerService>();
+        services.AddScoped<FilesCleanerService>();
         
         return services;
     }

@@ -7,7 +7,7 @@ using FileInfo = PetHelper.Core.FileProvider.FileInfo;
 
 namespace PetHelper.Volunteer.Infastructure.Files;
 
-public class FilesCleanerService : IFilesCleanerService
+public class FilesCleanerService
 {
     private readonly ILogger<FilesCleanerService> _logger;
     private readonly IMessageQueue<IEnumerable<FileInfo>> _messageQueue;
