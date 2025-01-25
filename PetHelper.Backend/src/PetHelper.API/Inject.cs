@@ -26,7 +26,7 @@ public static class  Inject
             });
         
         services.AddSingleton<IAuthorizationHandler, PermissionRequirementHandler>();
-        //services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
         
         return services;
     }

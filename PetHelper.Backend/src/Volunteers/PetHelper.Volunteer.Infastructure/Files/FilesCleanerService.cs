@@ -2,6 +2,7 @@ using Microsoft.Extensions.Logging;
 using PetHelper.Core.Messaging;
 using PetHelper.Core.Providers;
 using PetHelper.Volunteer.Application;
+using PetHelper.Volunteer.Infastructure.BackgroundServices;
 using FileInfo = PetHelper.Core.FileProvider.FileInfo;
 
 namespace PetHelper.Volunteer.Infastructure.Files;

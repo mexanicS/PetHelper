@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PetHelper.Accounts.Application\PetHelper.Accounts.Application.csproj" />
-      <ProjectReference Include="..\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
     </ItemGroup>
 
 </Project>

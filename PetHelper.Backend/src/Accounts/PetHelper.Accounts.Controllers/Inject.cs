@@ -8,6 +8,7 @@ public static class Inject
     public static IServiceCollection AddAccountsPresentation(this IServiceCollection services)
     {
         services.AddScoped<IAccountContracts, AccountContracts>();
+        
         return services;
     }
 }

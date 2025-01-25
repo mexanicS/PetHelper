@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PetHelper.Framework;
 using PetHelper.Volunteer.Application.VolunteersManagement.Commands.Pet.ChangeStatusPet;
 using PetHelper.Volunteer.Application.VolunteersManagement.Commands.Pet.SetMainPhotoPet;
@@ -20,6 +21,7 @@ namespace PetHelper.Volunteer.Controllers.Controllers.Volunteer
 {
     public class VolunteerController : ApplicationController
     {
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(
             [FromServices] CreateVolunteerHandler handler,

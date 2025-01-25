@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Accounts\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
     <ProjectReference Include="..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
     <ProjectReference Include="..\Species\PetHelper.Species.Controllers\PetHelper.Species.Controllers.csproj" />
+    <ProjectReference Include="..\Species\PetHelper.Species.Infastructure\PetHelper.Species.Infastructure.csproj" />
     <ProjectReference Include="..\Volunteers\PetHelper.Volunteer.Controllers\PetHelper.Volunteer.Controllers.csproj" />
   </ItemGroup>
 

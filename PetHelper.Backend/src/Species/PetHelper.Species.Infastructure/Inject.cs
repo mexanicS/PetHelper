@@ -10,7 +10,7 @@ namespace PetHelper.Species.Infastructure;
 
 public static class Inject
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+    public static IServiceCollection AddSpeciesInfrastructure(this IServiceCollection services,
         IConfiguration configuration)
     {
         services.AddDbContexts(configuration)

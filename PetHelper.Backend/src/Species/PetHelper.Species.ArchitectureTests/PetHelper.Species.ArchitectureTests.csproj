@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="TngTech.ArchUnitNET" Version="0.11.1" />
+        <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.11.1" />
+        <PackageReference Include="xunit" Version="2.5.3"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\PetHelper.API\PetHelper.API.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Application\PetHelper.Species.Application.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Contracts\PetHelper.Species.Contracts.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Controllers\PetHelper.Species.Controllers.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Domain\PetHelper.Species.Domain.csproj" />
+      <ProjectReference Include="..\PetHelper.Species.Infastructure\PetHelper.Species.Infastructure.csproj" />
+    </ItemGroup>
+</Project>

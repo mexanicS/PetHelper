@@ -9,10 +9,12 @@ using PetHelper.API.Middlewares;
 using PetHelper.Species.Application;
 using PetHelper.Species.Controllers;
 using PetHelper.Species.Controllers.Controllers;
+using PetHelper.Species.Infastructure;
 using PetHelper.Volunteer.Application;
 using PetHelper.Volunteer.Controllers;
 using PetHelper.Volunteer.Controllers.Controllers.Pet;
 using PetHelper.Volunteer.Controllers.Controllers.Volunteer;
+using PetHelper.Volunteer.Infastructure;
 using Serilog;
 using Serilog.Events;
 
@@ -73,14 +75,20 @@ builder.Services.AddHttpLogging(o =>
 });
 
 builder.Services
-    .AddVolunteersInfrastructure(builder.Configuration)
     .AddSpeciesInfrastructure(builder.Configuration)
-    .AddVolunteersApplication()
+    .AddSpeciesPresentation()
     .AddSpeciesApplication()
+
+    .AddVolunteerInfastructure(builder.Configuration)
+    .AddVolunteersPresentation()
+    .AddVolunteersApplication()
+
     .AddAccountsInfrastructure(builder.Configuration)
+    .AddAccountsPresentation()
     .AddAccountsApplication()
-    .AddAuthorizationServices(builder.Configuration)
-    .AddAccountsPresentation();
+    
+    .AddAuthorizationServices(builder.Configuration);
+    
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 

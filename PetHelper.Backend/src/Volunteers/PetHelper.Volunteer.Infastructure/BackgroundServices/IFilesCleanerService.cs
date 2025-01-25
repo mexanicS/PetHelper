@@ -1,4 +1,4 @@
-namespace PetHelper.Volunteer.Application;
+namespace PetHelper.Volunteer.Infastructure.BackgroundServices;
 
 public interface IFilesCleanerService
 {

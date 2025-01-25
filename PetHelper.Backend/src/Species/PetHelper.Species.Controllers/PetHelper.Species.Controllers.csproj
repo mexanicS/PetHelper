@@ -28,7 +28,6 @@
       <ProjectReference Include="..\PetHelper.Species.Application\PetHelper.Species.Application.csproj" />
       <ProjectReference Include="..\PetHelper.Species.Contracts\PetHelper.Species.Contracts.csproj" />
       <ProjectReference Include="..\PetHelper.Species.Domain\PetHelper.Species.Domain.csproj" />
-      <ProjectReference Include="..\PetHelper.Species.Infastructure\PetHelper.Species.Infastructure.csproj" />
     </ItemGroup>
 
 </Project>
