@@ -34,6 +34,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
                 .HasColumnName("middle_name");
         });
+        
         builder
             .Property(u => u.SocialNetworks)
             .ValueObjectsJsonConversion(
@@ -46,7 +47,14 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 file => new PetPhotoDto {Path = file.FilePath , IsMain = file.IsMain},
                 json => new PetPhoto {IsMain = json.IsMain, FilePath = json.Path})
             .HasColumnName("photos");
-
+        
+        builder
+            .Property(u => u.DetailsForAssistance)
+            .ValueObjectsJsonConversion(
+                input => new DetailsForAssistanceDto( input.Name , input.Description),
+                output => DetailsForAssistance.Create(output.Name, output.Description).Value)
+            .HasColumnName("details_for_assistance");
+        
         builder.HasMany(u => u.Roles)
             .WithMany()
             .UsingEntity<IdentityUserRole<Guid>>();

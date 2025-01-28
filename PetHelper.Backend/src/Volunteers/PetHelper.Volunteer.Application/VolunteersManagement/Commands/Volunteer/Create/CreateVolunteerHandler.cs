@@ -75,9 +75,7 @@ public class CreateVolunteerHandler : ICommandHandler<Guid,CreateVolunteerComman
             email,
             description,
             experience,
-            phoneNumber,
-            socialNetwork,
-            detailsForAssistance
+            phoneNumber
         );
     }
 }

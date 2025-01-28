@@ -74,42 +74,6 @@ namespace PetHelper.Volunteer.Infastructure.Configurations.Write
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.OwnsOne(v => v.DetailsForAssistance, vb =>
-            {
-                vb.ToJson("details_for_assistance");
-
-                vb.OwnsMany(cl => cl.DetailsForAssistance, cl =>
-                {
-                    cl.Property(c => c.Name)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                        .HasColumnName("details_for_assistance_name");
-
-                    cl.Property(c => c.Description)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
-                        .HasColumnName("details_for_assistance_description"); ;
-                });
-            });
-
-            builder.OwnsOne(v => v.SocialNetwork, vb =>
-            {
-                vb.ToJson("social_network");
-
-                vb.OwnsMany(cl => cl.SocialNetwork, cl =>
-                {
-                    cl.Property(c => c.Name)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_LOW_TEXT_LENGTH)
-                        .HasColumnName("social_network_name");
-
-
-                    cl.Property(c => c.Url)
-                        .IsRequired()
-                        .HasMaxLength(Constants.MAX_MEDIUM_TEXT_LENGTH)
-                        .HasColumnName("social_network_link");
-                });
-            });
             
             builder.Property<bool>("_isDeleted")
                 .UsePropertyAccessMode(PropertyAccessMode.Field)
