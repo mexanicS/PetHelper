@@ -164,20 +164,12 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_id1");
-
                     b.HasKey("Id")
                         .HasName("pk_admin_accounts");
 
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasDatabaseName("ix_admin_accounts_user_id");
-
-                    b.HasIndex("UserId1")
-                        .IsUnique()
-                        .HasDatabaseName("ix_admin_accounts_user_id1");
 
                     b.ToTable("admin_accounts", (string)null);
                 });
@@ -518,16 +510,11 @@ namespace PetHelper.Accounts.Infastructure.Migrations
             modelBuilder.Entity("PetHelper.Accounts.Domain.AccountModels.AdminAccount", b =>
                 {
                     b.HasOne("PetHelper.Accounts.Domain.User", "User")
-                        .WithOne()
+                        .WithOne("AdminAccount")
                         .HasForeignKey("PetHelper.Accounts.Domain.AccountModels.AdminAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_admin_accounts_user_user_id");
-
-                    b.HasOne("PetHelper.Accounts.Domain.User", null)
-                        .WithOne("AdminAccount")
-                        .HasForeignKey("PetHelper.Accounts.Domain.AccountModels.AdminAccount", "UserId1")
-                        .HasConstraintName("fk_admin_accounts_users_user_id1");
 
                     b.Navigation("User");
                 });

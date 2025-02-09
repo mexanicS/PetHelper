@@ -119,8 +119,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,11 +130,6 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_admin_accounts_users_user_id1",
-                        column: x => x.user_id1,
-                        principalTable: "users",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -287,12 +281,6 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 name: "ix_admin_accounts_user_id",
                 table: "admin_accounts",
                 column: "user_id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "ix_admin_accounts_user_id1",
-                table: "admin_accounts",
-                column: "user_id1",
                 unique: true);
 
             migrationBuilder.CreateIndex(
