@@ -34,6 +34,12 @@ public class WriteAccountsDbContext : IdentityDbContext<User, Role, Guid>
         
         modelBuilder.Entity<Role>()
             .ToTable("roles");
+
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.Roles)
+            .WithMany()
+            .UsingEntity<IdentityUserClaim<Guid>>();
+            
         
         modelBuilder.Entity<Permission>()
             .HasIndex(p => p.Code)

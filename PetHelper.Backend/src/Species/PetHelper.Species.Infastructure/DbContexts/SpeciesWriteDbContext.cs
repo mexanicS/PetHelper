@@ -7,7 +7,7 @@ namespace PetHelper.Species.Infastructure.DbContexts;
 public class SpeciesWriteDbContext() : DbContext
 {
     private readonly string _connectionString;
-
+    
     public SpeciesWriteDbContext(string connectionString) : this()
     {
         _connectionString = connectionString;
@@ -20,7 +20,6 @@ public class SpeciesWriteDbContext() : DbContext
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
         optionsBuilder.EnableSensitiveDataLogging();
-        //optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
             
         base.OnConfiguring(optionsBuilder);
     }
@@ -30,6 +29,8 @@ public class SpeciesWriteDbContext() : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(SpeciesWriteDbContext).Assembly, 
             type => type.FullName?.Contains("Configurations.Write") ?? false);
+        
+        //modelBuilder.HasDefaultSchema("PetHelper_Species");
     }
 
     private ILoggerFactory CreateLoggerFactory() => 

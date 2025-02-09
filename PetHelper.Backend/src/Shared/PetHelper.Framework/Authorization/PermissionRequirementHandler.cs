@@ -12,7 +12,7 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         
         if (userPermission is null)
             return;
-
+ 
         if (userPermission.Value == permissionAttribute.Code)
         {
             context.Succeed(permissionAttribute);

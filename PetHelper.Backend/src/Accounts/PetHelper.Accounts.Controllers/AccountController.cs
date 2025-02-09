@@ -23,7 +23,6 @@ public class AccountController : ApplicationController
         return Ok();
     }
     
-    [Permission("login")]
     [HttpPost("login")]
     public async Task<ActionResult> Login(
         [FromBody] LoginRequest request,

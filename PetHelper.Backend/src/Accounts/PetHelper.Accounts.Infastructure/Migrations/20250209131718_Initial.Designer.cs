@@ -13,7 +13,7 @@ using PetHelper.Accounts.Infastructure.DbContexts;
 namespace PetHelper.Accounts.Infastructure.Migrations
 {
     [DbContext(typeof(WriteAccountsDbContext))]
-    [Migration("20250124105152_Initial")]
+    [Migration("20250209131718_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -349,6 +349,11 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text")
                         .HasColumnName("concurrency_stamp");
+
+                    b.Property<string>("DetailsForAssistance")
+                        .IsRequired()
+                        .HasColumnType("jsonb")
+                        .HasColumnName("details_for_assistance");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

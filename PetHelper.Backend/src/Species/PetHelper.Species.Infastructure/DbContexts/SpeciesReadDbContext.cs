@@ -31,6 +31,8 @@ public class SpeciesReadDbContext(string ConnectionString) : DbContext, IReadDbC
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(SpeciesReadDbContext).Assembly, 
             type => type.FullName?.Contains("Configurations.Read") ?? false);
+        
+        //modelBuilder.HasDefaultSchema("PetHelper_Species");
     }
 
     private ILoggerFactory CreateLoggerFactory() => 
