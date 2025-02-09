@@ -22,7 +22,7 @@ namespace PetHelper.Volunteer.Controllers.Controllers.Volunteer
 {
     public class VolunteerController : ApplicationController
     {
-        [Permission("volunteers.create")]
+        [Permission(Permissions.Volunteers.CreateVolunteer)]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(

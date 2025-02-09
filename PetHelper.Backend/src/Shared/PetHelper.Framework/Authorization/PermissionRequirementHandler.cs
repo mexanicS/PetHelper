@@ -1,4 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using PetHelper.Accounts.Contracts;
+using PetHelper.Accounts.Domain;
 
 namespace PetHelper.Framework.Authorization;
 
@@ -8,14 +12,16 @@ public class PermissionRequirementHandler : AuthorizationHandler<PermissionAttri
         AuthorizationHandlerContext context, 
         PermissionAttribute permissionAttribute)
     {
-        var userPermission = context.User.Claims.FirstOrDefault(claim => claim.Type == "Permission");
-        
-        if (userPermission is null)
-            return;
- 
-        if (userPermission.Value == permissionAttribute.Code)
+        var permissions = context.User.Claims
+            .Where(claim => claim.Type == CustomClaims.Permission)
+            .Select(claim => claim.Value)
+            .ToList();
+            
+        if (permissions.Contains(permissionAttribute.Code))
         {
             context.Succeed(permissionAttribute);
+            return;
         }
+        context.Fail();
     }
 }

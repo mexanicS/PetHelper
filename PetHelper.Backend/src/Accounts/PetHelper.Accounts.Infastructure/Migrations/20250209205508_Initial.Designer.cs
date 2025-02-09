@@ -13,7 +13,7 @@ using PetHelper.Accounts.Infastructure.DbContexts;
 namespace PetHelper.Accounts.Infastructure.Migrations
 {
     [DbContext(typeof(WriteAccountsDbContext))]
-    [Migration("20250209131718_Initial")]
+    [Migration("20250209205508_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -167,12 +167,20 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
+                    b.Property<Guid?>("UserId1")
+                        .HasColumnType("uuid")
+                        .HasColumnName("user_id1");
+
                     b.HasKey("Id")
                         .HasName("pk_admin_accounts");
 
                     b.HasIndex("UserId")
                         .IsUnique()
                         .HasDatabaseName("ix_admin_accounts_user_id");
+
+                    b.HasIndex("UserId1")
+                        .IsUnique()
+                        .HasDatabaseName("ix_admin_accounts_user_id1");
 
                     b.ToTable("admin_accounts", (string)null);
                 });
@@ -470,7 +478,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_claims_asp_net_users_user_id");
+                        .HasConstraintName("fk_user_claims_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -480,7 +488,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_logins_asp_net_users_user_id");
+                        .HasConstraintName("fk_user_logins_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -497,7 +505,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_roles_asp_net_users_user_id");
+                        .HasConstraintName("fk_user_roles_users_user_id");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -507,17 +515,22 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_tokens_asp_net_users_user_id");
+                        .HasConstraintName("fk_user_tokens_users_user_id");
                 });
 
             modelBuilder.Entity("PetHelper.Accounts.Domain.AccountModels.AdminAccount", b =>
                 {
                     b.HasOne("PetHelper.Accounts.Domain.User", "User")
-                        .WithOne("AdminAccount")
+                        .WithOne()
                         .HasForeignKey("PetHelper.Accounts.Domain.AccountModels.AdminAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_admin_accounts_user_user_id");
+
+                    b.HasOne("PetHelper.Accounts.Domain.User", null)
+                        .WithOne("AdminAccount")
+                        .HasForeignKey("PetHelper.Accounts.Domain.AccountModels.AdminAccount", "UserId1")
+                        .HasConstraintName("fk_admin_accounts_users_user_id1");
 
                     b.Navigation("User");
                 });

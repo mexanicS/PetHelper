@@ -5,5 +5,5 @@ namespace PetHelper.Accounts.Application.Interfaces;
 
 public interface ITokenProvider
 {
-    JwtTokenResult GetAccessToken(User user, CancellationToken cancellationToken);
+    Task<JwtTokenResult> GetAccessToken(User user, CancellationToken cancellationToken);
 }

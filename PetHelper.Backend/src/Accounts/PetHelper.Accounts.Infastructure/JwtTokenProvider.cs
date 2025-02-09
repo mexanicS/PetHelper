@@ -7,23 +7,25 @@ using PetHelper.Accounts.Application.Interfaces;
 using PetHelper.Accounts.Application.Models;
 using PetHelper.Accounts.Domain;
 using PetHelper.Accounts.Infastructure.DbContexts;
+using PetHelper.Accounts.Infastructure.IdentityManagers;
 using PetHelper.Core.Options;
 
 namespace PetHelper.Accounts.Infastructure;
 
 public class JwtTokenProvider : ITokenProvider
 {
+    private readonly PermissionManager _permissionManager;
     private readonly JwtOptions _jwtOptions;
-    private readonly WriteAccountsDbContext _dbContext;
 
     public JwtTokenProvider(
         IOptions<JwtOptions> jwtOptions, 
-        WriteAccountsDbContext dbContext)
+        PermissionManager permissionManager
+        )
     {
+        _permissionManager = permissionManager;
         _jwtOptions = jwtOptions.Value;
-        _dbContext = dbContext;
     }
-    public JwtTokenResult GetAccessToken(
+    public async Task<JwtTokenResult> GetAccessToken(
         User user, 
         CancellationToken cancellationToken)
     {
@@ -32,14 +34,19 @@ public class JwtTokenProvider : ITokenProvider
         
         var roleClaims = user.Roles.Select(r => new Claim(ClaimTypes.Role, r.Name ?? string.Empty));
 
+        var permissions = await _permissionManager.GetUserPermissionsCode(user.Id, cancellationToken);
+        var permissionsClaims = permissions.Select(r => new Claim(CustomClaims.Permission, r ?? string.Empty));
+        
         var jti = Guid.NewGuid();
         
         Claim[] claims = 
         [
-            new Claim(CustomClaims.Id, user.Id.ToString()),
-            new Claim(CustomClaims.Jti, jti.ToString()),
-            new Claim(CustomClaims.Email, user.Email!)
+            new(CustomClaims.Id, user.Id.ToString()),
+            new(CustomClaims.Jti, jti.ToString()),
+            new(CustomClaims.Email, user.Email!)
         ];
+        
+        claims = claims.Union(roleClaims).Union(permissionsClaims).ToArray();
         
         var jwtToken = new JwtSecurityToken(
             issuer: _jwtOptions.Issuer,
