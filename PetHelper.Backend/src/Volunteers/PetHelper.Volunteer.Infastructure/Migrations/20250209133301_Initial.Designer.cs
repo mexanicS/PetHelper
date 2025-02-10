@@ -13,7 +13,7 @@ using PetHelper.Volunteer.Infastructure.DbContexts;
 namespace PetHelper.Volunteer.Infastructure.Migrations
 {
     [DbContext(typeof(VolunteerWriteDbContext))]
-    [Migration("20250124104918_Initial")]
+    [Migration("20250209133301_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -408,115 +408,6 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("PetPhotosList")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PetHelper.Volunteer.Domain.Volunteer", b =>
-                {
-                    b.OwnsOne("PetHelper.SharedKernel.ValueObjects.DetailsForAssistanceList", "DetailsForAssistance", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("VolunteerId");
-
-                            b1.ToTable("volunteer");
-
-                            b1.ToJson("details_for_assistance");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteer_volunteer_id");
-
-                            b1.OwnsMany("PetHelper.SharedKernel.ValueObjects.DetailsForAssistance", "DetailsForAssistance", b2 =>
-                                {
-                                    b2.Property<Guid>("DetailsForAssistanceListVolunteerId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("__synthesizedOrdinal")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Description")
-                                        .IsRequired()
-                                        .HasMaxLength(1000)
-                                        .HasColumnType("character varying(1000)")
-                                        .HasColumnName("details_for_assistance_description");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("details_for_assistance_name");
-
-                                    b2.HasKey("DetailsForAssistanceListVolunteerId", "__synthesizedOrdinal");
-
-                                    b2.ToTable("volunteer");
-
-                                    b2.ToJson("details_for_assistance");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("DetailsForAssistanceListVolunteerId")
-                                        .HasConstraintName("fk_volunteer_volunteer_details_for_assistance_list_volunteer_id");
-                                });
-
-                            b1.Navigation("DetailsForAssistance");
-                        });
-
-                    b.OwnsOne("PetHelper.SharedKernel.ValueObjects.SocialNetworkList", "SocialNetwork", b1 =>
-                        {
-                            b1.Property<Guid>("VolunteerId")
-                                .HasColumnType("uuid");
-
-                            b1.HasKey("VolunteerId");
-
-                            b1.ToTable("volunteer");
-
-                            b1.ToJson("social_network");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VolunteerId")
-                                .HasConstraintName("fk_volunteer_volunteer_id");
-
-                            b1.OwnsMany("PetHelper.SharedKernel.ValueObjects.SocialNetwork", "SocialNetwork", b2 =>
-                                {
-                                    b2.Property<Guid>("SocialNetworkListVolunteerId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("__synthesizedOrdinal")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasMaxLength(100)
-                                        .HasColumnType("character varying(100)")
-                                        .HasColumnName("social_network_name");
-
-                                    b2.Property<string>("Url")
-                                        .IsRequired()
-                                        .HasMaxLength(1000)
-                                        .HasColumnType("character varying(1000)")
-                                        .HasColumnName("social_network_link");
-
-                                    b2.HasKey("SocialNetworkListVolunteerId", "__synthesizedOrdinal");
-
-                                    b2.ToTable("volunteer");
-
-                                    b2.ToJson("social_network");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("SocialNetworkListVolunteerId")
-                                        .HasConstraintName("fk_volunteer_volunteer_social_network_list_volunteer_id");
-                                });
-
-                            b1.Navigation("SocialNetwork");
-                        });
-
-                    b.Navigation("DetailsForAssistance")
-                        .IsRequired();
-
-                    b.Navigation("SocialNetwork")
                         .IsRequired();
                 });
 

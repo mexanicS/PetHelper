@@ -53,7 +53,7 @@ public class UpdateSocialNetworkListHandler : ICommandHandler<Guid,UpdateSocialN
                 .Select(c => SocialNetwork.Create(c.Name, c.Url).Value)
         );
         
-        volunteerResult.Value.UpdateSocialNetwork(socialNetwork);
+        //volunteerResult.Value.UpdateSocialNetwork(socialNetwork);
         
         await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

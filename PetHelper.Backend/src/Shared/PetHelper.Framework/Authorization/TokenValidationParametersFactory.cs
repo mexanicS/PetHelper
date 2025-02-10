@@ -4,7 +4,7 @@ using PetHelper.Core.Options;
 
 namespace PetHelper.Framework.Authorization;
 
-public class TokenValidationParametersFactory
+public static class TokenValidationParametersFactory
 {
     public static TokenValidationParameters Create(JwtOptions jwtOptions, bool validateLifeTime = true)
     {

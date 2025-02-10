@@ -12,6 +12,8 @@ public class User : IdentityUser<Guid>
     private List<Role> _roles = [];
     private List<SocialNetwork> _socialNetworks = [];
     private List<PetPhoto> _photos = [];
+    private List<DetailsForAssistance> _detailsForAssistance = [];
+    
     public FullName FullName { get; set; } = null!;
     
     public AdminAccount? AdminAccount { get; set; }
@@ -19,6 +21,8 @@ public class User : IdentityUser<Guid>
     public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
     
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+    
+    public IReadOnlyList<DetailsForAssistance> DetailsForAssistance => _detailsForAssistance;
     
     public IReadOnlyList<PetPhoto> Photos => _photos;
     

@@ -8,7 +8,7 @@ public class ReadAccountsDbContext(string connectionString) : DbContext, IAccoun
 {
     
     //Models
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(connectionString);
@@ -23,6 +23,7 @@ public class ReadAccountsDbContext(string connectionString) : DbContext, IAccoun
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(ReadAccountsDbContext).Assembly,
             x => x.FullName!.Contains("Configurations.Read"));
+        
         //modelBuilder.HasDefaultSchema("PetHelper_Accounts");
     }
     

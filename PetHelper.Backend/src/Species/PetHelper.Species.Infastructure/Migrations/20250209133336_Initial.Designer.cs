@@ -13,7 +13,7 @@ using PetHelper.Species.Infastructure.DbContexts;
 namespace PetHelper.Species.Infastructure.Migrations
 {
     [DbContext(typeof(SpeciesWriteDbContext))]
-    [Migration("20250124104959_Initial")]
+    [Migration("20250209133336_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

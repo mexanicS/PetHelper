@@ -18,9 +18,7 @@ namespace PetHelper.Volunteer.Domain
             Email email,
             Description description,
             ExperienceInYears experienceInYears,
-            PhoneNumber phoneNumber,
-            SocialNetworkList socialNetworks,
-            DetailsForAssistanceList detailsForAssistances) 
+            PhoneNumber phoneNumber) 
             : base(volunteerId)
         {
             Name = fullName;
@@ -28,8 +26,6 @@ namespace PetHelper.Volunteer.Domain
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
-            SocialNetwork = socialNetworks;
-            DetailsForAssistance = detailsForAssistances;
         }
 
         public FullName Name { get; private set; } = null!;
@@ -41,12 +37,8 @@ namespace PetHelper.Volunteer.Domain
         public ExperienceInYears ExperienceInYears { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; } = null!;
-        
-        public SocialNetworkList SocialNetwork { get; private set; }
 
-        public DetailsForAssistanceList DetailsForAssistance { get; private set; } 
-        
-        private bool _isDeleted = false;
+        private bool _isDeleted;
 
         private readonly List<Pet> _pets = [];
 
@@ -90,16 +82,6 @@ namespace PetHelper.Volunteer.Domain
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
-        }
-
-        public void UpdateSocialNetwork(SocialNetworkList socialNetworks)
-        {
-            SocialNetwork = socialNetworks;
-        }
-        
-        public void UpdateDetailsForAssistance(DetailsForAssistanceList detailsForAssistanceList)
-        {
-            DetailsForAssistance = detailsForAssistanceList;
         }
 
         public void Delete()

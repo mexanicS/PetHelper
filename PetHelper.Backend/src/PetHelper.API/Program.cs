@@ -17,6 +17,8 @@ using PetHelper.Volunteer.Infastructure;
 using Serilog;
 using Serilog.Events;
 
+DotNetEnv.Env.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
@@ -93,8 +95,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
 //AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 var app = builder.Build();
-//var accountSeeder = app.Services.GetRequiredService<AccountsSeeder>();
-//await accountSeeder.SeedAsync();
+
+var accountSeeder = app.Services.GetRequiredService<AccountsSeeder>();
+await accountSeeder.SeedAsync();
 
 app.UseExceptionMiddleware();
 app.UseSerilogRequestLogging();

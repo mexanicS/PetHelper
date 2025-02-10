@@ -30,7 +30,7 @@ public class PermissionManager(WriteAccountsDbContext writeAccountsDbContext)
         await writeAccountsDbContext.SaveChangesAsync(cancellationToken);
     }
     
-    /*public async Task<HashSet<string>> GetUserPermissionsCode(
+    public async Task<HashSet<string>> GetUserPermissionsCode(
         Guid userId,
         CancellationToken cancellationToken = default)
     {
@@ -43,5 +43,5 @@ public class PermissionManager(WriteAccountsDbContext writeAccountsDbContext)
             .ToListAsync(cancellationToken);
         
         return permissions.ToHashSet();
-    }*/
+    }
 }

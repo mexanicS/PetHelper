@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.Framework;
+using PetHelper.Framework.Authorization;
 using PetHelper.Volunteer.Application.VolunteersManagement.Queries.GetPets;
 using PetHelper.Volunteer.Controllers.Requests.Pet;
 
@@ -7,6 +8,7 @@ namespace PetHelper.Volunteer.Controllers.Controllers.Pet;
 
 public class PetController : ApplicationController
 {
+    [Permission("pets.read")]
     [HttpGet]
     public async Task<ActionResult> Get(
         [FromQuery] GetPetWithPaginationRequest request,

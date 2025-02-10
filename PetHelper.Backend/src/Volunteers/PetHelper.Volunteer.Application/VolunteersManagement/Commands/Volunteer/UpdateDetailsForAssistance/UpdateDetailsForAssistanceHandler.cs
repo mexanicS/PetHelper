@@ -53,7 +53,7 @@ public class UpdateDetailsForAssistanceHandler : ICommandHandler<Guid,UpdateDeta
                 .Select(c => DetailsForAssistance.Create(c.Name, c.Description).Value)
         );
         
-        volunteerResult.Value.UpdateDetailsForAssistance(detailsForAssistance);
+        //volunteerResult.Value.UpdateDetailsForAssistance(detailsForAssistance);
         
         await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

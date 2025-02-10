@@ -32,9 +32,12 @@ public class WriteAccountsDbContext : IdentityDbContext<User, Role, Guid>
     {
         base.OnModelCreating(modelBuilder);
         
+        modelBuilder.Entity<User>()
+            .ToTable("users");
+        
         modelBuilder.Entity<Role>()
             .ToTable("roles");
-        
+
         modelBuilder.Entity<Permission>()
             .HasIndex(p => p.Code)
             .IsUnique();

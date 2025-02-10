@@ -44,6 +44,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     social_networks = table.Column<string>(type: "jsonb", nullable: false),
+                    details_for_assistance = table.Column<string>(type: "jsonb", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -186,7 +187,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 {
                     table.PrimaryKey("pk_user_claims", x => x.id);
                     table.ForeignKey(
-                        name: "fk_user_claims_asp_net_users_user_id",
+                        name: "fk_user_claims_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -206,7 +207,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 {
                     table.PrimaryKey("pk_user_logins", x => new { x.login_provider, x.provider_key });
                     table.ForeignKey(
-                        name: "fk_user_logins_asp_net_users_user_id",
+                        name: "fk_user_logins_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -224,15 +225,15 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 {
                     table.PrimaryKey("pk_user_roles", x => new { x.user_id, x.role_id });
                     table.ForeignKey(
-                        name: "fk_user_roles_asp_net_users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "fk_user_roles_roles_role_id",
                         column: x => x.role_id,
                         principalTable: "roles",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "fk_user_roles_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -250,7 +251,7 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 {
                     table.PrimaryKey("pk_user_tokens", x => new { x.user_id, x.login_provider, x.name });
                     table.ForeignKey(
-                        name: "fk_user_tokens_asp_net_users_user_id",
+                        name: "fk_user_tokens_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",

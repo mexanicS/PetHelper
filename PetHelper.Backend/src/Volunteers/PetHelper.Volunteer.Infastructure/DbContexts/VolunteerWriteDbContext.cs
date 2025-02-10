@@ -21,7 +21,6 @@ namespace PetHelper.Volunteer.Infastructure.DbContexts
             optionsBuilder.UseSnakeCaseNamingConvention();
             optionsBuilder.UseLoggerFactory(CreateLoggerFactory());
             optionsBuilder.EnableSensitiveDataLogging();
-            //optionsBuilder.AddInterceptors(new SoftDeleteInterceptor());
             
             base.OnConfiguring(optionsBuilder);
         }

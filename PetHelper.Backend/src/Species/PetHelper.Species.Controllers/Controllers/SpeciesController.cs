@@ -1,6 +1,7 @@
 using PetHelper.Species.Controllers.Requests;
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.Framework;
+using PetHelper.Framework.Authorization;
 using PetHelper.Species.Application.SpeciesManagement.Command.AddBreed;
 using PetHelper.Species.Application.SpeciesManagement.Command.Create;
 using PetHelper.Species.Application.SpeciesManagement.Command.Delete;
@@ -12,6 +13,7 @@ namespace PetHelper.Species.Controllers.Controllers;
 
 public class SpeciesController : ApplicationController
 {
+    [Permission("species.create")]
     [HttpPost]
     public async Task<ActionResult> Create(
         [FromServices] CreateSpeciesHandler handler,
@@ -26,6 +28,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
     
+    [Permission("breeds.create")]
     [HttpPost("{speciesId:guid}/breed")]
     public async Task<ActionResult<Guid>> AddBreed(
         [FromRoute] Guid speciesId,
@@ -43,6 +46,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission("species.delete")]
     [HttpDelete("{speciesId:guid}")]
     public async Task<ActionResult> Delete(
         [FromRoute] Guid speciesId,
@@ -59,6 +63,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
 
+    [Permission("breeds.delete")]
     [HttpDelete("{speciesId:guid}/breed")]
     public async Task<ActionResult> DeleteBreed(
         [FromRoute] Guid speciesId, 
@@ -75,6 +80,7 @@ public class SpeciesController : ApplicationController
         return Ok(result.Value);
     }
     
+    [Permission("species.read")]
     [HttpGet]
     public async Task<ActionResult> Get(
         [FromQuery] GetSpeciesRequest request,
@@ -86,6 +92,7 @@ public class SpeciesController : ApplicationController
         return Ok(response);
     }
     
+    [Permission("breeds.read")]
     [HttpGet("/breeds")]
     public async Task<ActionResult> GetBreedsBySpecies(
         [FromQuery] GetBreedsBySpeciesRequest request,

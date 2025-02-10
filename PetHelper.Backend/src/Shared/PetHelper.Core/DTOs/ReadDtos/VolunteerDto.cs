@@ -14,9 +14,9 @@ public class VolunteerDto
 
     public string PhoneNumber { get; init; } = string.Empty;
     
-    public PetDto[] Pets { get; init; } = [];  
-    
-    //public SocialNetworkList SocialNetwork { get; private set; }
+    public PetDto[] Pets { get; init; } = [];
 
-    //public DetailsForAssistanceList DetailsForAssistance { get; private set; } 
+    public SocialNetworkDto[] SocialNetwork { get; init; } = [];
+
+    public DetailsForAssistanceDto[] DetailsForAssistance { get; init; } = [];
 }

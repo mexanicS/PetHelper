@@ -3,6 +3,7 @@ using PetHelper.Accounts.Application.AccountsManagement.Commands.Login;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.Register;
 using PetHelper.Accounts.Controllers.Requests;
 using PetHelper.Framework;
+using PetHelper.Framework.Authorization;
 
 namespace PetHelper.Accounts.Controllers;
 
