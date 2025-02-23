@@ -31,6 +31,11 @@ public static class Errors
         {
             return Error.Validation("byte.count.exceeded", $"exceeds the maximum allowed size of {byteCount} bytes");
         }
+        
+        public static Error Failure()
+        {
+            return Error.Validation("Failure", "Failure");
+        }
     }
 
     public class Pet
@@ -47,6 +52,19 @@ public static class Errors
         public static Error InvalidCredentials()
         {
             return Error.Validation("credentials.is.invalid", "Your credentials is invalid");
+        }
+    }
+    
+    public static class Token
+    {
+        public static Error ExpiredToken()
+        {
+            return Error.Validation("token.is.expired", "Your token is expired");
+        }
+
+        public static Error InvalidToken()
+        {
+            return Error.Validation("token.is.invalid", "Your token is invalid");
         }
     }
     

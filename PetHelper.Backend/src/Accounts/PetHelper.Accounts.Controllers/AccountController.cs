@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.Login;
+using PetHelper.Accounts.Application.AccountsManagement.Commands.RefreshTokens;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.Register;
+using PetHelper.Accounts.Contracts.Responses;
 using PetHelper.Accounts.Controllers.Requests;
 using PetHelper.Framework;
 using PetHelper.Framework.Authorization;
@@ -30,6 +32,22 @@ public class AccountController : ApplicationController
         CancellationToken cancellationToken)
     {
         var result = await handler.Handle(request.ToCommand(), cancellationToken);
+        
+        if (result.IsFailure)
+            return result.Error.ToResponse();
+
+        return Ok(result.Value);
+    }
+    
+    [HttpPost("refresh")]
+    public async Task<ActionResult> RefreshTokens(
+        [FromBody] RefreshTokensRequest request,
+        [FromServices] RefreshTokensHandler handler,
+        CancellationToken cancellationToken)
+    {
+        var result = await handler.Handle(
+            new RefreshTokensCommand(request.AccessToken, request.RefreshToken), 
+            cancellationToken);
         
         if (result.IsFailure)
             return result.Error.ToResponse();

@@ -39,10 +39,11 @@ public class LoginHandler : ICommandHandler<LoginResponse, LoginCommand>
             return Errors.User.InvalidCredentials().ToErrorList();
         
         var accessToken = await _tokenProvider.GetAccessToken(user, cancellationToken );
-        //var refreshToken = await _tokenProvider.GenerateRefreshToken(user, accessToken.Jti, cancellationToken);
+        
+        var refreshToken = await _tokenProvider.GenerateRefreshToken(user, accessToken.Jti, cancellationToken);
        
         _logger.LogInformation("User: {userName} logged in.", user.UserName);
         
-        return new LoginResponse(accessToken.AccessToken, Guid.Empty);
+        return new LoginResponse(accessToken.AccessToken, refreshToken);
     }
 }
