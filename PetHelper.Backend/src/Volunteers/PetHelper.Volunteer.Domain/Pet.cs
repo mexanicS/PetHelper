@@ -8,7 +8,7 @@ using PetHelper.Volunteer.Domain.Ids;
 
 namespace PetHelper.Volunteer.Domain
 {
-    public class Pet : SharedKernel.Entity<PetId>
+    public class Pet : SoftDeletableEntity<PetId>
     {
         //ef core
         private Pet(PetId id) : base(id)
@@ -88,22 +88,10 @@ namespace PetHelper.Volunteer.Domain
         public SerialNumber SerialNumber { get; private set; }
         
         public Position Position { get; private set; } = null!;
-        
-        private bool _isDeleted = false;
 
         public void UpdatePhotos(PetPhotoList petPhotoList)
         {
             PetPhotosList = petPhotoList;
-        }
-        
-        public void Delete()
-        {
-            _isDeleted = true;
-        }
-
-        public void Restore()
-        {
-            _isDeleted = false;
         }
 
         public void SetSerialNumber(SerialNumber serialNumber)
