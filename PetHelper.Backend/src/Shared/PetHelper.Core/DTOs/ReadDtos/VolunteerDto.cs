@@ -19,4 +19,6 @@ public class VolunteerDto
     public SocialNetworkDto[] SocialNetwork { get; init; } = [];
 
     public DetailsForAssistanceDto[] DetailsForAssistance { get; init; } = [];
+    
+    public bool IsDeleted { get; init; }
 }

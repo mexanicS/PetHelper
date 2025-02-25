@@ -7,7 +7,7 @@ using PetHelper.Volunteer.Domain.Ids;
 
 namespace PetHelper.Volunteer.Domain
 {
-    public class Volunteer : SharedKernel.Entity<VolunteerId>, ISoftDeletable
+    public class Volunteer : SoftDeletableEntity<VolunteerId>
     {
         private Volunteer(VolunteerId id) : base(id)
         {
@@ -37,8 +37,6 @@ namespace PetHelper.Volunteer.Domain
         public ExperienceInYears ExperienceInYears { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; } = null!;
-
-        private bool _isDeleted;
 
         private readonly List<Pet> _pets = [];
 
@@ -84,17 +82,19 @@ namespace PetHelper.Volunteer.Domain
             PhoneNumber = phoneNumber;
         }
 
-        public void Delete()
+        public override void Delete()
         {
-           _isDeleted = true;
-           foreach (var pet in _pets)
+            base.Delete();
+            
+            foreach (var pet in _pets)
                pet.Delete();
            
         }
 
-        public void Restore()
+        public override void Restore()
         {
-            _isDeleted = false;
+            base.Restore();
+            
             foreach (var pet in _pets)
                 pet.Restore();
         }
