@@ -82,21 +82,21 @@ namespace PetHelper.Volunteer.Domain
             PhoneNumber = phoneNumber;
         }
 
-        public override void Delete()
+        public override void SoftDelete()
         {
-            base.Delete();
+            base.SoftDelete();
             
             foreach (var pet in _pets)
-               pet.Delete();
+               pet.SoftDelete();
            
         }
 
-        public override void Restore()
+        public override void SoftRestore()
         {
-            base.Restore();
+            base.SoftRestore();
             
             foreach (var pet in _pets)
-                pet.Restore();
+                pet.SoftRestore();
         }
 
         public UnitResult<Error> AddPet(Pet pet)

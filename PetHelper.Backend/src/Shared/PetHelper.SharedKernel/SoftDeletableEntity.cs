@@ -2,14 +2,12 @@ using CSharpFunctionalExtensions;
 
 namespace PetHelper.SharedKernel;
 
-public abstract class SoftDeletableEntity<TId> : Entity<TId> where TId : notnull
+public abstract class SoftDeletableEntity : Entity, ISoftDeletable
 {
-    protected SoftDeletableEntity(TId id) : base(id) { }
+    public bool IsDeleted { get;  set; }
+    public DateTime DeletionDate { get;  set; }
 
-    public bool IsDeleted { get; protected set; }
-    public DateTime? DeletionDate { get; protected set; }
-
-    public virtual void Delete()
+    public virtual void SoftDelete()
     {
         if (!IsDeleted)
         {
@@ -18,12 +16,12 @@ public abstract class SoftDeletableEntity<TId> : Entity<TId> where TId : notnull
         }
     }
 
-    public virtual void Restore()
+    public virtual void SoftRestore()
     {
         if (IsDeleted)
         {
             IsDeleted = false;
-            DeletionDate = null;
+            DeletionDate = default;
         }
     }
 }
