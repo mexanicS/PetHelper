@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PetHelper.Accounts.Infastructure.DbContexts;
 using PetHelper.Core.Abstractions;
@@ -9,13 +10,16 @@ namespace PetHelper.Accounts.Infastructure.Contracts;
 public class HardDeleteExpiredAccountEntitiesContract : IHardDeleteEntitiesContract
 {
     private readonly WriteAccountsDbContext _accountsDbContext;
+    private readonly ILogger<HardDeleteExpiredAccountEntitiesContract> _logger;
     private readonly SoftDeleteConfig _config;
 
     public HardDeleteExpiredAccountEntitiesContract(
         WriteAccountsDbContext accountsDbContext,
-        IOptions<SoftDeleteConfig> config)
+        IOptions<SoftDeleteConfig> config,
+        ILogger<HardDeleteExpiredAccountEntitiesContract> logger)
     {
         _accountsDbContext = accountsDbContext;
+        _logger = logger;
         _config = config.Value;
     }
     public async Task HardDeleteExpiredEntities(CancellationToken cancellationToken)
@@ -34,32 +38,40 @@ public class HardDeleteExpiredAccountEntitiesContract : IHardDeleteEntitiesContr
         
         _accountsDbContext.RemoveRange(usersToDelete);
         await _accountsDbContext.SaveChangesAsync(cancellationToken);
+        
+        _logger.LogInformation($"{nameof(HardDeleteExpiredAccountEntitiesContract)} deleted {usersToDelete.Count()} Users");
     }
 
     private async Task HardDeleteAdmins(CancellationToken cancellationToken)
     {
-        var usersToDelete = _accountsDbContext.AdminAccounts
+        var adminsToDelete = _accountsDbContext.AdminAccounts
             .GetExpiredEntitiesQuery(_config.DaysToHardDelete);
         
-        _accountsDbContext.RemoveRange(usersToDelete);
+        _accountsDbContext.RemoveRange(adminsToDelete);
         await _accountsDbContext.SaveChangesAsync(cancellationToken);
+        
+        _logger.LogInformation($"{nameof(HardDeleteExpiredAccountEntitiesContract)} deleted {adminsToDelete.Count()} AdminAccounts");
     }
     
     private async Task HardDeleteParticipant(CancellationToken cancellationToken)
     {
-        var usersToDelete = _accountsDbContext.ParticipantAccounts
+        var participantToDelete = _accountsDbContext.ParticipantAccounts
             .GetExpiredEntitiesQuery(_config.DaysToHardDelete);
         
-        _accountsDbContext.RemoveRange(usersToDelete);
+        _accountsDbContext.RemoveRange(participantToDelete);
         await _accountsDbContext.SaveChangesAsync(cancellationToken);
+        
+        _logger.LogInformation($"{nameof(HardDeleteExpiredAccountEntitiesContract)} deleted {participantToDelete.Count()} ParticipantAccounts");
     }
     
     private async Task HardDeleteVolunteers(CancellationToken cancellationToken)
     {
-        var usersToDelete = _accountsDbContext.VolunteerAccounts
+        var volunteerAccountsToDelete = _accountsDbContext.VolunteerAccounts
             .GetExpiredEntitiesQuery(_config.DaysToHardDelete);
         
-        _accountsDbContext.RemoveRange(usersToDelete);
+        _accountsDbContext.RemoveRange(volunteerAccountsToDelete);
         await _accountsDbContext.SaveChangesAsync(cancellationToken);
+        
+        _logger.LogInformation($"{nameof(HardDeleteExpiredAccountEntitiesContract)} deleted {volunteerAccountsToDelete.Count()} VolunteerAccounts");
     }
 }
