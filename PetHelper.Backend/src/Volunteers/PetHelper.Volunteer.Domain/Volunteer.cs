@@ -7,9 +7,9 @@ using PetHelper.Volunteer.Domain.Ids;
 
 namespace PetHelper.Volunteer.Domain
 {
-    public class Volunteer : SharedKernel.Entity<VolunteerId>, ISoftDeletable
+    public class Volunteer : SoftDeletableEntity
     {
-        private Volunteer(VolunteerId id) : base(id)
+        private Volunteer()
         {
         }
 
@@ -18,16 +18,18 @@ namespace PetHelper.Volunteer.Domain
             Email email,
             Description description,
             ExperienceInYears experienceInYears,
-            PhoneNumber phoneNumber) 
-            : base(volunteerId)
+            PhoneNumber phoneNumber)
         {
+            Id = volunteerId;
             Name = fullName;
             Email = email;
             Description = description;
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
         }
-
+        
+        public new VolunteerId Id { get; private set; }
+        
         public FullName Name { get; private set; } = null!;
 
         public Email Email { get; private set; } = null!;
@@ -37,8 +39,6 @@ namespace PetHelper.Volunteer.Domain
         public ExperienceInYears ExperienceInYears { get; private set; }
 
         public PhoneNumber PhoneNumber { get; private set; } = null!;
-
-        private bool _isDeleted;
 
         private readonly List<Pet> _pets = [];
 
@@ -84,19 +84,21 @@ namespace PetHelper.Volunteer.Domain
             PhoneNumber = phoneNumber;
         }
 
-        public void Delete()
+        public override void SoftDelete()
         {
-           _isDeleted = true;
-           foreach (var pet in _pets)
-               pet.Delete();
+            base.SoftDelete();
+            
+            foreach (var pet in _pets)
+               pet.SoftDelete();
            
         }
 
-        public void Restore()
+        public override void SoftRestore()
         {
-            _isDeleted = false;
+            base.SoftRestore();
+            
             foreach (var pet in _pets)
-                pet.Restore();
+                pet.SoftRestore();
         }
 
         public UnitResult<Error> AddPet(Pet pet)

@@ -23,7 +23,9 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     first_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     middle_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                    phone_number = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false)
+                    phone_number = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
+                    is_deleted1 = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -58,6 +60,8 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     species_id = table.Column<Guid>(type: "uuid", nullable: false),
                     type_pet = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     weight = table.Column<double>(type: "double precision", maxLength: 1000, nullable: false),
+                    is_deleted1 = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     pet_details = table.Column<string>(type: "jsonb", nullable: false),
                     pet_photos_list = table.Column<string>(type: "jsonb", nullable: false)
                 },

@@ -13,7 +13,7 @@ using PetHelper.Volunteer.Infastructure.DbContexts;
 namespace PetHelper.Volunteer.Infastructure.Migrations
 {
     [DbContext(typeof(VolunteerWriteDbContext))]
-    [Migration("20250209133301_Initial")]
+    [Migration("20250304172952_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -39,6 +39,14 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     b.Property<DateOnly?>("DateOfBirth")
                         .HasColumnType("date")
                         .HasColumnName("date_of_birth");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("IsNeutered")
                         .HasColumnType("boolean")
@@ -211,7 +219,11 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     b.HasIndex("volunteer_id")
                         .HasDatabaseName("ix_pet_volunteer_id");
 
-                    b.ToTable("pet", (string)null);
+                    b.ToTable("pet", null, t =>
+                        {
+                            t.Property("IsDeleted")
+                                .HasColumnName("is_deleted1");
+                        });
                 });
 
             modelBuilder.Entity("PetHelper.Volunteer.Domain.Volunteer", b =>
@@ -219,6 +231,14 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("_isDeleted")
                         .HasColumnType("boolean")
@@ -292,7 +312,11 @@ namespace PetHelper.Volunteer.Infastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_volunteer");
 
-                    b.ToTable("volunteer", (string)null);
+                    b.ToTable("volunteer", null, t =>
+                        {
+                            t.Property("IsDeleted")
+                                .HasColumnName("is_deleted1");
+                        });
                 });
 
             modelBuilder.Entity("PetHelper.Volunteer.Domain.Pet", b =>

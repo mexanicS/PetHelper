@@ -1,17 +1,17 @@
+using PetHelper.SharedKernel;
+
 namespace PetHelper.Accounts.Domain.AccountModels;
 
-public class ParticipantAccount
+public class ParticipantAccount : SoftDeletableEntity
 {
     private ParticipantAccount(){}
     public ParticipantAccount(User user)
     {
-        Id = Guid.NewGuid();
         User = user;
         UserId = user.Id;
     }
     
     public const string RoleName = "Participant";
-    public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public User User { get; set; }
     

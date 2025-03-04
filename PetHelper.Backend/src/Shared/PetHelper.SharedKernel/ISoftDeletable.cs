@@ -2,7 +2,11 @@ namespace PetHelper.SharedKernel;
 
 public interface ISoftDeletable
 {
-    void Delete();
+    bool IsDeleted { get;}
     
-    void Restore();
+    DateTime DeletionDate { get;}
+    
+    public  void SoftDelete();
+    
+    public  void SoftRestore();
 }

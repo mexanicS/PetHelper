@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using PetHelper.Accounts.Domain.AccountModels;
 using PetHelper.Core.DTOs;
+using PetHelper.SharedKernel;
 using PetHelper.SharedKernel.ValueObjects;
 using PetHelper.SharedKernel.ValueObjects.Pet;
 
 namespace PetHelper.Accounts.Domain;
 
-public class User : IdentityUser<Guid>
+public class User : IdentityUser<Guid>, ISoftDeletable
 {
     private User() {}
     private List<Role> _roles = [];
@@ -47,5 +48,19 @@ public class User : IdentityUser<Guid>
             UserName = userName,
             FullName = fullName,
         };
+    }
+
+    public bool IsDeleted { get; set; }
+    
+    public DateTime DeletionDate { get; set; }
+
+    public void SoftDelete()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SoftRestore()
+    {
+        throw new NotImplementedException();
     }
 }

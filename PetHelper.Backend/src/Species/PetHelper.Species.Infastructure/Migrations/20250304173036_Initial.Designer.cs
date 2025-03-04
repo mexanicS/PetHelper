@@ -13,7 +13,7 @@ using PetHelper.Species.Infastructure.DbContexts;
 namespace PetHelper.Species.Infastructure.Migrations
 {
     [DbContext(typeof(SpeciesWriteDbContext))]
-    [Migration("20250209133336_Initial")]
+    [Migration("20250304173036_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -61,6 +61,14 @@ namespace PetHelper.Species.Infastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Species.Domain.Models.Species.Name#Name", b1 =>
                         {

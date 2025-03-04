@@ -13,7 +13,7 @@ using PetHelper.Accounts.Infastructure.DbContexts;
 namespace PetHelper.Accounts.Infastructure.Migrations
 {
     [DbContext(typeof(WriteAccountsDbContext))]
-    [Migration("20250209211450_Initial")]
+    [Migration("20250304173108_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -158,10 +158,20 @@ namespace PetHelper.Accounts.Infastructure.Migrations
 
             modelBuilder.Entity("PetHelper.Accounts.Domain.AccountModels.AdminAccount", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -179,14 +189,24 @@ namespace PetHelper.Accounts.Infastructure.Migrations
 
             modelBuilder.Entity("PetHelper.Accounts.Domain.AccountModels.ParticipantAccount", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<DateTime?>("BannedForRequestsUntil")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("banned_for_requests_until");
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -203,10 +223,20 @@ namespace PetHelper.Accounts.Infastructure.Migrations
 
             modelBuilder.Entity("PetHelper.Accounts.Domain.AccountModels.VolunteerAccount", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
+                        .HasColumnType("bigint")
                         .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -350,6 +380,10 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("concurrency_stamp");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
                     b.Property<string>("DetailsForAssistance")
                         .IsRequired()
                         .HasColumnType("jsonb")
@@ -363,6 +397,10 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean")
                         .HasColumnName("email_confirmed");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("boolean")

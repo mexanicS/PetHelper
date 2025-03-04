@@ -59,6 +59,14 @@ namespace PetHelper.Species.Infastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
+                    b.Property<DateTime>("DeletionDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("deletion_date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_deleted");
+
                     b.ComplexProperty<Dictionary<string, object>>("Name", "PetHelper.Species.Domain.Models.Species.Name#Name", b1 =>
                         {
                             b1.IsRequired();
