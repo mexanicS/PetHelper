@@ -50,7 +50,6 @@ public static class Inject
         IConfiguration configuration)
     {
         services.AddHostedService<FilesCleanerBackgroudService>();
-        services.AddHostedService<SoftDeleteCleanupService>();
         
         services.Configure<SoftDeleteConfig>(configuration.GetSection("SoftDeleteConfig"));
         

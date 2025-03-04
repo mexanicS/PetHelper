@@ -12,4 +12,11 @@ public record PetId()
     public static PetId NewId() => new(Guid.NewGuid());
     
     public static PetId Create(Guid id) => new(id);
+    
+    public static implicit operator Guid(PetId petId)
+    {
+        ArgumentNullException.ThrowIfNull(petId);
+        
+        return petId.Value;
+    }
 }

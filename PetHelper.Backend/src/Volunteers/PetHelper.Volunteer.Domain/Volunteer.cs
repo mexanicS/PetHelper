@@ -7,9 +7,9 @@ using PetHelper.Volunteer.Domain.Ids;
 
 namespace PetHelper.Volunteer.Domain
 {
-    public class Volunteer : SoftDeletableEntity<VolunteerId>
+    public class Volunteer : SoftDeletableEntity
     {
-        private Volunteer(VolunteerId id) : base(id)
+        private Volunteer()
         {
         }
 
@@ -18,8 +18,7 @@ namespace PetHelper.Volunteer.Domain
             Email email,
             Description description,
             ExperienceInYears experienceInYears,
-            PhoneNumber phoneNumber) 
-            : base(volunteerId)
+            PhoneNumber phoneNumber)
         {
             Name = fullName;
             Email = email;
@@ -27,7 +26,9 @@ namespace PetHelper.Volunteer.Domain
             ExperienceInYears = experienceInYears;
             PhoneNumber = phoneNumber;
         }
-
+        
+        public new VolunteerId Id { get; private set; }
+        
         public FullName Name { get; private set; } = null!;
 
         public Email Email { get; private set; } = null!;

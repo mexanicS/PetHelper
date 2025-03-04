@@ -8,10 +8,10 @@ using PetHelper.Volunteer.Domain.Ids;
 
 namespace PetHelper.Volunteer.Domain
 {
-    public class Pet : SoftDeletableEntity<PetId>
+    public class Pet : SoftDeletableEntity
     {
         //ef core
-        private Pet(PetId id) : base(id)
+        private Pet(PetId id)
         { }
         public Pet(PetId petId,
             Name name, 
@@ -29,9 +29,7 @@ namespace PetHelper.Volunteer.Domain
             Address address,
             SpeciesBreed speciesBreed,
             PetDetails petDetails,
-            PetPhotoList photos
-                )
-            : base(petId)
+            PetPhotoList photos)
         {
             Name = name;
             TypePet = typePet;
@@ -50,7 +48,9 @@ namespace PetHelper.Volunteer.Domain
             PetDetails = petDetails;
             PetPhotosList = photos;
         }
-
+        
+        public new PetId Id { get; private set; }
+        
         public Name Name { get; private set; } = null!;
 
         public TypePet TypePet { get; private set; } = null!;

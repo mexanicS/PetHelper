@@ -23,7 +23,7 @@ public class VolunteersRepository() : IVolunteersRepository
     {
         await _dbcontext.Volunteers.AddAsync(volunteer, cancellationToken);
         
-        return (Guid)volunteer.Id;
+        return volunteer.Id;
     }
     
     public Task<Guid> Update(
