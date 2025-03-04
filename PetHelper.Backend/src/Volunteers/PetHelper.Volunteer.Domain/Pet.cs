@@ -31,6 +31,7 @@ namespace PetHelper.Volunteer.Domain
             PetDetails petDetails,
             PetPhotoList photos)
         {
+            Id = petId;
             Name = name;
             TypePet = typePet;
             Description = description;

@@ -20,6 +20,7 @@ namespace PetHelper.Volunteer.Domain
             ExperienceInYears experienceInYears,
             PhoneNumber phoneNumber)
         {
+            Id = volunteerId;
             Name = fullName;
             Email = email;
             Description = description;

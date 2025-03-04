@@ -11,8 +11,10 @@ namespace PetHelper.Species.Domain.Models
     
         private readonly List<Breed> _breeds = [];
         
-        public Species(SpeciesId speciesId, Name name) : this(speciesId)
+        public Species(SpeciesId speciesId,
+            Name name) : this(speciesId)
         {
+            Id = speciesId;
             Name = name;    
         }
     

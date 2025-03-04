@@ -46,6 +46,8 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                     social_networks = table.Column<string>(type: "jsonb", nullable: false),
                     details_for_assistance = table.Column<string>(type: "jsonb", nullable: false),
                     photos = table.Column<string>(type: "jsonb", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     last_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     middle_name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -118,8 +120,11 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 name: "admin_accounts",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -136,9 +141,12 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 name: "participant_accounts",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    banned_for_requests_until = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    banned_for_requests_until = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,9 +270,12 @@ namespace PetHelper.Accounts.Infastructure.Migrations
                 name: "volunteer_accounts",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    working_experience = table.Column<int>(type: "integer", nullable: false)
+                    working_experience = table.Column<int>(type: "integer", nullable: false),
+                    is_deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    deletion_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
