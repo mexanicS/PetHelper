@@ -28,7 +28,7 @@ public static class Inject
             .AddMinio(configuration)
             .AddRepositories()
             .AddServices()
-            .AddHostedServices()
+            .AddHostedServices(configuration)
             .AddMessageQueues()
             .AddUnitOfWork();
         
@@ -46,9 +46,12 @@ public static class Inject
     }
     
     private static IServiceCollection AddHostedServices(
-        this IServiceCollection services)
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddHostedService<FilesCleanerBackgroudService>();
+        
+        services.Configure<SoftDeleteConfig>(configuration.GetSection("SoftDeleteConfig"));
         
         return services;
     }

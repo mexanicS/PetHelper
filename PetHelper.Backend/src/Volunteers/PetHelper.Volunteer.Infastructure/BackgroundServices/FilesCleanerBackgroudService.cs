@@ -8,14 +8,11 @@ namespace PetHelper.Volunteer.Infastructure.BackgroundServices;
 
 public class FilesCleanerBackgroudService : BackgroundService
 {
-    private readonly ILogger<FilesCleanerBackgroudService> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     
     public FilesCleanerBackgroudService(
-        ILogger<FilesCleanerBackgroudService> logger, 
         IServiceScopeFactory serviceScopeFactory)
     {
-        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
     }
     

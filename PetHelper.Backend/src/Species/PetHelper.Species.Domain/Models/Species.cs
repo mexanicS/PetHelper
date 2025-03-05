@@ -1,21 +1,25 @@
-
 using PetHelper.SharedKernel;
 using PetHelper.SharedKernel.ValueObjects.Common;
 using PetHelper.SharedKernel.ValueObjects.ModelIds;
 
 namespace PetHelper.Species.Domain.Models
 {
-    public class Species : Entity<SpeciesId>
+    public class Species : SoftDeletableEntity
     {
-        private readonly List<Breed> _breeds = [];
-        private Species(SpeciesId id) : base(id)
+        private Species(SpeciesId id)
         { }
     
-        public Species(SpeciesId speciesId, Name name) : this(speciesId)
+        private readonly List<Breed> _breeds = [];
+        
+        public Species(SpeciesId speciesId,
+            Name name) : this(speciesId)
         {
+            Id = speciesId;
             Name = name;    
         }
     
+        public new SpeciesId Id { get; private set; }
+        
         public Name Name { get; private set; } = null!;
 
         public IReadOnlyList<Breed> Breeds => _breeds;

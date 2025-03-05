@@ -54,7 +54,7 @@ public class SoftDeletePetHandler  : ICommandHandler<Guid,SoftDeletePetCommand>
             return Error.NotFound("pet.not.found",
                 $"Pet with id = {command.PetId} not found" ).ToErrorList();
         
-        pet.Delete();
+        pet.SoftDelete();
         
         await _volunteersRepository.Update(volunteerResult.Value, cancellationToken);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
