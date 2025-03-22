@@ -19,6 +19,10 @@ public class User : IdentityUser<Guid>, ISoftDeletable
     
     public AdminAccount? AdminAccount { get; set; }
     
+    public ParticipantAccount? ParticipantAccount { get; set; }
+    
+    public VolunteerAccount? VolunteerAccount { get; set; }
+    
     public IReadOnlyList<Role> Roles => _roles.AsReadOnly();
     
     public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;

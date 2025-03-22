@@ -1,6 +1,9 @@
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PetHelper.Accounts.Application.Database;
+using PetHelper.Accounts.Domain;
+using PetHelper.SharedKernel;
 
 namespace PetHelper.Accounts.Infastructure.DbContexts;
 
@@ -29,4 +32,5 @@ public class ReadAccountsDbContext(string connectionString) : DbContext, IAccoun
     
     private ILoggerFactory CreateLoggerFactory() =>
         LoggerFactory.Create(builder => {builder.AddConsole();});
+
 }

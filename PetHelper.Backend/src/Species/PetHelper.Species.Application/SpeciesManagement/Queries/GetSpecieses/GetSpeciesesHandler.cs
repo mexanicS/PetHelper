@@ -1,6 +1,8 @@
+using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 using PetHelper.Core.Abstractions.Queries;
 using PetHelper.Core.DTOs.ReadDtos;
+using PetHelper.SharedKernel;
 using PetHelper.Species.Application.Database;
 
 namespace PetHelper.Species.Application.SpeciesManagement.Queries.GetSpecieses;
@@ -14,7 +16,7 @@ public class GetSpeciesesHandler
     {
         _readDbContext = readDbContext;
     }
-    public async Task<List<SpeciesDto>> Handle(
+    public async Task<Result<List<SpeciesDto>,ErrorList>> Handle(
         GetSpeciesesQuery query, 
         CancellationToken cancellationToken)
     {

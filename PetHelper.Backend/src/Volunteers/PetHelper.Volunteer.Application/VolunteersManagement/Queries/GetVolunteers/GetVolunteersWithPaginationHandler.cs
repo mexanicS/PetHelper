@@ -1,7 +1,9 @@
+using CSharpFunctionalExtensions;
 using PetHelper.Core.Abstractions.Queries;
 using PetHelper.Core.DTOs.ReadDtos;
 using PetHelper.Core.Extensions;
 using PetHelper.Core.Models;
+using PetHelper.SharedKernel;
 
 namespace PetHelper.Volunteer.Application.VolunteersManagement.Queries.GetVolunteers;
 
@@ -14,7 +16,7 @@ public class GetVolunteersWithPaginationHandler
     {
         _readDbContext = readDbContext;
     }
-    public async Task<PagedList<VolunteerDto>> Handle(
+    public async Task<Result<PagedList<VolunteerDto>, ErrorList>> Handle(
         GetFilteredVolunteersWithPaginationQuery query, 
         CancellationToken cancellationToken)
     {

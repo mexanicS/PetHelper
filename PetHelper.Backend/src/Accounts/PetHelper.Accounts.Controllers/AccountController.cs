@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.Login;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.RefreshTokens;
 using PetHelper.Accounts.Application.AccountsManagement.Commands.Register;
+using PetHelper.Accounts.Application.AccountsManagement.Queries.GetUserInformation;
 using PetHelper.Accounts.Contracts.Responses;
 using PetHelper.Accounts.Controllers.Requests;
 using PetHelper.Framework;
@@ -52,6 +53,21 @@ public class AccountController : ApplicationController
         if (result.IsFailure)
             return result.Error.ToResponse();
 
+        return Ok(result.Value);
+    }
+    
+    [HttpGet("user-information/{id:guid}")]
+    public async Task<IActionResult> GetUserInformation(
+        [FromServices] GetUserInformationHandler handler,
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var command = new GetUserInformationCommand(id);
+        var result = await handler.Handle(command, cancellationToken);
+        
+        if(result.IsFailure)
+            return result.Error.ToResponse();
+            
         return Ok(result.Value);
     }
 }

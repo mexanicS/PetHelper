@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHelper.Accounts.Application.Interfaces;
 using PetHelper.Core.Abstractions.Commands;
 using PetHelper.Core.Abstractions.Queries;
 
