@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PetHelper.Accounts.Application.Database;
 using PetHelper.Accounts.Application.Interfaces;
 using PetHelper.Accounts.Domain;
+using PetHelper.Accounts.Infastructure.DataBase.Repositories;
 using PetHelper.Accounts.Infastructure.DataSeeding;
 using PetHelper.Accounts.Infastructure.DbContexts;
 using PetHelper.Accounts.Infastructure.IdentityManagers;
@@ -23,7 +24,8 @@ public static class Inject
             .AddManagers()
             .AddInfrastructureIdentity(configuration)
             .AddAccountsSeeding()
-            .AddUnitOfWork();
+            .AddUnitOfWork()
+            .AddRepositories();
         
         return services;
     }
@@ -79,6 +81,13 @@ public static class Inject
     {
         services.AddSingleton<AccountsSeeder>();
         services.AddScoped<AccountsSeederService>();
+        
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IAccountRepository, AccountRepository>();
         
         return services;
     }
