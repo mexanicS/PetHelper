@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>PetHelper.VolunteerRequests.ArchitectureTests</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
+        <PackageReference Include="TngTech.ArchUnitNET" Version="0.11.1" />
+        <PackageReference Include="TngTech.ArchUnitNET.xUnit" Version="0.11.1" />
+        <PackageReference Include="xunit" Version="2.5.3"/>
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.Application\PetHelper.Accounts.Application.csproj" />
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.ArchitectureTests\PetHelper.Accounts.ArchitectureTests.csproj" />
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.Contracts\PetHelper.Accounts.Contracts.csproj" />
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.Controllers\PetHelper.Accounts.Controllers.csproj" />
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.Domain\PetHelper.Accounts.Domain.csproj" />
+      <ProjectReference Include="..\..\Accounts\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
+      <ProjectReference Include="..\..\PetHelper.API\PetHelper.API.csproj" />
+      <ProjectReference Include="..\..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
+      <ProjectReference Include="..\..\Shared\PetHelper.Framework\PetHelper.Framework.csproj" />
+      <ProjectReference Include="..\..\Shared\PetHelper.SharedKernel\PetHelper.SharedKernel.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.Application\PetHelper.Species.Application.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.ArchitectureTests\PetHelper.Species.ArchitectureTests.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.Contracts\PetHelper.Species.Contracts.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.Controllers\PetHelper.Species.Controllers.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.Domain\PetHelper.Species.Domain.csproj" />
+      <ProjectReference Include="..\..\Species\PetHelper.Species.Infastructure\PetHelper.Species.Infastructure.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Application\PetHelper.Volunteer.Application.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.ArchitectureTests\PetHelper.Volunteer.ArchitectureTests.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Contracts\PetHelper.Volunteer.Contracts.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Controllers\PetHelper.Volunteer.Controllers.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Domain\PetHelper.Volunteer.Domain.csproj" />
+      <ProjectReference Include="..\..\Volunteers\PetHelper.Volunteer.Infastructure\PetHelper.Volunteer.Infastructure.csproj" />
+        
+      <ProjectReference Include="..\..\VolunteerRequests\PetHelper.VolunteerRequests.API\PetHelper.VolunteerRequests.API.csproj" />
+      <ProjectReference Include="..\..\VolunteerRequests\PetHelper.VolunteerRequests.Application\PetHelper.VolunteerRequests.Application.csproj" />
+      <ProjectReference Include="..\..\VolunteerRequests\PetHelper.VolunteerRequests.Contracts\PetHelper.VolunteerRequests.Contracts.csproj" />
+      <ProjectReference Include="..\..\VolunteerRequests\PetHelper.VolunteerRequests.Domain\PetHelper.VolunteerRequests.Domain.csproj" />
+      <ProjectReference Include="..\..\VolunteerRequests\PetHelper.VolunteerRequests.Infastructure\PetHelper.VolunteerRequests.Infastructure.csproj" />
+    </ItemGroup>
+
+</Project>
