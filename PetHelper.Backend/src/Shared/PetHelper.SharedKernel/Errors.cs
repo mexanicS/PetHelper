@@ -67,9 +67,10 @@ public static class Errors
             return Error.Validation("token.is.invalid", "Your token is invalid");
         }
     }
-    
-    public static class Volunteer
+
+    public static Error Validation(string value)
     {
-        
+        var checkedValue = string.IsNullOrWhiteSpace(value) ? "Value" : value;
+        return Error.Validation("Value.is.invalid", checkedValue, $"\"{checkedValue}\" - проверьте входные данные.");
     }
 }
