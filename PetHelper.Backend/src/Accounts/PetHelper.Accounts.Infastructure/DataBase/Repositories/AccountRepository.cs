@@ -4,6 +4,7 @@ using PetHelper.Accounts.Application.Interfaces;
 using PetHelper.Accounts.Domain;
 using PetHelper.Accounts.Infastructure.DbContexts;
 using PetHelper.SharedKernel;
+using PetHelper.SharedKernel.ValueObjects.RolePermission;
 
 namespace PetHelper.Accounts.Infastructure.DataBase.Repositories;
 
@@ -27,6 +28,16 @@ public class AccountRepository : IAccountRepository
         if(result is null)
             return Error.NotFound("user-not-found", "User does not exist");
         
+        return result;
+    }
+
+    public async Task<Result<Role, Error>> GetRole(RoleName roleName)
+    {
+        var result = await _accountsDbContext.Roles 
+            .FirstOrDefaultAsync(r => r.Name.ToLower() == roleName.Value.ToLower());
+        if (result is null)
+            return Error.NotFound("role-not-found",$"Role is name == {roleName} does not exist");  
+       
         return result;
     }
 }

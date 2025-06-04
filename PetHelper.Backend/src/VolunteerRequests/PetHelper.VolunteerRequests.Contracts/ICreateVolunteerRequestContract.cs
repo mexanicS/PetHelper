@@ -4,5 +4,5 @@ namespace PetHelper.VolunteerRequests.Contracts;
 
 public interface ICreateVolunteerRequestContract
 {
-    public Task<VolunteerRequestId> Execute(CancellationToken ct);
+    public Task<VolunteerRequestId> CreateVolunteerRequest(CancellationToken ct);
 }

@@ -5,5 +5,5 @@ namespace PetHelper.Accounts.Contracts.UserManagment;
 
 public interface ICreateUserContract
 {
-    public Task<UserId> Execute(RoleId roleId, CancellationToken ct);
+    public Task<UserId> CreateUser(RoleId roleId, CancellationToken ct);
 }

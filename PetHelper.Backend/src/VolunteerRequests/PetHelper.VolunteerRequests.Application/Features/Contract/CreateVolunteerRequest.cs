@@ -6,28 +6,30 @@ using PetHelper.VolunteerRequests.Domain;
 
 namespace PetHelper.VolunteerRequests.Application.Features.Contract;
 
-public class CreateVolunteerRequestUsingContract : ICreateVolunteerRequestContract
+public class CreateVolunteerRequestContract : ICreateVolunteerRequestContract
 {
     private readonly ICreateUserContract _createUserContract;
-    //private readonly IGetRoleContract _getRoleContract;
+    private readonly IGetRoleContract _getRoleContract;
 
-    public CreateVolunteerRequestUsingContract(
-        ICreateUserContract createUserContract
-        //IGetRoleContract getRoleContract
+    public CreateVolunteerRequestContract(
+        ICreateUserContract createUserContract,
+        IGetRoleContract getRoleContract
         )
     {
-        _createUserContract = createUserContract;
-        //_getRoleContract = getRoleContract;
+        _createUserContract = createUserContract; 
+        _getRoleContract = getRoleContract;
     }
       
-    public async Task<VolunteerRequestId> Execute(CancellationToken ct)
+    public async Task<VolunteerRequestId> CreateVolunteerRequest(CancellationToken ct)
     {
-        //var roleId = _getRoleContract.Execute("admin", CancellationToken.None).Result.Value;
-        //var userId = await _createUserContract.Execute(roleId, CancellationToken.None);
-        //var volunteerInfo = VolunteerInfo.Create("info").Value;
+        var roleId = _getRoleContract.GetRole("admin", CancellationToken.None).Result.Value;
+        var userId = await _createUserContract.CreateUser(roleId, CancellationToken.None);
+        var volunteerInfo = VolunteerInfo.Create("info").Value;
 
-        //var request = VolunteerRequest.Create(userId, volunteerInfo);
-        //var volunteerRequestId = VolunteerRequestId.Create(request.Id).Value;
-        return VolunteerRequestId.Create(Guid.NewGuid()).Value;
+        var request = VolunteerRequest.Create(userId, volunteerInfo);
+        
+        var volunteerRequestId = VolunteerRequestId.Create(request.Id).Value;
+
+        return volunteerRequestId;
     }
 }

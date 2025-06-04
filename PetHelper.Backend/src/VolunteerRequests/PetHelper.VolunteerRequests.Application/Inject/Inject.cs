@@ -21,7 +21,7 @@ public static class Inject
             .AsSelfWithInterfaces()
             .WithScopedLifetime());
 
-        services.AddScoped<ICreateVolunteerRequestContract,CreateVolunteerRequestUsingContract>();
+        services.AddScoped<ICreateVolunteerRequestContract,CreateVolunteerRequestContract>();
  
         services.AddValidatorsFromAssembly(assembly);
 
