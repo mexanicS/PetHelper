@@ -1,0 +1,3 @@
+namespace PetHelper.VolunteerRequests.Application.Features.Write.SetStatus.SetVolunteerRequestApproved;
+
+public record SetVolunteerRequestApprovedCommand(Guid VolunteerRequestId, Guid AdminId) : IVolunteerRequestStatusCommand;

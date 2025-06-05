@@ -40,7 +40,7 @@ public class CreateVolunteerRequestHandler : ICommandHandler<CreateVolunteerRequ
         transaction.Commit();
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        _logger.LogInformation("VolunteerRequest Created");
+        _logger.LogInformation("VolunteerRequest created by {UserId}", userId);
         
         return Result.Success<ErrorList>();
     }
