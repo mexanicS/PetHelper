@@ -13,10 +13,10 @@ public class SetVolunteerRequestApprovedHandler
     : BaseVolunteerRequestStatusHandler<SetVolunteerRequestApprovedCommand>
 {
     public SetVolunteerRequestApprovedHandler(
-        IVolunteerRequestRepository repository,
+        IVolunteerRequestRepository volunteerRequestRepository,
         [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
         ILogger<SetVolunteerRequestApprovedHandler> logger)
-        : base(repository, unitOfWork, logger) { }
+        : base(volunteerRequestRepository, unitOfWork, logger) { }
 
     protected override void UpdateStatus(VolunteerRequest volunteerRequest, UserId adminId)
         => volunteerRequest.SetApproved(adminId);
