@@ -1,8 +1,10 @@
+using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Identity;
 using PetHelper.Accounts.Domain.AccountModels;
 using PetHelper.Core.DTOs;
 using PetHelper.SharedKernel;
 using PetHelper.SharedKernel.ValueObjects;
+using PetHelper.SharedKernel.ValueObjects.Common;
 using PetHelper.SharedKernel.ValueObjects.Pet;
 
 namespace PetHelper.Accounts.Domain;
@@ -30,6 +32,27 @@ public class User : IdentityUser<Guid>, ISoftDeletable
     public IReadOnlyList<DetailsForAssistance> DetailsForAssistance => _detailsForAssistance;
     
     public IReadOnlyList<PetPhoto> Photos => _photos;
+
+    private User(
+        Email email,
+        Name userName,
+        Role role)
+    {
+        Id = Guid.NewGuid();
+        Email = email;
+        UserName = userName;
+        _roles = [role];
+    }
+    public static Result<User, Error> Create(
+        Email email,
+        Name userName,
+        Role role)
+    {
+        if (role != null && email != null && role != null)
+            return new User(email, userName, role);
+
+        return Errors.Validation("User");
+    }
     
     public static User CreateAdmin(string email, string userName, FullName fullName, Role role)
     {

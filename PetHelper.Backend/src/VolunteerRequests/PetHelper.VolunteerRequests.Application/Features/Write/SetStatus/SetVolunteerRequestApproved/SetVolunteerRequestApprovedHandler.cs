@@ -14,7 +14,7 @@ public class SetVolunteerRequestApprovedHandler
 {
     public SetVolunteerRequestApprovedHandler(
         IVolunteerRequestRepository volunteerRequestRepository,
-        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.Context.VolunteersRequest)] IUnitOfWork unitOfWork,
         ILogger<SetVolunteerRequestApprovedHandler> logger)
         : base(volunteerRequestRepository, unitOfWork, logger) { }
 

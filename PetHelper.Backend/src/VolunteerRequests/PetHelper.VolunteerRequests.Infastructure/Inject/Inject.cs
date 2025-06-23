@@ -21,7 +21,7 @@ public static class Inject
 
         services.AddScoped<IVolunteerRequestRepository, VolunteerRequestRepository>();
 
-        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY);
+        services.AddKeyedScoped<IUnitOfWork, UnitOfWork>(Constants.Context.VolunteersRequest);
 
         return services;
     }

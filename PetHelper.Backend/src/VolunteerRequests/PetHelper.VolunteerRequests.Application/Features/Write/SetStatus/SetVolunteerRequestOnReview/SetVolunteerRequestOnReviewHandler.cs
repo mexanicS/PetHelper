@@ -18,7 +18,7 @@ public class SetVolunteerRequestOnReviewHandler
 
     public SetVolunteerRequestOnReviewHandler(
         IVolunteerRequestRepository volunteerRequestRepository,
-        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.Context.VolunteersRequest)] IUnitOfWork unitOfWork,
         ILogger<SetVolunteerRequestOnReviewHandler> logger)
     {
         _volunteerRequestRepository = volunteerRequestRepository;

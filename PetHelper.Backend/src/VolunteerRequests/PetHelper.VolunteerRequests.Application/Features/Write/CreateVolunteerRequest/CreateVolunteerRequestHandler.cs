@@ -19,7 +19,7 @@ public class CreateVolunteerRequestHandler : ICommandHandler<CreateVolunteerRequ
 
     public CreateVolunteerRequestHandler(
         IVolunteerRequestRepository volunteerRequestRepository,
-        [FromKeyedServices(Constants.VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY)] IUnitOfWork unitOfWork,
+        [FromKeyedServices(Constants.Context.VolunteersRequest)] IUnitOfWork unitOfWork,
         ILogger<CreateVolunteerRequestHandler> logger)
     {
         _volunteerRequestRepository = volunteerRequestRepository;

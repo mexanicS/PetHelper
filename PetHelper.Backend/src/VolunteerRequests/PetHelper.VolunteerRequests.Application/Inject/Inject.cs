@@ -1,5 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using PetHelper.Accounts.Contracts.UserManagment;
 using PetHelper.Core.Abstractions.Commands;
 using PetHelper.Core.Abstractions.Queries;
 using PetHelper.VolunteerRequests.Application.Features.Contract;
@@ -23,6 +24,8 @@ public static class Inject
 
         services.AddScoped<ICreateVolunteerRequestContract,CreateVolunteerRequestContract>();
  
+        
+        
         services.AddValidatorsFromAssembly(assembly);
 
         return services;
