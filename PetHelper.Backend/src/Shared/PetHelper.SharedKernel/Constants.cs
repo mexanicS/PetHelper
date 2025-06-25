@@ -20,13 +20,21 @@
         
         public const int EXPIRY_IN_SECONDS = 60 * 60 * 24;
         
+        public const string DATABASE = "PetHelperConnectionString";
+        
+        public const string VOLUNTEER_UNIT_OF_WORK_KEY = "VolunteerUnitOfWorkKey";
+        public const string SPECIES_UNIT_OF_WORK_KEY = "SpeciesUnitOfWorkKey";
+        public const string ACCOUNT_UNIT_OF_WORK_KEY = "AccountUnitOfWorkKey";
+        public const string DISCUSSION_UNIT_OF_WORK_KEY = "DiscussionUnitOfWorkKey";
+        public const string VOLUNTEER_REQUEST_UNIT_OF_WORK_KEY = "VolunteerRequestUnitOfWorkKey";
+        
         public enum StatusPet
         {
             NeedsHelp,
             LookingForHome,
             FoundHome
         }
-        
+
         public enum Context
         {
             VolunteerManagement,
@@ -35,6 +43,14 @@
             Discussions,
             VolunteersRequest
         }
+
+        public enum VolunteerRequestStatus
+        {
+            Submitted,
+            Rejected,
+            RevisionRequired,
+            Approved,
+            OnReview
+        }
     }
-    
 }

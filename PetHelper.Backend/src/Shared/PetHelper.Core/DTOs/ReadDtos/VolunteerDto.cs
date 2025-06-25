@@ -16,9 +16,9 @@ public class VolunteerDto
     
     public PetDto[] Pets { get; init; } = [];
 
-    public SocialNetworkDto[] SocialNetwork { get; init; } = [];
+    //public SocialNetworkDto[] SocialNetwork { get; init; } = [];
 
-    public DetailsForAssistanceDto[] DetailsForAssistance { get; init; } = [];
+    //public DetailsForAssistanceDto[] DetailsForAssistance { get; init; } = [];
     
     public bool IsDeleted { get; init; }
 }

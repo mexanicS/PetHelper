@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetHelper.Framework\PetHelper.Framework.csproj" />
+      <ProjectReference Include="..\PetHelper.VolunteerRequests.Application\PetHelper.VolunteerRequests.Application.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -151,7 +151,7 @@ namespace PetHelper.Volunteer.Controllers.Controllers.Volunteer
             return Ok();
         }
         
-        [Permission("volunteers.read")]
+        // [Permission("volunteers.read")]
         [HttpGet]
         public async Task<ActionResult> Get(
             [FromQuery] GetVolunteersWithPaginationRequest request,
@@ -162,7 +162,7 @@ namespace PetHelper.Volunteer.Controllers.Controllers.Volunteer
         
             var response = await withPaginationHandler.Handle(query, cancellationToken);
         
-            return Ok(response);
+            return Ok(response.Value);
         }
         
         [Permission("pets.update")]

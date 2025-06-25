@@ -14,6 +14,8 @@ using PetHelper.Volunteer.Controllers;
 using PetHelper.Volunteer.Controllers.Controllers.Pet;
 using PetHelper.Volunteer.Controllers.Controllers.Volunteer;
 using PetHelper.Volunteer.Infastructure;
+using PetHelper.VolunteerRequests.Application.Inject;
+using PetHelper.VolunteerRequests.Infastructure.Inject;
 using Serilog;
 using Serilog.Events;
 
@@ -88,6 +90,9 @@ builder.Services
     .AddAccountsPresentation()
     .AddAccountsApplication()
     
+    .AddVolunteerRequestInfrastructure(builder.Configuration)
+    .AddVolunteerRequestApplication()
+        
     .AddAuthorizationServices(builder.Configuration);
     
 

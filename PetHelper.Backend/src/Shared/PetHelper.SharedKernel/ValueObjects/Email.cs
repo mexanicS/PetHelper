@@ -20,4 +20,6 @@ public record Email
 
         return new Email(value);
     }
+    
+    public static implicit operator string(Email email) => email.Value;
 }
