@@ -52,5 +52,11 @@
             Approved,
             OnReview
         }
+
+        public enum DiscussionStatus
+        {
+            Open,
+            Close,
+        }
     }
 }
