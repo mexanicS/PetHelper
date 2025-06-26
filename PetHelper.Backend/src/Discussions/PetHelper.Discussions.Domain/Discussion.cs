@@ -38,13 +38,13 @@ public class Discussion
 
     public UnitResult<Error> AddMessage(Message message)
     {
-        /*if (Status == Constants.DiscussionStatus.Close)
+        if (Status == Constants.DiscussionStatus.Close)
             return Errors.Discussion.DiscussionIsClosed();
          
         var isUserParticipatesInDiscussion = UserIds.Contains(message.UserId);
 
         if (!isUserParticipatesInDiscussion)
-            return Errors.Discussion.IsNotParticipantError();*/
+            return Errors.Discussion.IsNotParticipantError();
         
         Messages.Add(message);
         return Result.Success<Error>();
@@ -56,7 +56,7 @@ public class Discussion
     
     public UnitResult<Error> EditMessage(Message message, MessageText newMessageText)
     {
-        /*if (Status == Constants.DiscussionStatus.Close)
+        if (Status == Constants.DiscussionStatus.Close)
             return Errors.Discussion.DiscussionIsClosed();
         
         var isUserParticipatesInDiscussion = UserIds.Contains(message.UserId);
@@ -66,7 +66,7 @@ public class Discussion
         
         var messageToUpdate = Messages.FirstOrDefault(m => m.Id == message.Id);
         if (messageToUpdate is null)
-            return Errors.Message.MessageNotFound();*/
+            return Errors.Message.MessageNotFound();
 
         message = message.Edit(newMessageText);
 
@@ -75,11 +75,11 @@ public class Discussion
     
     public UnitResult<Error> AddUser(UserId userId)
     {
-        /*if (Status == Constants.DiscussionStatus.Close)
+        if (Status == Constants.DiscussionStatus.Close)
             return Errors.Discussion.DiscussionIsClosed();
 
         if (UserIds.Contains(userId))
-            return Errors.Discussion.IsAlreadyParticipantError();*/
+            return Errors.Discussion.IsAlreadyParticipantError();
             
         UserIds.Add(userId);
         return Result.Success<Error>();
@@ -99,27 +99,27 @@ public class Discussion
     
     public UnitResult<Error> DeleteMessage(Message message, UserId userId)
     {
-         /*if (Status == Constants.DiscussionStatus.Close)
+         if (Status == Constants.DiscussionStatus.Close)
             return Errors.Discussion.DiscussionIsClosed();
          
-       var isUserParticipatesInDiscussion = UserIds.Contains(userId);
+         var isUserParticipatesInDiscussion = UserIds.Contains(userId);
 
-        if (!isUserParticipatesInDiscussion)
-            return Errors.Discussion.IsNotParticipantError();
+         if (!isUserParticipatesInDiscussion)
+             return Errors.Discussion.IsNotParticipantError();
         
-        var isUsersParticipatesInMessage = message.UserId == userId;
+         var isUsersParticipatesInMessage = message.UserId == userId;
 
-        if (!isUsersParticipatesInMessage)
-            return Errors.Message.MessageNotUser();*/
+         if (!isUsersParticipatesInMessage)
+             return Errors.Message.MessageNotUser();
         
-        Messages.Remove(message);
+         Messages.Remove(message);
         
-        return Result.Success<Error>();
+         return Result.Success<Error>();
     }
     
     public UnitResult<Error> DeleteMessages(IEnumerable<Message> messages, UserId userId)
     {
-        /*if (Status == Constants.DiscussionStatus.Close)
+        if (Status == Constants.DiscussionStatus.Close)
             return Errors.Discussion.DiscussionIsClosed();
          
         var isUserParticipatesInDiscussion = UserIds.Contains(userId);
@@ -130,7 +130,7 @@ public class Discussion
         var isUsersParticipatesInMessage = messages.All(m=> m.UserId == userId);
 
         if (!isUsersParticipatesInMessage)
-            return Errors.Message.MessageNotUser();*/
+            return Errors.Message.MessageNotUser();
 
         foreach (var message in messages)
         {
