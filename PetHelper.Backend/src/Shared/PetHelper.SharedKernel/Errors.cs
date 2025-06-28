@@ -73,4 +73,40 @@ public static class Errors
         var checkedValue = string.IsNullOrWhiteSpace(value) ? "Value" : value;
         return Error.Validation("Value.is.invalid", checkedValue, $"\"{checkedValue}\" - проверьте входные данные.");
     }
+
+    public static class Discussion
+    {
+        public static Error UsersCountError()
+        {
+            return Error.Validation("discussion.not.enough.users", "The discussion must involve at least 2 participants.");
+        }
+        
+        public static Error DiscussionIsClosed()
+        {
+            return Error.Validation("discussion.is.closed", "The discussion already closed.");
+        }
+        
+        public static Error IsNotParticipantError()
+        {
+            return Error.Validation("user.not.participant", "The user is not a participant in the discussion.");
+        }
+        
+        public static Error IsAlreadyParticipantError()
+        {
+            return Error.Validation("user.already.participant", "The user is already participating in the discussion.");
+        }
+    }
+
+    public static class Message
+    {
+        public static Error MessageNotFound()
+        {
+            return Error.Validation("message.not.found", "The not found.");
+        }
+        
+        public static Error MessageNotUser()
+        {
+            return Error.Validation("message.not.user", "The message does not belong to the user.");
+        }
+    }
 }

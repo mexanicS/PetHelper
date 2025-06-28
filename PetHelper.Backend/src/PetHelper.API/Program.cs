@@ -5,6 +5,7 @@ using PetHelper.Accounts.Controllers;
 using PetHelper.Accounts.Infastructure;
 using PetHelper.API;
 using PetHelper.API.Middlewares;
+using PetHelper.Discussions.Application.Inject;
 using PetHelper.Species.Application;
 using PetHelper.Species.Controllers;
 using PetHelper.Species.Controllers.Controllers;
@@ -93,6 +94,10 @@ builder.Services
     .AddVolunteerRequestInfrastructure(builder.Configuration)
     .AddVolunteerRequestApplication()
         
+    .AddDiscussionInfrastructure(builder.Configuration)
+    .AddDiscussionApplication()
+    
+    
     .AddAuthorizationServices(builder.Configuration);
     
 

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\PetHelper.Framework\PetHelper.Framework.csproj" />
+      <ProjectReference Include="..\..\Shared\PetHelper.SharedKernel\PetHelper.SharedKernel.csproj" />
+      <ProjectReference Include="..\PetHelper.Discussions.Application\PetHelper.Discussions.Application.csproj" />
+      <ProjectReference Include="..\PetHelper.Discussions.Contracts\PetHelper.Discussions.Contracts.csproj" />
+      <ProjectReference Include="..\PetHelper.Discussions.Domain\PetHelper.Discussions.Domain.csproj" />
+      <ProjectReference Include="..\PetHelper.Discussions.Infastructure\PetHelper.Discussions.Infastructure.csproj" />
+    </ItemGroup>
+
+</Project>
