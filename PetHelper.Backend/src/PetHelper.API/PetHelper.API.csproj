@@ -32,6 +32,11 @@
     <ProjectReference Include="..\Accounts\PetHelper.Accounts.Controllers\PetHelper.Accounts.Controllers.csproj" />
     <ProjectReference Include="..\Accounts\PetHelper.Accounts.Domain\PetHelper.Accounts.Domain.csproj" />
     <ProjectReference Include="..\Accounts\PetHelper.Accounts.Infastructure\PetHelper.Accounts.Infastructure.csproj" />
+    <ProjectReference Include="..\Discussions\PetHelper.Discussions.API\PetHelper.Discussions.API.csproj" />
+    <ProjectReference Include="..\Discussions\PetHelper.Discussions.Application\PetHelper.Discussions.Application.csproj" />
+    <ProjectReference Include="..\Discussions\PetHelper.Discussions.Contracts\PetHelper.Discussions.Contracts.csproj" />
+    <ProjectReference Include="..\Discussions\PetHelper.Discussions.Domain\PetHelper.Discussions.Domain.csproj" />
+    <ProjectReference Include="..\Discussions\PetHelper.Discussions.Infastructure\PetHelper.Discussions.Infastructure.csproj" />
     <ProjectReference Include="..\Shared\PetHelper.Core\PetHelper.Core.csproj" />
     <ProjectReference Include="..\Species\PetHelper.Species.Controllers\PetHelper.Species.Controllers.csproj" />
     <ProjectReference Include="..\Species\PetHelper.Species.Infastructure\PetHelper.Species.Infastructure.csproj" />

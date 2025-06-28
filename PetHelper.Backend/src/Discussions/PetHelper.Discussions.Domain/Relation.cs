@@ -1,7 +1,7 @@
 ﻿using PetHelper.SharedKernel.ValueObjects.Discussion;
 
 namespace PetHelper.Discussions.Domain;
-public class Relation
+public class  Relation
 {
     public RelationId Id { get; private set; }
     public RelationName Name { get; private set; }
