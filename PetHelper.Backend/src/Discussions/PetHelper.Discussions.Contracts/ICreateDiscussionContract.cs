@@ -1,6 +1,6 @@
 namespace PetHelper.Discussions.Contracts;
 
-public class ICreateDiscussionContract
+public interface ICreateDiscussionContract
 {
-    public Task<Result<>>
+    
 }

@@ -25,11 +25,11 @@ public class VolunteerReadDbContext(string connectionString) : DbContext, IReadD
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(VolunteerWriteDbContext).Assembly, 
-            type => type.FullName?.Contains("Configurations.Read") ?? false);
-        
-        //modelBuilder.HasDefaultSchema("PetHelper_Volunteers");
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("PetHelper_Volunteers");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerReadDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
     }
 
     private ILoggerFactory CreateLoggerFactory() => 

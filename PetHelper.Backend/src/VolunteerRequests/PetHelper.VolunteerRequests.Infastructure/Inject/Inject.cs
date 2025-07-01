@@ -15,9 +15,9 @@ public static class Inject
         this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<VolunteerRequestDbContext>(_ =>
-            new VolunteerRequestDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+            new VolunteerRequestDbContext(configuration.GetConnectionString("Database")!));
         services.AddScoped<IVolunteerRequestReadDbContext, VolunteerRequestReadDbContext>(_ =>
-            new VolunteerRequestReadDbContext(configuration.GetConnectionString(Constants.DATABASE)!));
+            new VolunteerRequestReadDbContext(configuration.GetConnectionString("Database")!));
 
         services.AddScoped<IVolunteerRequestRepository, VolunteerRequestRepository>();
 

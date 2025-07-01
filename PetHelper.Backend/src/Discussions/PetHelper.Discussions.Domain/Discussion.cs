@@ -12,13 +12,15 @@ public class Discussion
     public RelationId RelationId { get; private set; }
     
     public Relation Relation { get; private set; }
+
+    public List<UserId> UserIds { get; private set; } = [];
     
-    public List<UserId> UserIds { get; private set; }
-    
-    public List<Message> Messages { get; private set; }
+    public List<Message> Messages { get; private set; } = [];
     
     public Constants.DiscussionStatus Status { get; private set; }
-
+    
+    private Discussion() { }
+    
     private Discussion(RelationId relationId, IEnumerable<UserId> userIds)
     {
         Id = DiscussionId.Create(relationId).Value;

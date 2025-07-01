@@ -8,11 +8,9 @@ public interface IDiscussionRepository
 {
     public Task AddDiscussion(Discussion discussion);
     
-    public Task<Discussion> GetDiscussionById(DiscussionId id, CancellationToken ct);
+    public Task<Discussion?> GetDiscussionById(Guid id, CancellationToken ct);
     
     public void UpdateDiscussion(Discussion discussion);
     
     public void RemoveDiscussion(Discussion discussion);
-    
-    public Task AddMessage(MessageDto message);
 }

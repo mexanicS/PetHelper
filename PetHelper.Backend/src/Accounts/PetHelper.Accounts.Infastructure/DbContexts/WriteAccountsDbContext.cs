@@ -60,11 +60,10 @@ public class WriteAccountsDbContext : IdentityDbContext<User, Role, Guid>
         modelBuilder.Entity<IdentityUserRole<Guid>>()
             .ToTable("user_roles");
         
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(WriteAccountsDbContext).Assembly, 
-            type => type.FullName?.Contains("Configurations.Write") ?? false);
-        
-        //modelBuilder.HasDefaultSchema("PetHelper_Accounts");
+        modelBuilder.HasDefaultSchema("PetHelper_Accounts");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(WriteAccountsDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
     
     

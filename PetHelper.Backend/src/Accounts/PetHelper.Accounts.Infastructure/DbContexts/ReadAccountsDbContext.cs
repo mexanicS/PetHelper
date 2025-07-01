@@ -23,11 +23,11 @@ public class ReadAccountsDbContext(string connectionString) : DbContext, IAccoun
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(ReadAccountsDbContext).Assembly,
-            x => x.FullName!.Contains("Configurations.Read"));
-        
-        //modelBuilder.HasDefaultSchema("PetHelper_Accounts");
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("PetHelper_Accounts");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadAccountsDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
     }
     
     private ILoggerFactory CreateLoggerFactory() =>

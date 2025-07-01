@@ -27,11 +27,11 @@ namespace PetHelper.Volunteer.Infastructure.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(
-                typeof(VolunteerWriteDbContext).Assembly, 
-                type => type.FullName?.Contains("Configurations.Write") ?? false);
-            
-            //modelBuilder.HasDefaultSchema("PetHelper_Volunteers");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("PetHelper_Volunteers");
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(VolunteerWriteDbContext).Assembly,
+                type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
         }
 
         private ILoggerFactory CreateLoggerFactory() => 

@@ -28,11 +28,11 @@ public class SpeciesReadDbContext(string ConnectionString) : DbContext, IReadDbC
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(SpeciesReadDbContext).Assembly, 
-            type => type.FullName?.Contains("Configurations.Read") ?? false);
-        
-        //modelBuilder.HasDefaultSchema("PetHelper_Species");
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("PetHelper_Species");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("read.configuration") ?? false);
     }
 
     private ILoggerFactory CreateLoggerFactory() => 

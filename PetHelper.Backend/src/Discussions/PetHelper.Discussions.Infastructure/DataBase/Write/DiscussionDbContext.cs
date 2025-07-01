@@ -1,20 +1,22 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PetHelper.VolunteerRequests.Domain;
+using PetHelper.Discussions.Domain;
 
-namespace PetHelper.VolunteerRequests.Infastructure.DataBase.Write;
+namespace PetHelper.Discussions.Infastructure.DataBase.Write;
 
-public class VolunteerRequestDbContext : DbContext
+public class DiscussionDbContext : DbContext
 {
-    public DbSet<VolunteerRequest> VolunteerRequests => Set<VolunteerRequest>();
-
+    public DbSet<Discussion> Discussions => Set<Discussion>();
+    
+    public DbSet<Relation> Relations => Set<Relation>();
+    
     private readonly string _conntecitonString;
-
-    public VolunteerRequestDbContext(string connectionString)
+    
+    public DiscussionDbContext(string connectionString)
     {
         _conntecitonString = connectionString;
     }
-
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -30,9 +32,9 @@ public class VolunteerRequestDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        builder.HasDefaultSchema("VolunteerRequests");
+        builder.HasDefaultSchema("Discussions");
 
-        builder.ApplyConfigurationsFromAssembly(typeof(VolunteerRequestDbContext).Assembly,
+        builder.ApplyConfigurationsFromAssembly(typeof(DiscussionDbContext).Assembly,
             type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 }

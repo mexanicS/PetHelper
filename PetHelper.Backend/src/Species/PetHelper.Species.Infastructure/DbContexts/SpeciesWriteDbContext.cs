@@ -26,11 +26,11 @@ public class SpeciesWriteDbContext() : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(
-            typeof(SpeciesWriteDbContext).Assembly, 
-            type => type.FullName?.Contains("Configurations.Write") ?? false);
-        
-        //modelBuilder.HasDefaultSchema("PetHelper_Species");
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.HasDefaultSchema("PetHelper_Species");
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(SpeciesReadDbContext).Assembly,
+            type => type.FullName?.ToLower().Contains("write.configuration") ?? false);
     }
 
     private ILoggerFactory CreateLoggerFactory() => 

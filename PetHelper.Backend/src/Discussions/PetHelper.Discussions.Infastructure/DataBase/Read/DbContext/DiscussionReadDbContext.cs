@@ -17,7 +17,7 @@ public class DiscussionReadDbContext : Microsoft.EntityFrameworkCore.DbContext, 
     private readonly string _conntecitonString;
 
     public DiscussionReadDbContext(string conntecitonString
-        = "Host=host.docker.internal;Port=5434;Database=pet_home;Username=postgres;Password=postgres")
+        = "Host=host.docker.internal;Port=5434;Database=pet_helper;Username=postgres;Password=postgres")
     {
         _conntecitonString = conntecitonString;
     }
